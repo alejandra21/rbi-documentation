@@ -1,0 +1,98 @@
+info:
+  name: Risk Category Summary Bulk Create
+  type: http
+  seq: 18
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/risk-category-summaries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "credit",
+            "category_label": "Credit Risk",
+            "overall_status": "pass",
+            "pass_count": 6,
+            "fail_count": 0,
+            "pass_with_exception_count": 0,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 0
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "collateral",
+            "category_label": "Collateral Risk",
+            "overall_status": "pass",
+            "pass_count": 5,
+            "fail_count": 0,
+            "pass_with_exception_count": 0,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 0
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "legal_title",
+            "category_label": "Legal/Title Risk",
+            "overall_status": "pass_with_exception",
+            "pass_count": 6,
+            "fail_count": 0,
+            "pass_with_exception_count": 1,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 1
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "insurance",
+            "category_label": "Insurance Risk",
+            "overall_status": "pass",
+            "pass_count": 5,
+            "fail_count": 0,
+            "pass_with_exception_count": 0,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 0
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "fraud_aml",
+            "category_label": "Fraud/AML Risk",
+            "overall_status": "pass",
+            "pass_count": 6,
+            "fail_count": 0,
+            "pass_with_exception_count": 0,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 0
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "operational",
+            "category_label": "Operational/Data Integrity",
+            "overall_status": "pass",
+            "pass_count": 4,
+            "fail_count": 0,
+            "pass_with_exception_count": 0,
+            "manual_review_count": 0,
+            "hard_stops": 0,
+            "hard_exceptions": 0,
+            "soft_exceptions": 0
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

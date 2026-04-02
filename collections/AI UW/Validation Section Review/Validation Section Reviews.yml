@@ -1,0 +1,33 @@
+info:
+  name: Validation Section Reviews
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/validation-section-reviews/?workflow_loan_summary_id"
+  params:
+    - name: object_id
+      value: bfcb42f7-a328-4444-979b-c3f3a29e8169
+      type: query
+      disabled: true
+    - name: workflow_loan_summary_id
+      value: ""
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "content_type": 15,
+          "object_id": "123e4567-e89b-12d3-a456-426614174000",
+          "source": "secretary_of_state",
+          "validation_type": "entity_name",
+          "status": "completed"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,28 @@
+info:
+  name: payoff-fee-items
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/payoff-fee-items/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "date": "2025-09-04",
+              "description": "SOM & UCC RELEASE",
+              "amount": 250,
+              "normalized_type": "other_fee",
+              "is_penalty": false,
+              "title_insurance_validation": "8557251a-05ae-444a-b424-aea7b895b421"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

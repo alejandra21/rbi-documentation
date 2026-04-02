@@ -1,0 +1,26 @@
+info:
+  name: Access Management - Create Operator
+  type: http
+  seq: 37
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/create-operator"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Operator"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

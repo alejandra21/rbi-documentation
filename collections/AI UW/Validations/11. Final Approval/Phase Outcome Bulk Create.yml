@@ -1,0 +1,150 @@
+info:
+  name: Phase Outcome Bulk Create
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/phase-outcomes/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 1,
+            "phase_name": "Borrower Eligibility",
+            "status": "pass",
+            "risk_category": "credit",
+            "completed_at": "2024-01-10",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 2,
+            "phase_name": "Experience Tiering",
+            "status": "pass",
+            "risk_category": "credit",
+            "completed_at": "2024-01-12",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 3,
+            "phase_name": "Credit Review",
+            "status": "pass",
+            "risk_category": "credit",
+            "completed_at": "2024-01-13",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 4,
+            "phase_name": "Non-Owner Occupancy",
+            "status": "pass",
+            "risk_category": "fraud_aml",
+            "completed_at": "2024-01-13",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 5,
+            "phase_name": "Collateral Review",
+            "status": "pass",
+            "risk_category": "collateral",
+            "completed_at": "2024-01-14",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 6,
+            "phase_name": "DSCR Cash Flow",
+            "status": "pass",
+            "risk_category": "credit",
+            "completed_at": "2024-01-14",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 7,
+            "phase_name": "Title Insurance",
+            "status": "pass",
+            "risk_category": "legal_title",
+            "completed_at": "2024-01-15",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 8,
+            "phase_name": "Closing Protection",
+            "status": "pass_with_exception",
+            "risk_category": "legal_title",
+            "completed_at": "2024-01-15",
+            "is_hard_stop": false,
+            "exception_count": 1,
+            "hard_exception_count": 0,
+            "soft_exception_count": 1,
+            "issues": ["CPL coverage amount variance detected"]
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 9,
+            "phase_name": "Insurance Policy",
+            "status": "pass",
+            "risk_category": "insurance",
+            "completed_at": "2024-01-15",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 10,
+            "phase_name": "Asset Verification",
+            "status": "pass",
+            "risk_category": "operational",
+            "completed_at": "2024-01-16",
+            "is_hard_stop": false,
+            "exception_count": 0,
+            "hard_exception_count": 0,
+            "soft_exception_count": 0,
+            "issues": []
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

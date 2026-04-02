@@ -1,0 +1,22 @@
+info:
+  name: Validations By ID
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/validations/:id?phase=title_insurance"
+  params:
+    - name: phase
+      value: title_insurance
+      type: query
+    - name: id
+      value: ccc9caaf-9b98-4e92-845b-211c0c62c085
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

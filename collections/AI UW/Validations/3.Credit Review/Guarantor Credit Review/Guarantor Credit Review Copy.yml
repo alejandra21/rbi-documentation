@@ -1,0 +1,31 @@
+info:
+  name: Guarantor Credit Review Copy
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/guarantor-credit-reviews/:id"
+  params:
+    - name: credit_review_validation
+      value: 23d48256-5104-431a-941d-6602737b3683
+      type: query
+      disabled: true
+    - name: id
+      value: 1a6e12eb-44b7-4e93-bdcf-d2038f220a7e
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_1",
+          "loan_id": 382,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

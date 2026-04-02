@@ -1,0 +1,812 @@
+info:
+  name: Flag Dat
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: https://whodat-73908d748eee.herokuapp.com/api/v1/flag-dat/scan-strict
+  body:
+    type: json
+    data: |-
+      {
+          "lendingwise_id": "8284282"
+      }
+  auth:
+    type: bearer
+    token: 5fJG925y04enIqvDmtyQ9lbzCczZY-JZLCibP0la_2M
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: flag-dat
+    request:
+      url: https://whodat-73908d748eee.herokuapp.com/api/v1/flag-dat/scan-strict
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "lendingwise_id": "8284282"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "20679"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 18 Nov 2025 00:01:08 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=I47KOGKjSk6FD1rBfyyxiRW4C668WoA7NK7DnafRBJM%3D\u0026sid=929419e7-33ea-4e2f-85f0-7d8b7cd5cbd6\u0026ts=1763424068"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=I47KOGKjSk6FD1rBfyyxiRW4C668WoA7NK7DnafRBJM%3D&sid=929419e7-33ea-4e2f-85f0-7d8b7cd5cbd6&ts=1763424068"
+        - name: Server
+          value: Heroku
+        - name: Set-Cookie
+          value: session=eyJfZnJlc2giOmZhbHNlLCJfcGVybWFuZW50Ijp0cnVlfQ.aRu3RA.YFDhQxSAKO_SyqXqYlq2chd6Fhk; Expires=Wed, 19 Nov 2025 00:01:08 GMT; HttpOnly; Path=/
+        - name: Vary
+          value: Cookie
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "contacts_checked": [
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Los Angeles",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Alexander",
+                                  "individual_id": 111,
+                                  "last_name": "Herrera",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "CA",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Soledad",
+                                  "individual_id": 41,
+                                  "last_name": "Herrera",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 72.5,
+                                  "severity": "blacklist",
+                                  "similarity_score": 72.5,
+                                  "state": "VA",
+                                  "type": "title agent",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Ashleigh",
+                                  "individual_id": 85,
+                                  "last_name": "Howard",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 24.62,
+                                  "severity": "blacklist",
+                                  "similarity_score": 24.62,
+                                  "state": "TX, CA",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "4044 Ganford Court",
+                                  "address_similarity": 100,
+                                  "city": "Jarrettsville",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Jason",
+                                  "individual_id": 19,
+                                  "last_name": "Taylor",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 12.31,
+                                  "severity": "blacklist",
+                                  "similarity_score": 12.31,
+                                  "state": "MD",
+                                  "type": "appraiser",
+                                  "zipcode": "21084"
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "4044 Ganford Ct",
+                          "city": "Jarrettsville",
+                          "email": "Srikrishna+test@rbialliance.com",
+                          "entity_name": "",
+                          "entity_type": "borrower",
+                          "first_name": "Alexander",
+                          "last_name": "Herrera",
+                          "middle_name": "",
+                          "source_section": "Borrower",
+                          "state": "MD",
+                          "zipcode": "21084"
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Los Angeles",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Alexander",
+                                  "individual_id": 111,
+                                  "last_name": "Herrera",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "CA",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Los Angeles",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Niurka",
+                                  "individual_id": 112,
+                                  "last_name": "Martinez",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "CA",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "guarantor",
+                          "first_name": "Niurka",
+                          "last_name": "Martinez",
+                          "middle_name": "",
+                          "source_section": "Guarantor_1",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Los Angeles",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Niurka",
+                                  "individual_id": 112,
+                                  "last_name": "Martinez",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "CA",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Houston",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "David",
+                                  "individual_id": 113,
+                                  "last_name": "Brown",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "TX",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "David",
+                                  "individual_id": 79,
+                                  "last_name": "Johnson",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 26.67,
+                                  "severity": "blacklist",
+                                  "similarity_score": 26.67,
+                                  "state": "",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "David",
+                                  "individual_id": 100,
+                                  "last_name": "Toms",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 17.78,
+                                  "severity": "blacklist",
+                                  "similarity_score": 17.78,
+                                  "state": "FL",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "David",
+                                  "individual_id": 110,
+                                  "last_name": "Toms",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 17.78,
+                                  "severity": "blacklist",
+                                  "similarity_score": 17.78,
+                                  "state": "FL",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "guarantor",
+                          "first_name": "David",
+                          "last_name": "Brown",
+                          "middle_name": "",
+                          "source_section": "Guarantor_2",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Houston",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "David",
+                                  "individual_id": 113,
+                                  "last_name": "Brown",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "TX",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Houston",
+                                  "entity_id": 75,
+                                  "entity_name": "Blueprint Acquisitions LLC",
+                                  "matched": true,
+                                  "name_similarity": 96.23,
+                                  "severity": "blacklist",
+                                  "similarity_score": 96.23,
+                                  "state": "TX",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ],
+                          "individuals": []
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "Blurprint Acquisitions LLC",
+                          "entity_type": "entity",
+                          "first_name": "",
+                          "last_name": "",
+                          "middle_name": "",
+                          "source_section": "Vesting",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "Houston",
+                                  "entity_id": 75,
+                                  "entity_name": "Blueprint Acquisitions LLC",
+                                  "matched": true,
+                                  "name_similarity": 96.23,
+                                  "severity": "blacklist",
+                                  "similarity_score": 96.23,
+                                  "state": "TX",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ],
+                          "individuals": []
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Ali",
+                                  "individual_id": 66,
+                                  "last_name": "Razjooyan",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "DC",
+                                  "type": "seller",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "seller",
+                          "first_name": "Ali",
+                          "last_name": "Razjooyan",
+                          "middle_name": "",
+                          "source_section": "CustomFields_Seller",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Ali",
+                                  "individual_id": 66,
+                                  "last_name": "Razjooyan",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "DC",
+                                  "type": "seller",
+                                  "zipcode": ""
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "John",
+                                  "individual_id": 49,
+                                  "last_name": "Fabiano",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 16,
+                                  "severity": "blacklist",
+                                  "similarity_score": 16,
+                                  "state": "",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "contractor",
+                          "first_name": "John",
+                          "last_name": "Doe",
+                          "middle_name": "",
+                          "source_section": "CustomFields_GC",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": []
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Claude",
+                                  "individual_id": 26,
+                                  "last_name": "Hannah",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "",
+                                  "type": "broker",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Calvin",
+                                  "individual_id": 107,
+                                  "last_name": "Harris",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 26.67,
+                                  "severity": "blacklist",
+                                  "similarity_score": 26.67,
+                                  "state": "AZ, FL",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "broker",
+                          "first_name": "Claude",
+                          "last_name": "Hannah",
+                          "middle_name": "",
+                          "source_section": "CustomFields_Broker",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Claude",
+                                  "individual_id": 26,
+                                  "last_name": "Hannah",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "",
+                                  "type": "broker",
+                                  "zipcode": ""
+                              }
+                          ]
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "entity_id": 12,
+                                  "entity_name": "Avance Title",
+                                  "matched": true,
+                                  "name_similarity": 100,
+                                  "severity": "blacklist",
+                                  "similarity_score": 100,
+                                  "state": "VA",
+                                  "type": "title agent",
+                                  "zipcode": ""
+                              }
+                          ],
+                          "individuals": []
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "Avance Title",
+                          "entity_type": "title_company",
+                          "first_name": "",
+                          "last_name": "",
+                          "middle_name": "",
+                          "source_section": "CustomFields_TitleCompany",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "entity_id": 12,
+                                  "entity_name": "Avance Title",
+                                  "matched": true,
+                                  "name_similarity": 100,
+                                  "severity": "blacklist",
+                                  "similarity_score": 100,
+                                  "state": "VA",
+                                  "type": "title agent",
+                                  "zipcode": ""
+                              }
+                          ],
+                          "individuals": []
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": []
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "insurance",
+                          "first_name": "Bill",
+                          "last_name": "Bob",
+                          "middle_name": "",
+                          "source_section": "CustomFields_InsuranceAgent",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": []
+                      }
+                  },
+                  {
+                      "database_candidates_checked": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "4044 Ganford Court",
+                                  "address_similarity": 0,
+                                  "city": "Jarrettsville",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Jason",
+                                  "individual_id": 19,
+                                  "last_name": "Taylor",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "MD",
+                                  "type": "appraiser",
+                                  "zipcode": "21084"
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Joshua",
+                                  "individual_id": 93,
+                                  "last_name": "Tucker",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 26.67,
+                                  "severity": "blacklist",
+                                  "similarity_score": 26.67,
+                                  "state": "OH, IN",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Joshua",
+                                  "individual_id": 95,
+                                  "last_name": "Tucker",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 26.67,
+                                  "severity": "blacklist",
+                                  "similarity_score": 26.67,
+                                  "state": "OH, IN",
+                                  "type": "seller",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Jeremy",
+                                  "individual_id": 92,
+                                  "last_name": "Tucker",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 14.55,
+                                  "severity": "blacklist",
+                                  "similarity_score": 14.55,
+                                  "state": "OH, IN",
+                                  "type": "borrower",
+                                  "zipcode": ""
+                              },
+                              {
+                                  "address": "",
+                                  "address_similarity": 0,
+                                  "city": "",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Jeremy",
+                                  "individual_id": 94,
+                                  "last_name": "Tucker",
+                                  "matched": false,
+                                  "middle_name": "",
+                                  "name_similarity": 14.55,
+                                  "severity": "blacklist",
+                                  "similarity_score": 14.55,
+                                  "state": "OH, IN",
+                                  "type": "seller",
+                                  "zipcode": ""
+                              }
+                          ]
+                      },
+                      "lendingwise_entry": {
+                          "address": "",
+                          "city": "",
+                          "email": "",
+                          "entity_name": "",
+                          "entity_type": "appraiser",
+                          "first_name": "Jason",
+                          "last_name": "Taylor",
+                          "middle_name": "",
+                          "source_section": "CustomFields_Appraiser",
+                          "state": "",
+                          "zipcode": ""
+                      },
+                      "matches": {
+                          "entities": [],
+                          "individuals": [
+                              {
+                                  "address": "4044 Ganford Court",
+                                  "address_similarity": 0,
+                                  "city": "Jarrettsville",
+                                  "email": "",
+                                  "email_similarity": 0,
+                                  "first_name": "Jason",
+                                  "individual_id": 19,
+                                  "last_name": "Taylor",
+                                  "matched": true,
+                                  "middle_name": "",
+                                  "name_similarity": 90,
+                                  "severity": "blacklist",
+                                  "similarity_score": 90,
+                                  "state": "MD",
+                                  "type": "appraiser",
+                                  "zipcode": "21084"
+                              }
+                          ]
+                      }
+                  }
+              ],
+              "flagged": true,
+              "lendingwise_id": "8284282",
+              "similarity_threshold": 90,
+              "success": true,
+              "summary": {
+                  "blacklist_matches": 8,
+                  "total_contacts_checked": 10,
+                  "total_database_candidates_checked": 20,
+                  "total_matches": 8,
+                  "watchlist_matches": 0
+              }
+          }

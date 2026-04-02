@@ -1,0 +1,7 @@
+info:
+  name: Manipulation Detection Engine
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit

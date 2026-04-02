@@ -1,0 +1,52 @@
+info:
+  name: CrossPhaseInput - Bulk Create
+  type: http
+  seq: 22
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/cross-phase-inputs/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "data_field": "Borrower Entity & Ownership",
+            "value": "Tech Corp Ltd",
+            "source_phase": 1,
+            "source_system": "POS",
+            "notes": "Entity name (not guarantor)"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "data_field": "Loan Purpose",
+            "value": "Purchase",
+            "source_phase": 1,
+            "source_system": "POS",
+            "notes": "Purchase vs Refinance"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "data_field": "Credit Metrics (FICO)",
+            "value": "720",
+            "source_phase": 2,
+            "source_system": "Credit / AI admin",
+            "notes": "Final AI-calculated values"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "data_field": "DSCR",
+            "value": "1.25",
+            "source_phase": 6,
+            "source_system": "AI admin",
+            "notes": "Final AI-calculated values"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

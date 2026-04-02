@@ -1,0 +1,59 @@
+info:
+  name: FlagDat Match Entries - Bulk
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/flag-dat-match-entries/bulk-create/"
+  body:
+    type: json
+    data: |
+      [
+        {
+          "credit_review_validation": "{{credit_review_validation_id}}",
+          "entity_name": "John Smith Inc",
+          "entity_type": "Individual",
+          "first_name": "John",
+          "middle_name": "Michael",
+          "last_name": "Smith",
+          "name_similarity": 0.95,
+          "email": "john.smith@example.com",
+          "email_similarity": 0.89,
+          "address": "123 Main Street",
+          "city": "New York",
+          "state": "NY",
+          "zipcode": "10001",
+          "address_similarity": 0.92,
+          "individual_id": 12345,
+          "matched": true,
+          "similarity_score": 0.92,
+          "severity": "HIGH"
+        },
+        {
+          "credit_review_validation": "{{credit_review_validation_id}}",
+          "entity_name": "Jane Doe Corp",
+          "entity_type": "Company",
+          "first_name": "Jane",
+          "last_name": "Doe",
+          "name_similarity": 0.87,
+          "email": "jane.doe@example.com",
+          "email_similarity": 0.91,
+          "address": "456 Oak Avenue",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zipcode": "90001",
+          "address_similarity": 0.85,
+          "individual_id": 67890,
+          "matched": true,
+          "similarity_score": 0.88,
+          "severity": "MEDIUM"
+        }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

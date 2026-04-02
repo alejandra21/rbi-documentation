@@ -1,0 +1,41 @@
+info:
+  name: PhaseResultSummary - Bulk Create
+  type: http
+  seq: 30
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/phase-result-summaries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 1,
+            "phase_name": "Borrower Eligibility",
+            "status": "pass",
+            "summary": "Entity verified and in good standing"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 8,
+            "phase_name": "Closing Protection",
+            "status": "pass_with_exception",
+            "summary": "CPL variance within acceptable tolerance"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "phase_number": 10,
+            "phase_name": "Asset Verification",
+            "status": "pass",
+            "summary": "All assets verified and documented"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

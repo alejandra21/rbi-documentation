@@ -1,0 +1,78 @@
+info:
+  name: Risk Validation Bulk Create
+  type: http
+  seq: 20
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/risk-validations/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+              "validation_id": "CR-001",
+              "name": "FICO Score Check",
+              "description": "Minimum FICO score requirement (660)",
+              "source_phase": 3,
+              "phase_name": "Credit Review",
+              "status": "pass"
+          },
+          {
+              "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+              "validation_id": "CR-002",
+              "name": "Trade Line Count",
+              "description": "Minimum 3 active trade lines required",
+              "source_phase": 3,
+              "phase_name": "Credit Review",
+              "status": "pass"
+          },
+          {
+              "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+              "validation_id": "CR-003",
+              "name": "Bankruptcy History",
+              "description": "No bankruptcy within 4 years",
+              "source_phase": 3,
+              "phase_name": "Credit Review",
+              "status": "pass"
+          },
+          {
+              "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+              "validation_id": "CR-004",
+              "name": "DSCR Ratio",
+              "description": "Minimum DSCR of 1.0x required",
+              "source_phase": 6,
+              "phase_name": "DSCR Cash Flow",
+              "status": "pass"
+          },
+          {
+              "risk_category_summary": "8455f5f5-0de6-4497-9ff3-7e17c16d395b",
+              "validation_id": "LT-001",
+              "name": "Title Clear",
+              "description": "Property title is clear of encumbrances",
+              "source_phase": 7,
+              "phase_name": "Title Insurance",
+              "status": "pass"
+          },
+          {
+              "risk_category_summary": "8455f5f5-0de6-4497-9ff3-7e17c16d395b",
+              "validation_id": "LT-002",
+              "name": "CPL Coverage Amount",
+              "description": "CPL coverage amount matches loan amount",
+              "source_phase": 8,
+              "phase_name": "Closing Protection",
+              "status": "pass_with_exception",
+              "issue": "CPL coverage is $495,000 vs loan amount of $500,000 (1% variance)",
+              "severity": "soft",
+              "exception_id": "EXC-001",
+              "policy_reference": "CPL-001"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

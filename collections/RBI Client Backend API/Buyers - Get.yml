@@ -1,0 +1,20 @@
+info:
+  name: Buyers - Get
+  type: http
+  seq: 43
+
+http:
+  method: GET
+  url: "{{base_url}}/panel/buyers"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

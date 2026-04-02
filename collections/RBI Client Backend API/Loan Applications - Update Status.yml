@@ -1,0 +1,30 @@
+info:
+  name: Loan Applications - Update Status
+  type: http
+  seq: 28
+
+http:
+  method: PUT
+  url: "{{base_url}}/loan-applications/:id/status"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "status": "approved"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

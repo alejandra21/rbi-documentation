@@ -1,0 +1,34 @@
+name: Local
+variables:
+  - name: token
+    value: ""
+    disabled: true
+  - name: collectionName
+    value: ""
+    disabled: true
+  - name: collectionSchemaUrl
+    value: ""
+    disabled: true
+  - name: accessKey
+    value: ""
+    disabled: true
+  - name: workspaceId
+    value: ""
+    disabled: true
+  - name: collectionId
+    value: ""
+    disabled: true
+  - name: base_url
+    value: http://localhost:8000
+  - name: email
+    value: admin2
+  - secret: true
+    name: password
+  - name: OPEN_AI_API_KEY
+    value: ""
+  - name: open_ai_ocr_model
+    value: ""
+  - name: local_email
+    value: ""
+  - name: local_password
+    value: ""

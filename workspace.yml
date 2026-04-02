@@ -1,0 +1,24 @@
+opencollection: 1.0.0
+info:
+  name: "RBI"
+  type: workspace
+
+collections:
+  - name: "AI UW"
+    path: "collections/AI UW"
+  - name: "Externals"
+    path: "collections/Externals"
+  - name: "Liquid-Dat"
+    path: "collections/Liquid-Dat"
+  - name: "OpenAI - POC"
+    path: "collections/OpenAI - POC"
+  - name: "Prequalification Data Processing API"
+    path: "collections/Prequalification Data Processing API"
+  - name: "RBI Client Backend API"
+    path: "collections/RBI Client Backend API"
+  - name: "Who-Dat"
+    path: "collections/Who-Dat"
+
+specs:
+
+docs: ''

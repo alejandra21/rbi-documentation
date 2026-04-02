@@ -1,0 +1,20 @@
+info:
+  name: Access Management - Get
+  type: http
+  seq: 36
+
+http:
+  method: GET
+  url: "{{base_url}}/panel/access-managements"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

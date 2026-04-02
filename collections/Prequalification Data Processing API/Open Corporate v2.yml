@@ -1,0 +1,32 @@
+info:
+  name: Open Corporate v2
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{url}}/open-corporates/companies-state?entity_name=SUMMIT HOLDINGS GROUP LLC&state=TX"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: entity_name
+      value: SUMMIT HOLDINGS GROUP LLC
+      type: query
+    - name: state
+      value: TX
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+        "loan_id": "10005",
+        "name": "John Doe"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

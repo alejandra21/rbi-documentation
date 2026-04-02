@@ -1,0 +1,36 @@
+info:
+  name: MemoApprovalChainEntry - Bulk Create
+  type: http
+  seq: 37
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/memo-approval-chain-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+            "sequence": 1,
+            "role": "AI System",
+            "name": "AI Validation Engine",
+            "decision": "Recommend Approval",
+            "timestamp": "2024-01-16T08:00:00Z"
+          },
+          {
+            "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+            "sequence": 2,
+            "role": "Underwriter",
+            "name": "Sarah Johnson",
+            "decision": "Approved with Conditions",
+            "timestamp": "2024-01-16T10:30:00Z"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

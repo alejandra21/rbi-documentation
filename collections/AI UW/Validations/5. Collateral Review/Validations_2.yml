@@ -1,0 +1,58 @@
+info:
+  name: Validations_2
+  type: http
+  seq: 8
+
+http:
+  method: PATCH
+  url: "{{base_url}}/api/workflows/validations/:id/?phase=collateral_review"
+  params:
+    - name: phase
+      value: collateral_review
+      type: query
+    - name: id
+      value: c9f8944a-3cf8-4c30-b053-43a7b358ac35
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "engine_6_status": "Review",
+        "engine_6_final_score": 70,
+        "engine_6_partial_score": true,
+        "engine_6_arv_support_score": 50,
+        "engine_6_comp_feasibility_score": 100,
+        "engine_6_arv_support_weight": 0.6,
+        "engine_6_comp_feasibility_weight": 0.4,
+        "scope_match_status": "Full Match",
+        "scope_match_passed": true,
+        "appraiser_scope_summary": "Full kitchen renovation\nBathroom updates (2)\nRoof replacement\nHVAC system upgrade",
+        "pos_scope_summary": "Kitchen renovation\nBathroom updates (2)\nRoof replacement\nHVAC replacement\nFlooring throughout\nExterior paint",
+        "bcp_scope_summary": "Kitchen demo & install\nBath tile & fixtures (2)\nRoof tear-off & reshingle\nHVAC unit swap\nLVP flooring install\nExterior prep & paint",
+        "aiv_value": 300000,
+        "rehab_budget_value": 100000,
+        "arv_value": 420000,
+        "arv_support_ratio_pct": 95,
+        "arv_support_strength": "Weak ARV",
+        "arv_support_passed": false,
+        "avg_net_adjustments_pct": 12,
+        "avg_gross_adjustments_pct": 22,
+        "comp_condition_supports_arv": true,
+        "comp_sale_dates_within_threshold": true,
+        "pos_budget_total": 120000,
+        "bcp_budget_total": null,
+        "budget_comparison_available": false,
+        "check_scope_match_passed": true,
+        "check_arv_support_ratio_passed": false,
+        "check_net_adjustments_passed": true,
+        "check_gross_adjustments_passed": true,
+        "check_pos_budget_present": true,
+        "check_final_feasibility_passed": false
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

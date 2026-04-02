@@ -1,0 +1,29 @@
+info:
+  name: Loan Applications - Send To Borrower
+  type: http
+  seq: 29
+
+http:
+  method: POST
+  url: "{{base_url}}/loan-applications/send-to-borrower"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "applicationId": 1,
+        "firstName": "John",
+        "lastName": "Doe",
+        "email": "john.doe@example.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

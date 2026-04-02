@@ -1,0 +1,92 @@
+info:
+  name: PolicyReference - Bulk Create
+  type: http
+  seq: 31
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/policy-references/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "CPL-001",
+            "policy_name": "Closing Protection Letter Requirements",
+            "policy_section": "Coverage Variance Tolerance",
+            "description": "Policy governing acceptable variance between CPL coverage amount and loan amount",
+            "citation": "CPL-001: Coverage variance within 2% is acceptable with documented cure commitment",
+            "applied_to_phase": 8
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "UW-DELEGAT-001",
+            "policy_name": "Underwriter Delegation Authority Matrix",
+            "policy_section": "Soft Exception Limits",
+            "description": "Defines the authority limits for standard underwriters regarding exception approvals",
+            "citation": "Underwriter can approve up to 2 soft exceptions without credit committee escalation",
+            "applied_to_phase": 11
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "COMP-FACTOR-001",
+            "policy_name": "Compensating Factors Policy",
+            "policy_section": "LTV Compensators",
+            "description": "Guidelines for using strong collateral position as compensating factor for credit weaknesses",
+            "citation": "LTV below 75% may compensate for up to 1 credit exception",
+            "applied_to_phase": 5
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "LOCK-FIELD-001",
+            "policy_name": "Critical Field Lock Policy",
+            "policy_section": "Post-Approval Changes",
+            "description": "Policy governing which fields are locked after final approval and requirements for modification",
+            "citation": "Changes to loan amount, property address, or borrower entity after approval require executive override and re-underwriting",
+            "applied_to_phase": 11
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "DSCR-MIN-001",
+            "policy_name": "Debt Service Coverage Ratio Minimum",
+            "policy_section": "Cash Flow Requirements",
+            "description": "Minimum DSCR requirements for DSCR loan products including calculation methodology",
+            "citation": "Minimum DSCR of 1.0x required for all DSCR loan products",
+            "applied_to_phase": 6
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "FICO-MIN-001",
+            "policy_name": "Minimum Credit Score Policy",
+            "policy_section": "Credit Requirements",
+            "description": "Establishes minimum FICO score requirements and representative score calculation method",
+            "citation": "Minimum representative FICO score of 660 required for all borrowers",
+            "applied_to_phase": 3
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "TITLE-CLEAR-001",
+            "policy_name": "Clear Title Requirements",
+            "policy_section": "Title Insurance Phase",
+            "description": "Requirements for clear and marketable title including lien position and ownership verification",
+            "citation": "Property must have clear and marketable title with lender in first lien position",
+            "applied_to_phase": 7
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "policy_id": "FRAUD-AML-001",
+            "policy_name": "Anti-Money Laundering Compliance",
+            "policy_section": "KYC and Source of Funds",
+            "description": "Anti-money laundering and know-your-customer requirements including OFAC screening",
+            "citation": "All borrowers must pass OFAC screening and provide documented source of funds",
+            "applied_to_phase": 10
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

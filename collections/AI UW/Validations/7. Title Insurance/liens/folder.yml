@@ -1,0 +1,7 @@
+info:
+  name: liens
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

@@ -1,0 +1,32 @@
+info:
+  name: Retool Trigger
+  type: http
+  seq: 24
+
+http:
+  method: POST
+  url: https://api.retool.com/v1/workflows/0c832da6-ec46-470b-87b8-d81691b872ab/startTrigger?environment=staging
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: X-Workflow-Api-Key
+      value: retool_wk_15b23aea2ac14787a340c93d529b9782
+  params:
+    - name: environment
+      value: staging
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": 615,
+          "workflow_id": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: "Generated from cURL: curl -X POST --url \"https://api.retool.com/v1/workflows/0c832da6-ec46-470b-87b8-d81691b872ab/startTrigger\" --data '{\"loan_id\":382,\"workflow_id\":\"da854b38-565e-4b67-b191-aa6fc62e6ead\"}' -H 'Content-Type: application/json' -H 'X-Workflow-Api-Key: retool_wk_15b23aea2ac14787a340c93d529b9782'"

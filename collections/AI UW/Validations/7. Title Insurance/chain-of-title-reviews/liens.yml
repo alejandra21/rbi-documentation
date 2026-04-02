@@ -1,0 +1,28 @@
+info:
+  name: liens
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/chain-of-title-reviews/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "title_insurance_validation": "ef9c378e-98e7-4851-b147-a450db40a0b3",
+              "type": "unexpected_changes_ownership_transfer_within_last_3_12_months",
+              "auto_tag": "hola que tal?",
+              "ocr_extracted_text": "pepe martinez",
+              "is_valid": true,
+              "underwriting_action": "gggg"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

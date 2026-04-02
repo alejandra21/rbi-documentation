@@ -1,0 +1,42 @@
+info:
+  name: extraction-evidence
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/extraction-evidence/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "title_insurance_validation": "ef9c378e-98e7-4851-b147-a450db40a0b3",
+              "field_name": "title_commitment_seller_name",
+              "extracted_value": "1",
+              "source_text": "open AI",
+              "created": "2025-12-17T13:15:25.419669Z"
+          },
+          {
+              "title_insurance_validation": "ef9c378e-98e7-4851-b147-a450db40a0b3",
+              "field_name": "title_commitment_seller_name",
+              "extracted_value": "2",
+              "source_text": "open AI",
+              "created": "2025-12-17T13:15:25.419669Z"
+          },
+          {
+              "title_insurance_validation": "ef9c378e-98e7-4851-b147-a450db40a0b3",
+              "field_name": "title_commitment_seller_name",
+              "field_name_display": "Title Commitment Seller Name",
+              "extracted_value": "3",
+              "source_text": "open AI",
+              "created": "2025-12-17T13:15:25.419669Z"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

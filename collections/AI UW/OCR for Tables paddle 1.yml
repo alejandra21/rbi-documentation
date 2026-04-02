@@ -1,0 +1,41 @@
+info:
+  name: OCR for Tables paddle 1
+  type: http
+  seq: 20
+
+http:
+  method: POST
+  url: "{{base_url}}/api/ocr/extract-tables-paddle/"
+  body:
+    type: json
+    data: |-
+      {
+          //"url": "https://rbialliance.retool.com/api/file/f94a4665-2f01-408f-96b9-0a45c2319a3a" //rotated track record
+          //"url": "https://rbialliance.retool.com/api/file/573a821b-0efe-41ee-b718-477713b747c0" //excel table example
+          //  "url": "https://rbialliance.retool.com/api/file/0e5c7f3b-e23d-43c1-b0be-e0499e9af3b5" //pdf con tabla
+          "url": "https://rbialliance.retool.com/api/file/7655a750-c01d-4d60-a8b8-ee0fc43b6677" //pdf con tabla imagen
+         // "url": "https://rbialliance.retool.com/api/file/768ae2f5-e68f-448d-9bf8-1a02b7de4557" //pdf con tabla imagen rotadas
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.access) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("access_token", response.access);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

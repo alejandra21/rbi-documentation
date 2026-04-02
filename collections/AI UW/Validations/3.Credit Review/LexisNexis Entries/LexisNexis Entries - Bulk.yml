@@ -1,0 +1,36 @@
+info:
+  name: LexisNexis Entries - Bulk
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/lexis-nexis-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "name": "ddd1",
+              "match_score": 33.0,
+              "country": "ddd1",
+              "description": "fdfdddf1",
+              "entry_class": "dd1",
+              "guarantor_credit_review": "9cb94ff8-201b-4b42-9d50-76e87f7e8769"
+          },
+          {
+              "name": "ddd2",
+              "match_score": 33.0,
+              "country": "ddd2",
+              "description": "fdfdddf2",
+              "entry_class": "dd2",
+              "guarantor_credit_review": "9cb94ff8-201b-4b42-9d50-76e87f7e8769"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

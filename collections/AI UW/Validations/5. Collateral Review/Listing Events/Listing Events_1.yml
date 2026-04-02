@@ -1,0 +1,44 @@
+info:
+  name: Listing Events_1
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review/listing-events/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "event_type": "Initial Listing",
+              "event_datetime": "2025-01-25T01:00:00Z",
+              "event_price": "130000.00"
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "event_type": "Sold",
+              "event_datetime": "2025-03-04T01:00:00Z",
+              "event_price": "133000.00"
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "event_type": "Re-Listed",
+              "event_datetime": "2025-07-10T02:00:00Z",
+              "event_price": "244800.00"
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "event_type": "Withdrawn",
+              "event_datetime": "2025-08-28T02:00:00Z",
+              "event_price": null
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

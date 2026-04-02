@@ -1,0 +1,30 @@
+info:
+  name: Borrower Eligibility Validations_1
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/borrower-eligibility-validations?latest=true&workflow_loan_summary_id=055959aa-790d-4d9a-a763-c2032bf29e52"
+  params:
+    - name: latest
+      value: "true"
+      type: query
+    - name: workflow_loan_summary_id
+      value: 055959aa-790d-4d9a-a763-c2032bf29e52
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_1",
+          "loan_id": 382,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

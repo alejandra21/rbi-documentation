@@ -1,0 +1,40 @@
+info:
+  name: Sign In
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_pos_url}}/public/v1/sign-in"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "email": "alejandrac@rbialliance.com",
+        "password": "ASZgN"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.token) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("jwt_token", response.token);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

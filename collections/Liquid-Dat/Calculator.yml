@@ -1,0 +1,70 @@
+info:
+  name: Calculator
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: https://liqui-dat-c-52cb50a6616a.herokuapp.com/calculate
+  body:
+    type: json
+    data: |-
+      {
+          "leadid": "WEB_3663_generated",
+          "loanOfficer": "Ivan Jauregui",
+          "source": "Client Portal",
+          "trmnoOfProperties": 1,
+          "trmpropertyAddress": "4073 Riviera Drive",
+          "trmpropertyCity": "San Diego",
+          "trmpropertyState": "CA",
+          "trmpropertyZipCode": "92109",
+          "trmloanPurpose": "Purchase",
+          "trmloanType": "Fix and Flip Lender Funded",
+          "trmpropertyType": "SFR",
+          "trmentityName": "DJHEUTI ENTERPRISES LLC",
+          "trmficoScore": "720",
+          "trmexperience": "5+",
+          "trmloanAmountManual": "0",
+          "trmloanAmountUseMax": true,
+          "trmasIsValue": "$1,200,000.00",
+          "trmpurchasePrice": "$1,200,000.00",
+          "trmrehabBudget": "$180,000.00",
+          "trmhardCostInvested": "$0.00",
+          "trmafterRepairValue": "$1,900,000.00",
+          "trmexistingPayOff": "$0.00",
+          "trmestimateMonthlyRent": "$0.00",
+          "trmpropertyTaxesAnnual": "$0.00",
+          "trmpropertyInsuranceAnnual": "$0.00",
+          "trmpropertyInsuranceMonthly": "$0.00",
+          "trmpropertyHOA": "$0.00",
+          "trmSuggestedLenderOrigination": "1.50%",
+          "trmbrokerFee": "1.00%",
+          "trmprocessingFee": "$0.00",
+          "trmotherFees": "$0.00",
+          "trmEMD": "$0.00",
+          "trmexitFee": "0.0",
+          "trminterestRate": "9.25%",
+          "trmreserveMonths": 0,
+          "trmMaxLtvOverride": null,
+          "trmMaxLtcOverride": "90.00%",
+          "trmMaxLtarvOverride": "70.00%",
+          "trmsoftCostsTotal": "$18,000.00",
+          "trmsoftCostsToDate": "$0.00",
+          "trmtotalSpendToDate": "$0.00",
+          "trmhardCostsTotal": "$180,000.00",
+          "trmestimatedRehab": "$180,000.00",
+          "trmexitStrategy": "Sell Property",
+          "trmleaseType": "",
+          "trmisShortTermRental": false
+      }
+  auth:
+    type: apikey
+    key: X-API-KEY
+    value: 8VCFgRoLIM4ulxVduJ498FvzY9eJJn8YQKfMtOKWovY
+    placement: header
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

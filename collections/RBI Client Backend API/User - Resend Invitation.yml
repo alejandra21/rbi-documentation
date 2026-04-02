@@ -1,0 +1,26 @@
+info:
+  name: User - Resend Invitation
+  type: http
+  seq: 18
+
+http:
+  method: POST
+  url: "{{base_url}}/user/resend-invitation"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "email": "user@example.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

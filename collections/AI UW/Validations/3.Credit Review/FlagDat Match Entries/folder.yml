@@ -1,0 +1,7 @@
+info:
+  name: FlagDat Match Entries
+  type: folder
+  seq: 4
+
+request:
+  auth: inherit

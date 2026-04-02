@@ -1,0 +1,30 @@
+info:
+  name: Flood Report
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{url}}/flood"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "loan_id": "LN-10002",
+        "first_name": "John",
+        "last_name": "Doe",
+        "street_address": "123 Main St",
+        "city": "Houston",
+        "state": "TX",
+        "zip": "77002"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

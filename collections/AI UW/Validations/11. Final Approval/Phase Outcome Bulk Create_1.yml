@@ -1,0 +1,104 @@
+info:
+  name: Phase Outcome Bulk Create_1
+  type: http
+  seq: 21
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/contributing-phases/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+            "phase_number": 1,
+            "phase_name": "Borrower Eligibility",
+            "status": "pass",
+            "validation_count": 5
+          },
+          {
+            "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+            "phase_number": 2,
+            "phase_name": "Experience Tiering",
+            "status": "pass",
+            "validation_count": 4
+          },
+          {
+            "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+            "phase_number": 3,
+            "phase_name": "Credit Review",
+            "status": "pass",
+            "validation_count": 3
+          },
+          {
+            "risk_category_summary": "2a86744a-9557-4a1e-9c8f-5b46f16b1b12",
+            "phase_number": 6,
+            "phase_name": "DSCR Cash Flow",
+            "status": "pass",
+            "validation_count": 3
+          },
+          {
+            "risk_category_summary": "011e764c-8ddb-453e-a66b-14f95e1a71cc",
+            "phase_number": 5,
+            "phase_name": "Collateral Review",
+            "status": "pass",
+            "validation_count": 5
+          },
+          {
+            "risk_category_summary": "8455f5f5-0de6-4497-9ff3-7e17c16d395b",
+            "phase_number": 7,
+            "phase_name": "Title Insurance",
+            "status": "pass",
+            "validation_count": 4
+          },
+          {
+            "risk_category_summary": "8455f5f5-0de6-4497-9ff3-7e17c16d395b",
+            "phase_number": 8,
+            "phase_name": "Closing Protection",
+            "status": "pass_with_exception",
+            "validation_count": 3
+          },
+          {
+            "risk_category_summary": "c5307a2e-4c50-46fd-812e-559e347657d5",
+            "phase_number": 9,
+            "phase_name": "Insurance Policy",
+            "status": "pass",
+            "validation_count": 5
+          },
+          {
+            "risk_category_summary": "f5996cc5-9210-47c3-bf1f-a9166575f546",
+            "phase_number": 4,
+            "phase_name": "Non-Owner Occupancy",
+            "status": "pass",
+            "validation_count": 3
+          },
+          {
+            "risk_category_summary": "f5996cc5-9210-47c3-bf1f-a9166575f546",
+            "phase_number": 10,
+            "phase_name": "Asset Verification",
+            "status": "pass",
+            "validation_count": 3
+          },
+          {
+            "risk_category_summary": "bc09d1b5-c41b-4e98-8065-04d99689cc92",
+            "phase_number": 1,
+            "phase_name": "Borrower Eligibility",
+            "status": "pass",
+            "validation_count": 2
+          },
+          {
+            "risk_category_summary": "bc09d1b5-c41b-4e98-8065-04d99689cc92",
+            "phase_number": 10,
+            "phase_name": "Asset Verification",
+            "status": "pass",
+            "validation_count": 2
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

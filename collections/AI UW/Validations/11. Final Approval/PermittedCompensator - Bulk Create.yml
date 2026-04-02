@@ -1,0 +1,59 @@
+info:
+  name: PermittedCompensator - Bulk Create
+  type: http
+  seq: 23
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/permitted-compensators/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "compensator_id": "PC-001",
+            "type": "lower_ltv",
+            "value": "76.9%",
+            "description": "Lower LTV (current: 76.9%)",
+            "is_sufficient": true,
+            "minimum_required": "80%",
+            "is_allowed_by_policy": true
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "compensator_id": "PC-002",
+            "type": "higher_dscr",
+            "value": "1.25",
+            "description": "Higher DSCR (current: 1.25)",
+            "is_sufficient": true,
+            "minimum_required": "1.0",
+            "is_allowed_by_policy": true
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "compensator_id": "PC-003",
+            "type": "excess_liquidity",
+            "value": "$125,000",
+            "description": "Excess Liquidity ($125,000)",
+            "is_sufficient": true,
+            "minimum_required": "$50,000",
+            "is_allowed_by_policy": true
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "compensator_id": "PC-004",
+            "type": "proven_experience",
+            "value": "Tier 2",
+            "description": "Proven Borrower Experience (Tier 2)",
+            "is_sufficient": true,
+            "is_allowed_by_policy": true
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

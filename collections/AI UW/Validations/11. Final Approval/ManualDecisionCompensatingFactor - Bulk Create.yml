@@ -1,0 +1,30 @@
+info:
+  name: ManualDecisionCompensatingFactor - Bulk Create
+  type: http
+  seq: 28
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/manual-decision-compensating-factors/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "sequence": 1,
+            "factor": "Variance within 2% tolerance"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "sequence": 2,
+            "factor": "Title company confirmed coverage adjustment"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

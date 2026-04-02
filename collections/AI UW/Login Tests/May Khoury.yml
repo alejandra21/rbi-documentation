@@ -1,0 +1,37 @@
+info:
+  name: May Khoury
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/token/"
+  body:
+    type: json
+    data: |-
+      {
+          "username": "May@Rbiallaince.com",
+          "password": "x(KYDuO6z>kjLU?P"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.access) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("access_token", response.access);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

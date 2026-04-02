@@ -1,0 +1,47 @@
+info:
+  name: gla-comparisons
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review/gla-comparisons/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C1",
+              "comp_address": "420 Ocean Dr, Miami, FL",
+              "comp_gla_sqft": 2150,
+              "variance_from_subject_pct": "-0.80",
+              "threshold_pct": "10.00",
+              "variance_within_threshold": true
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C2",
+              "comp_address": "512 Palm Ave, Miami, FL",
+              "comp_gla_sqft": 2200,
+              "variance_from_subject_pct": "1.50",
+              "threshold_pct": "10.00",
+              "variance_within_threshold": true
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C3",
+              "comp_address": "389 Bay St, Miami, FL",
+              "comp_gla_sqft": 2100,
+              "variance_from_subject_pct": "-3.10",
+              "threshold_pct": "10.00",
+              "variance_within_threshold": true
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

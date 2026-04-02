@@ -1,0 +1,119 @@
+info:
+  name: Credit Report
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/credit-report-automatic
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": 615,
+          "email": "vannesitab@hotmail.co",
+          "loan_type": "Flix & Flips"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: New Request
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "96"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 28 Oct 2025 15:12:20 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=nXlHNjQKWVeKNv%2BM5BYMsPv%2B49BVH6COS3taVgL6s%2B0%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1761664339"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=nXlHNjQKWVeKNv%2BM5BYMsPv%2B49BVH6COS3taVgL6s%2B0%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1761664339"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": null,
+              "message": "An error ocurred using ocr endpoint",
+              "status": "Failed",
+              "success": false
+          }
+  - name: Experience Check Copy
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/credit-report-automatic
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "loan_id": "loan_id_test",
+              "email": "vannesitab@hotmail.com",
+              "loan_type": "Construction"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "445"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Fri, 14 Nov 2025 16:25:52 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=%2F7WtT4WWFIuLX20vnQevfSWhmniO%2BWObu8m1vAouBf8%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1763137552"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=%2F7WtT4WWFIuLX20vnQevfSWhmniO%2BWObu8m1vAouBf8%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1763137552"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": [
+                  {
+                      "credit_scores": {
+                          "Equifax": null,
+                          "Experian": null,
+                          "TransUnion": null
+                      },
+                      "message": "ok",
+                      "report_file": "https://rbi-files-test.s3.us-east-2.amazonaws.com/uploads/loan-applications/615/credit_reports/Hard Pull - VANESSA BALDERRAMA.pdf",
+                      "report_id": "1614531",
+                      "report_type": "hard_pull",
+                      "status": "Failed",
+                      "success": true
+                  }
+              ],
+              "message": "We encountered an issue while processing your request. Check hard pull report",
+              "status": "Failed",
+              "success": true
+          }

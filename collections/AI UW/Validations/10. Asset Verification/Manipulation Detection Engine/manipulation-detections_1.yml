@@ -1,0 +1,62 @@
+info:
+  name: manipulation-detections_1
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/manipulation-detections/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "bank_statement": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Balance Padding",
+              "detection_logic": "Large deposit immediately withdrawn post-statement",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Temporary Parking",
+              "detection_logic": "Funds appear only during statement window",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Circular Transfers",
+              "detection_logic": "Funds move between borrower-controlled accounts",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Velocity Spike",
+              "detection_logic": "Transaction frequency deviates from baseline (Avg: 3.2/day, Peak: 8/day)",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Third-Party Masking",
+              "detection_logic": "Funds routed through unrelated entities",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "fraud_pattern": "Statement Tampering",
+              "detection_logic": "OCR detects altered formatting / inconsistencies (Confidence: 96.5%)",
+              "status": "Clear",
+              "trigger_action": "Auto-Pass"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

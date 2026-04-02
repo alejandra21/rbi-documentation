@@ -1,0 +1,58 @@
+info:
+  name: forecasa-requests
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/forecasa-requests/"
+  params:
+    - name: tiering_validation__workflow_loan_summary
+      value: 12abb743-e75f-4535-9706-32a3b361e5c5
+      type: query
+      disabled: true
+    - name: loan_id
+      value: "6645"
+      type: query
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": "6646",
+          "request_body": {
+              "loan_id": 6646,
+              "entities": [
+                  {
+                      "name": "Investors, Inc/John Doe",
+                      "state": "GA"
+                  },
+                  {
+                      "name": "Woodvale 4795 Luxury Residence Corp",
+                      "state": "GA"
+                  },
+                  {
+                      "name": "Four Vistana",
+                      "state": "GA"
+                  },
+                  {
+                      "name": "24/7 REI, LLC",
+                      "state": "GA"
+                  }
+              ],
+              "guarantors": [
+                  {
+                      "name": "JAMELLANTHONY GIVENS"
+                  }
+              ],
+              "state": "GA"
+          },
+          "tiering_validation": "f21962be-4621-44fb-9348-1f306a073142"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

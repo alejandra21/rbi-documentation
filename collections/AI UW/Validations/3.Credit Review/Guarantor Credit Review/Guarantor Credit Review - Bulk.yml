@@ -1,0 +1,68 @@
+info:
+  name: Guarantor Credit Review - Bulk
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/guarantor-credit-reviews/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "credit_review_validation": "8d449b65-1129-4564-87e2-aff483dc2182",
+              "report_type": "hard_pull",
+              "credit_report_url": "https://rbi-files-test.s3.us-east-2.amazonaws.com/uploads/loan-applications/615/credit_reports/Hard Pull - VANESSA BALDERRAMA.pdf",
+              "credit_pull_date": null,
+              "fico": null,
+              "credit_bureau": null,
+              "date_of_birth": "1971-11-14",
+              "is_foreign_national": false,
+              "id_issued_date": "2021-09-14",
+              "name": "Balderrama Bustamante Vannesa Carolina"
+          },
+          {
+              "credit_review_validation": "8d449b65-1129-4564-87e2-aff483dc2182",
+              "report_type": "",
+              "credit_report_url": "",
+              "credit_pull_date": null,
+              "fico": null,
+              "credit_bureau": null,
+              "date_of_birth": null,
+              "is_foreign_national": null,
+              "id_issued_date": null,
+              "name": "pepe garcia"
+          },
+          {
+              "credit_review_validation": "8d449b65-1129-4564-87e2-aff483dc2182",
+              "report_type": "",
+              "credit_report_url": "",
+              "credit_pull_date": null,
+              "fico": null,
+              "credit_bureau": null,
+              "date_of_birth": null,
+              "is_foreign_national": null,
+              "id_issued_date": null,
+              "name": "pepe garcia"
+          },
+          {
+              "credit_review_validation": "8d449b65-1129-4564-87e2-aff483dc2182",
+              "report_type": "",
+              "credit_report_url": "",
+              "credit_pull_date": "2025-06-06",
+              "fico": null,
+              "credit_bureau": null,
+              "date_of_birth": null,
+              "is_foreign_national": null,
+              "id_issued_date": null,
+              "name": "pepe garcia"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

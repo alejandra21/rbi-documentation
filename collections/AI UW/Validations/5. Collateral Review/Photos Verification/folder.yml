@@ -1,0 +1,7 @@
+info:
+  name: Photos Verification
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

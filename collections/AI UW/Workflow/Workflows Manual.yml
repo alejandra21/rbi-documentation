@@ -1,0 +1,39 @@
+info:
+  name: Workflows Manual
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/"
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_3",
+          "loan_id": 615,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.id) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("workflow_run_id", response.id);
+            console.log("✅ ID saved to environment variable");
+        } else {
+            console.log("⚠️ No 'ID' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

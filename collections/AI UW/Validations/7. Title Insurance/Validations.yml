@@ -1,0 +1,25 @@
+info:
+  name: Validations
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/validations/?phase=title_insurance&latest=true&workflow_loan_summary_id=be11e47c-b8d9-4d65-b988-46c6abc648fe"
+  params:
+    - name: phase
+      value: title_insurance
+      type: query
+    - name: latest
+      value: "true"
+      type: query
+    - name: workflow_loan_summary_id
+      value: be11e47c-b8d9-4d65-b988-46c6abc648fe
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

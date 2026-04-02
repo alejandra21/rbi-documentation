@@ -1,0 +1,20 @@
+info:
+  name: File Analyzer - Analyze Document
+  type: http
+  seq: 35
+
+http:
+  method: POST
+  url: "{{base_url}}/file-analizer/analize"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

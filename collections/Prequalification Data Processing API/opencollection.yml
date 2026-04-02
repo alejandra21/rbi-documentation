@@ -1,0 +1,19 @@
+opencollection: 1.0.0
+
+info:
+  name: Prequalification Data Processing API
+
+request:
+  variables:
+    - name: url
+      value: ""
+
+docs:
+  content: Collection for testing Prequalification Data Processing API endpoints
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

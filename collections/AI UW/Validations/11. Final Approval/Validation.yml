@@ -1,0 +1,100 @@
+info:
+  name: Validation
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/validations/?phase=final_approval"
+  params:
+    - name: phase
+      value: final_approval
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "workflow_loan_summary": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad",
+          "phase_1_status": "pass",
+          "phase_2_status": "pass",
+          "phase_3_status": "pass",
+          "phase_4_status": "pass",
+          "phase_5_status": "pass",
+          "phase_6_status": "pass",
+          "phase_7_status": "pass",
+          "phase_8_status": "pass_with_exception",
+          "phase_9_status": "pass",
+          "phase_10_status": "pass",
+          "cross_phase_inputs": [
+              {
+                  "dataField": "Borrower Entity & Ownership",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "Entity name (not guarantor)",
+                  "value": "Tech Corp Ltd"
+              },
+              {
+                  "dataField": "Loan Purpose",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "Purchase vs Refinance",
+                  "value": "Purchase"
+              },
+              {
+                  "dataField": "Loan Program",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "DSCR, Bridge, Fix and Flip",
+                  "value": "DSCR"
+              },
+              {
+                  "dataField": "Credit Metrics (FICO)",
+                  "sourcePhase": 2,
+                  "sourceSystem": "Credit / AI admin",
+                  "notes": "Final AI-calculated values",
+                  "value": 720
+              },
+              {
+                  "dataField": "DSCR",
+                  "sourcePhase": 6,
+                  "sourceSystem": "AI admin",
+                  "notes": "Final AI-calculated values",
+                  "value": 1.25
+              }
+          ],
+          "phase_completion_gate_passed": true,
+          "phases_not_run": [],
+          "phase_completion_gate_result": "proceed",
+          "phase_completion_gate_message": "All phases 1-10 have executed with terminal states.",
+          "total_hard_stops": 0,
+          "has_unresolved_hard_stops": false,
+          "total_exceptions_count": 1,
+          "hard_exceptions_count": 0,
+          "soft_exceptions_count": 1,
+          "cross_risk_consistent": true,
+          "cross_risk_reconciliation_status": "pass",
+          "required_authority": "underwriter",
+          "authority_routing_reason": "Standard loan with 1 approved soft exception",
+          "can_ai_auto_approve": false,
+          "manual_decision_recorded": true,
+          "manual_decision_approver_identity": "Sarah Johnson",
+          "manual_decision_approver_role": "underwriter",
+          "manual_decision_timestamp": "2024-01-16T10:30:00Z",
+          "manual_decision_is_valid": true,
+          "final_decision": "approved_with_conditions",
+          "decision_rationale": "Loan meets all requirements. One minor soft exception approved.",
+          "decision_by": "Sarah Johnson",
+          "decision_timestamp": "2024-01-16T10:30:00Z",
+          "clear_to_close_status": "pending",
+          "clear_to_close_pending_conditions": 1,
+          "processed_at": "2024-01-16T10:35:00Z",
+          "processed_by": "Sarah Johnson",
+          "cross_risk_check_passed":true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

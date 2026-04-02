@@ -1,0 +1,36 @@
+info:
+  name: Approval Memo
+  type: http
+  seq: 17
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/approval-memos/"
+  body:
+    type: json
+    data: |-
+      {
+        "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+        "memo_number": "MEMO-LOA-2024-001",
+        "version": 1,
+        "loan_id": "LOA-2024-001",
+        "borrower_name": "Tech Corp Ltd",
+        "borrower_entity": "Tech Corp Ltd",
+        "loan_amount": "500000.00",
+        "loan_type": "DSCR",
+        "loan_purpose": "Purchase",
+        "property_address": "123 Main St, Los Angeles, CA 90001",
+        "decision": "approved_with_conditions",
+        "decision_rationale": "Loan meets all credit, collateral, and operational requirements. One minor exception related to CPL coverage variance has been approved with compensating factors.",
+        "risk_summary": "Overall risk profile: LOW. All phases passed with one minor exception requiring documentation correction.",
+        "exceptions_approved": 1,
+        "conditions_count": 2,
+        "is_immutable": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

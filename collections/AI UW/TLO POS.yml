@@ -1,0 +1,30 @@
+info:
+  name: TLO POS
+  type: http
+  seq: 27
+
+http:
+  method: POST
+  url: https://api.retool.com/v1/workflows/3230a707-9ca6-4481-abcd-5bee5b998f41/startTrigger
+  headers:
+    - name: X-Workflow-Api-Key
+      value: retool_wk_2ef30d9f63fb4e5c9fd349eee82dbdf6
+  body:
+    type: json
+    data: |-
+      {
+        "loan_application_id": 7821,
+        "closing_date": "2025-04-04",
+        "guarantors": [
+          {
+            "id": 441,
+            "doc_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/documents/tlo-1767028412787-tlo.pdf"
+          }
+        ]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,31 @@
+info:
+  name: Condition Entries Ex1
+  type: http
+  seq: 15
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/condition-entries/"
+  body:
+    type: json
+    data: |-
+      {
+        "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+        "condition_id": "COND-001",
+        "responsible_phase": 8,
+        "condition_type": "CPL Update Required",
+        "category": "prior_to_funding",
+        "description": "Obtain updated Closing Protection Letter with coverage amount matching loan amount ($500,000)",
+        "status": "pending",
+        "due_date": "2024-01-20",
+        "is_measurable": true,
+        "is_verifiable": true,
+        "blocks_clear_to_close": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

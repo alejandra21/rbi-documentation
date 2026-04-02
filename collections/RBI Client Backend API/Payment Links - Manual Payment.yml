@@ -1,0 +1,18 @@
+info:
+  name: Payment Links - Manual Payment
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: "{{base_url}}/payment-links/manual-payment"
+  headers:
+    - name: Content-Type
+      value: application/json
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

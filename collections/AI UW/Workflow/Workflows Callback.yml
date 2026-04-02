@@ -1,0 +1,50 @@
+info:
+  name: Workflows Callback
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/callback/"
+  body:
+    type: json
+    data: |-
+      {
+          "workflow_run_id": "f52be692-4b00-440d-bf72-9a42c0c4f2bf",
+          "result": {
+              "eligibility":{
+                  "entity_name_is_valid": true,
+                  "entity_type_is_valid": true,
+                  "ein_is_valid": true,
+                  "ownwers": [
+                      {
+                          "name": "John Smith",
+                          "percentage_of_ownership": 0.65,
+                          "citizenship": "US",
+                          "ofac_is_valid": true,
+                          "id_is_valid": true,
+                          "ssn_is_valid": true,
+                          "credit_score": 750
+                      },
+                      {
+                          "name": "Emily Chen",
+                          "percentage_of_ownership": 0.35,
+                          "citizenship": "US",
+                          "ofac_is_valid": true,
+                          "id_is_valid": true,
+                          "ssn_is_valid": true,
+                          "credit_score": 720
+                      }
+                  ],
+                  "cogs_date_is_valid": true,
+                  "cogs_good_standing_and_active": true
+              }
+          }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

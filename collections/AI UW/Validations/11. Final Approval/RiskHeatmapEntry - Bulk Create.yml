@@ -1,0 +1,44 @@
+info:
+  name: RiskHeatmapEntry - Bulk Create
+  type: http
+  seq: 29
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/risk-heatmap-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "credit",
+            "category_label": "Credit Risk",
+            "risk_level": "low",
+            "score": 95.5,
+            "impact_description": "Strong credit profile with FICO 720"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "collateral",
+            "category_label": "Collateral Risk",
+            "risk_level": "low",
+            "score": 92.0,
+            "impact_description": "LTV 76.9%, strong collateral value"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "category": "legal_title",
+            "category_label": "Legal/Title Risk",
+            "risk_level": "medium",
+            "score": 85.0,
+            "impact_description": "One soft exception on CPL coverage"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

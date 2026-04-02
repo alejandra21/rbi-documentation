@@ -1,0 +1,26 @@
+name: Production
+variables:
+  - name: token
+    value: ""
+    disabled: true
+  - name: collectionName
+    value: ""
+    disabled: true
+  - name: collectionSchemaUrl
+    value: ""
+    disabled: true
+  - name: accessKey
+    value: ""
+    disabled: true
+  - name: workspaceId
+    value: ""
+    disabled: true
+  - name: collectionId
+    value: ""
+    disabled: true
+  - name: base_url
+    value: https://ai-underwriting-backend-c85acb35e7f9.herokuapp.com
+  - name: email
+    value: ""
+  - secret: true
+    name: password

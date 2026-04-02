@@ -1,0 +1,7 @@
+info:
+  name: 3.Credit Review
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit

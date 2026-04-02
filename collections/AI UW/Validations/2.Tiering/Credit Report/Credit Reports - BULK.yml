@@ -1,0 +1,28 @@
+info:
+  name: Credit Reports - BULK
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/credit-reports/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "tiering_validation": "1671a875-ce81-49a1-922b-722a50cc4758",
+              "name": "pepe garcia",
+              "email": "",
+              "report_file": "",
+              "report_type": "",
+              "credit_pull_date": "2025-06-06"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

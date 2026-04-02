@@ -1,0 +1,32 @@
+opencollection: 1.0.0
+
+info:
+  name: RBI Client Backend API
+
+request:
+  auth:
+    type: bearer
+    token: "{{jwt_token}}"
+  variables:
+    - name: base_pos_url
+      value: ""
+    - name: jwt_token
+      value: ""
+    - name: email
+      value: ""
+    - name: password
+      value: ""
+    - name: private_url
+      value: ""
+    - name: ""
+      value: ""
+
+docs:
+  content: Postman Collection for all endpoints from the RBI Client Backend API
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

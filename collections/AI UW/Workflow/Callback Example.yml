@@ -1,0 +1,52 @@
+info:
+  name: Callback Example
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: https://webhook.site/95a17655-ff33-4937-a377-0aa128085710
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "ALL",
+          "loan_id": 123,
+          "callback_url": "",
+          "result": {
+              "eligibility":{
+                  "entity_name_is_valid": true,
+                  "entity_type_is_valid": true,
+                  "ein_is_valid": true,
+                  "ownwers": [
+                      {
+                          "name": "John Smith",
+                          "percentage_of_ownership": 0.65,
+                          "citizenship": "US",
+                          "ofac_is_valid": true,
+                          "id_is_valid": true,
+                          "ssn_is_valid": true,
+                          "credit_score": 750
+                      },
+                      {
+                          "name": "Emily Chen",
+                          "percentage_of_ownership": 0.35,
+                          "citizenship": "US",
+                          "ofac_is_valid": true,
+                          "id_is_valid": true,
+                          "ssn_is_valid": true,
+                          "credit_score": 720
+                      }
+                  ],
+                  "cogs_date_is_valid": true,
+                  "cogs_good_standing_and_active": true
+              }
+          }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

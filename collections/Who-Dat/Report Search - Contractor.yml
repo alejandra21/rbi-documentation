@@ -1,0 +1,31 @@
+info:
+  name: Report Search - Contractor
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: https://whodat-73908d748eee.herokuapp.com/api/v1/reports/search
+  body:
+    type: json
+    data: |-
+      {
+          "search_type": "contractor",
+          "search_parameter": "DNE Development LLC"
+      }
+  auth:
+    type: bearer
+    token: 5fJG925y04enIqvDmtyQ9lbzCczZY-JZLCibP0la_2M
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // smartflipside@gmail.com
+        // roseramirez.marketing@gmail.com
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

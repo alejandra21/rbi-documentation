@@ -1,0 +1,275 @@
+info:
+  name: Section Summaries Bulk Create
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/section-summaries/bulk-create/"
+  body:
+    type: json
+    data: |
+      [
+        {
+          "phase_summary": "64aeaee2-ed60-45c5-9848-45163b05c843",
+          "section_name": "entity_verification",
+          "section_display_name": "Entity Verification",
+          "risk_categories": ["operational", "fraud_aml"],
+          "risk_category_labels": ["Operational/Data Integrity", "Fraud/AML Risk"],
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "64aeaee2-ed60-45c5-9848-45163b05c843",
+          "section_name": "owner_identity_verification",
+          "section_display_name": "Owner Identity Verification",
+          "risk_categories": ["fraud_aml", "operational"],
+          "risk_category_labels": ["Fraud/AML Risk", "Operational/Data Integrity"],
+          "overall_status": "pass",
+          "pass_count": 4,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "7dcb7b60-b400-4824-8533-ef2ea03458cf",
+          "section_name": "experience_verification",
+          "section_display_name": "Experience Verification",
+          "risk_categories": ["credit"],
+          "risk_category_labels": ["Credit Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "7dcb7b60-b400-4824-8533-ef2ea03458cf",
+          "section_name": "tier_assignment",
+          "section_display_name": "Tier Assignment",
+          "risk_categories": ["credit"],
+          "risk_category_labels": ["Credit Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "74497185-06d6-43a4-b322-df64bada8db0",
+          "section_name": "credit_score_verification",
+          "section_display_name": "Credit Score Verification",
+          "risk_categories": ["credit"],
+          "risk_category_labels": ["Credit Risk"],
+          "overall_status": "pass",
+          "pass_count": 1,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "74497185-06d6-43a4-b322-df64bada8db0",
+          "section_name": "credit_history_review",
+          "section_display_name": "Credit History Review",
+          "risk_categories": ["credit"],
+          "risk_category_labels": ["Credit Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "83553ff8-5be8-49b3-8e9e-e462c1e65ce8",
+          "section_name": "occupancy_verification",
+          "section_display_name": "Occupancy Verification",
+          "risk_categories": ["fraud_aml", "operational"],
+          "risk_category_labels": ["Fraud/AML Risk", "Operational/Data Integrity"],
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "544eea86-9c40-4c6b-933d-7a1d0959d2b7",
+          "section_name": "dscr_calculation",
+          "section_display_name": "DSCR Calculation",
+          "risk_categories": ["credit"],
+          "risk_category_labels": ["Credit Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "544eea86-9c40-4c6b-933d-7a1d0959d2b7",
+          "section_name": "rent_verification",
+          "section_display_name": "Rent Verification",
+          "risk_categories": ["credit", "collateral"],
+          "risk_category_labels": ["Credit Risk", "Collateral Risk"],
+          "overall_status": "pass",
+          "pass_count": 1,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "a16bc7d9-f878-4540-b504-0a8b0c5e279d",
+          "section_name": "title_commitment_review",
+          "section_display_name": "Title Commitment Review",
+          "risk_categories": ["legal_title"],
+          "risk_category_labels": ["Legal/Title Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "a16bc7d9-f878-4540-b504-0a8b0c5e279d",
+          "section_name": "lien_review",
+          "section_display_name": "Lien Review",
+          "risk_categories": ["legal_title"],
+          "risk_category_labels": ["Legal/Title Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "3a4b0d6b-bfb4-47bd-ad06-a7fff33d51d2",
+          "section_name": "cpl_verification",
+          "section_display_name": "CPL Verification",
+          "risk_categories": ["legal_title"],
+          "risk_category_labels": ["Legal/Title Risk"],
+          "overall_status": "pass_with_exception",
+          "pass_count": 1,
+          "fail_count": 0,
+          "pass_with_exception_count": 1,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 1
+        },
+        {
+          "phase_summary": "3a4b0d6b-bfb4-47bd-ad06-a7fff33d51d2",
+          "section_name": "address_verification",
+          "section_display_name": "Address Verification",
+          "risk_categories": ["operational", "legal_title"],
+          "risk_category_labels": ["Operational/Data Integrity", "Legal/Title Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "9b98043b-7db0-46ff-87c2-90e2d724343e",
+          "section_name": "hazard_insurance_verification",
+          "section_display_name": "Hazard Insurance Verification",
+          "risk_categories": ["insurance"],
+          "risk_category_labels": ["Insurance Risk"],
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "9b98043b-7db0-46ff-87c2-90e2d724343e",
+          "section_name": "flood_insurance_verification",
+          "section_display_name": "Flood Insurance Verification",
+          "risk_categories": ["insurance"],
+          "risk_category_labels": ["Insurance Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "44fd1dad-ce97-4ffd-94ab-61f94981e02e",
+          "section_name": "bank_statement_review",
+          "section_display_name": "Bank Statement Review",
+          "risk_categories": ["operational", "fraud_aml"],
+          "risk_category_labels": ["Operational/Data Integrity", "Fraud/AML Risk"],
+          "overall_status": "pass",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "phase_summary": "44fd1dad-ce97-4ffd-94ab-61f94981e02e",
+          "section_name": "liquidity_verification",
+          "section_display_name": "Liquidity Verification",
+          "risk_categories": ["credit", "operational"],
+          "risk_category_labels": ["Credit Risk", "Operational/Data Integrity"],
+          "overall_status": "pass",
+          "pass_count": 1,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

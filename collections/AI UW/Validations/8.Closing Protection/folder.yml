@@ -1,0 +1,7 @@
+info:
+  name: 8.Closing Protection
+  type: folder
+  seq: 8
+
+request:
+  auth: inherit

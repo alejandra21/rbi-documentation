@@ -1,0 +1,37 @@
+info:
+  name: Graciafe Cardenas
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/token/"
+  body:
+    type: json
+    data: |-
+      {
+          "username": "graciafe@rbialliance.com",
+          "password": "fmUb*&5{]vG95!Ou"
+      }
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.access) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("access_token", response.access);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

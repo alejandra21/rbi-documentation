@@ -1,0 +1,53 @@
+info:
+  name: LockedField - Bulk Create
+  type: http
+  seq: 26
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/locked-fields/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "field_name": "loanAmount",
+            "display_name": "Loan Amount",
+            "value": "500000",
+            "locked_at": "2024-01-16T10:31:00Z",
+            "locked_by": "System",
+            "re_underwrite_from_phase": 5,
+            "requires_executive_override": true,
+            "change_triggers_re_underwrite": true
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "field_name": "borrowerEntity",
+            "display_name": "Borrower Entity",
+            "value": "Tech Corp Ltd",
+            "locked_at": "2024-01-16T10:31:00Z",
+            "locked_by": "System",
+            "re_underwrite_from_phase": 1,
+            "requires_executive_override": true,
+            "change_triggers_re_underwrite": true
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "field_name": "propertyAddress",
+            "display_name": "Property Address",
+            "value": "123 Main St, Los Angeles, CA 90001",
+            "locked_at": "2024-01-16T10:31:00Z",
+            "locked_by": "System",
+            "re_underwrite_from_phase": 5,
+            "requires_executive_override": true,
+            "change_triggers_re_underwrite": true
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

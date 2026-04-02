@@ -1,0 +1,26 @@
+info:
+  name: Shape - Create Lead
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{private_url}}/shape/lead"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Lead Name",
+        "email": "lead@example.com",
+        "phone": "555-123-4567"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

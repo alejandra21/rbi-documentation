@@ -1,0 +1,55 @@
+info:
+  name: Exception Entry Bulk Create
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/exception-entries/"
+  body:
+    type: json
+    data: |-
+      {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "exception_id": "EXC-001",
+          "origin_phase": 8,
+          "phase_name": "Closing Protection",
+          "risk_category": "legal_title",
+          "severity": "soft",
+          "policy_rule_id": "CPL-001",
+          "exception_type": "CPL Coverage Variance",
+          "description": "CPL coverage is $495,000 vs loan amount of $500,000 (1% variance)",
+          "is_curable": true,
+          "status": "approved",
+          "compensator_allowed": true,
+          "compensating_factors": [
+              {
+                  "id": "CF-001",
+                  "type": "other",
+                  "description": "Variance within 2% tolerance",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true
+              },
+              {
+                  "id": "CF-002",
+                  "type": "other",
+                  "description": "Title company confirmed coverage adjustment",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true
+              }
+          ],
+          "applied_compensators": [
+              "Variance within 2% tolerance",
+              "Title company confirmed coverage adjustment"
+          ],
+          "approved_by": "Sarah Johnson",
+          "approved_at": "2024-01-16T09:30:00Z",
+          "notes": "Approved with condition to obtain updated CPL prior to funding"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

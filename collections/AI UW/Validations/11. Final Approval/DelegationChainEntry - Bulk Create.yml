@@ -1,0 +1,38 @@
+info:
+  name: DelegationChainEntry - Bulk Create
+  type: http
+  seq: 24
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/delegation-chain-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "sequence": 1,
+            "name": "AI Validation Engine",
+            "level": "automated",
+            "approved": true,
+            "decision": "Recommend Approval",
+            "approved_at": "2024-01-16T08:00:00Z"
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "sequence": 2,
+            "name": "Sarah Johnson",
+            "level": "underwriter",
+            "approved": true,
+            "decision": "Approved with Conditions",
+            "approved_at": "2024-01-16T10:30:00Z"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

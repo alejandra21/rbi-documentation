@@ -1,0 +1,70 @@
+info:
+  name: Validations- Doc List
+  type: http
+  seq: 13
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/loan-application-documents/:loan_application_id/?phase=tiering"
+  params:
+    - name: phase
+      value: borrower_eligibility
+      type: query
+      disabled: true
+    - name: phase
+      value: tiering
+      type: query
+    - name: phase
+      value: credit_review
+      type: query
+      disabled: true
+    - name: phase
+      value: non_owner_occupancy
+      type: query
+      disabled: true
+    - name: phase
+      value: collateral_review
+      type: query
+      disabled: true
+    - name: phase
+      value: dscr_cashflow
+      type: query
+      disabled: true
+    - name: phase
+      value: title_insurance
+      type: query
+      disabled: true
+    - name: phase
+      value: closing_protection
+      type: query
+      disabled: true
+    - name: phase
+      value: insurance_policy
+      type: query
+      disabled: true
+    - name: phase
+      value: asset_verification
+      type: query
+      disabled: true
+    - name: phase
+      value: pepito
+      type: query
+      disabled: true
+    - name: loan_application_id
+      value: "6924"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_1",
+          "loan_id": 382,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

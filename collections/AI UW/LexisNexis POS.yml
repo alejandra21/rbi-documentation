@@ -1,0 +1,30 @@
+info:
+  name: LexisNexis POS
+  type: http
+  seq: 26
+
+http:
+  method: POST
+  url: https://api.retool.com/v1/workflows/fe340111-c872-4339-ae1c-17ed13502aa5/startTrigger
+  headers:
+    - name: X-Workflow-Api-Key
+      value: retool_wk_20aadd5d15d54700832f1a0b62977c42
+  body:
+    type: json
+    data: |-
+      {
+        "loan_application_id": 7821,
+        "closing_date": "2025-04-04",
+        "guarantors": [
+          {
+            "id": 441,
+            "doc_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/documents/lexisNexis-1767028440384-Sample_Lexis_Nexis_(1).pdf"
+          }
+        ]
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,90 @@
+info:
+  name: MemoPhaseResult - Bulk Create
+  type: http
+  seq: 36
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/memo-phase-results/bulk-create/"
+  body:
+    type: json
+    data: |
+      [
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 1,
+          "name": "Borrower Eligibility",
+          "result": "PASS",
+          "notes": "Entity verified and in good standing"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 2,
+          "name": "Experience Tiering",
+          "result": "PASS",
+          "notes": "Tier 2 borrower with proven track record"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 3,
+          "name": "Credit Review",
+          "result": "PASS",
+          "notes": "FICO 720, no recent derogatory marks"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 4,
+          "name": "Non-Owner Occupancy",
+          "result": "PASS",
+          "notes": "Investment property confirmed"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 5,
+          "name": "Collateral Review",
+          "result": "PASS",
+          "notes": "LTV 76.9%, strong collateral value"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 6,
+          "name": "DSCR Cash Flow",
+          "result": "PASS",
+          "notes": "DSCR 1.25, exceeds minimum requirement"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 7,
+          "name": "Title Insurance",
+          "result": "PASS",
+          "notes": "Clear title, first lien position confirmed"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 8,
+          "name": "Closing Protection",
+          "result": "PASS WITH EXCEPTION",
+          "notes": "CPL variance within 2% tolerance, approved with compensating factors"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 9,
+          "name": "Insurance Policy",
+          "result": "PASS",
+          "notes": "Coverage meets requirements, mortgagee clause correct"
+        },
+        {
+          "approval_memo": "64b9d6ad-b9cc-46ba-b9ab-07f58ee36467",
+          "phase": 10,
+          "name": "Asset Verification",
+          "result": "PASS",
+          "notes": "All assets verified via Ocrolus, sufficient reserves"
+        }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

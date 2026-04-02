@@ -1,0 +1,22 @@
+info:
+  name: Validations
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/validations/:id/?phase=insurance_policy"
+  params:
+    - name: phase
+      value: insurance_policy
+      type: query
+    - name: id
+      value: 3eb873c9-c0db-4664-8db0-acabf9eb11bc
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

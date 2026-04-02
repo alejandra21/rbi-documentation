@@ -1,0 +1,65 @@
+info:
+  name: comparable-sales_1
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review/comparable-sales/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C1",
+              "comp_address": "420 Ocean Dr, Miami, FL",
+              "sale_price": "485000.00",
+              "comp_rent_monthly": "3100.00",
+              "sale_age_months": 3,
+              "distance_miles": "0.40",
+              "gross_adjustment_pct": "8.00",
+              "recency_score": 100,
+              "distance_score": 100,
+              "adjustment_score": 100,
+              "included_in_engine": true,
+              "outlier_flag": false
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C2",
+              "comp_address": "512 Palm Ave, Miami, FL",
+              "sale_price": "510000.00",
+              "comp_rent_monthly": "2900.00",
+              "sale_age_months": 5,
+              "distance_miles": "0.80",
+              "gross_adjustment_pct": "12.00",
+              "recency_score": 85,
+              "distance_score": 85,
+              "adjustment_score": 85,
+              "included_in_engine": true,
+              "outlier_flag": false
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "comp_label": "C3",
+              "comp_address": "389 Bay St, Miami, FL",
+              "sale_price": "475000.00",
+              "comp_rent_monthly": "2850.00",
+              "sale_age_months": 8,
+              "distance_miles": "1.20",
+              "gross_adjustment_pct": "18.00",
+              "recency_score": 70,
+              "distance_score": 65,
+              "adjustment_score": 65,
+              "included_in_engine": true,
+              "outlier_flag": false
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

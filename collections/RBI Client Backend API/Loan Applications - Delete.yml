@@ -1,0 +1,26 @@
+info:
+  name: Loan Applications - Delete
+  type: http
+  seq: 27
+
+http:
+  method: DELETE
+  url: "{{base_url}}/loan-applications"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "id": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

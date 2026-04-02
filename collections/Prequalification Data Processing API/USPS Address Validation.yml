@@ -1,0 +1,680 @@
+info:
+  name: USPS Address Validation
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{url}}/usps"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "loan_id": "LN-10001",
+        "street_address": "1600 Pennsylvania Ave NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20500"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: USPS Address Validation
+    request:
+      url: "{{base_url}}/usps"
+      method: GET
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "loan_id": "LN-10001",
+            "street_address": "1600 Pennsylvania Ave NW",
+            "city": "Washington",
+            "state": "DC",
+            "zip": "20500"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "22717"
+        - name: Content-Type
+          value: text/html; charset=utf-8
+        - name: Date
+          value: Mon, 06 Oct 2025 15:55:30 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=8ZkdMiq2RKkrjYo0jeA0BZIe1b4%2Fc8l8GGDMKPg%2FNU0%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1759766130"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=8ZkdMiq2RKkrjYo0jeA0BZIe1b4%2Fc8l8GGDMKPg%2FNU0%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1759766130"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: html
+        data: |-
+          <!DOCTYPE html>
+          <html lang="en">
+              <head>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <title>USPS Address Validation API</title>
+                  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+                  <style>
+                  .navbar-brand {
+                      font-weight: bold;
+                  }
+                  .api-card {
+                      transition: transform 0.2s;
+                      border: none;
+                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                  }
+                  .api-card:hover {
+                      transform: translateY(-2px);
+                      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                  }
+                  .api-icon {
+                      font-size: 2rem;
+                      margin-bottom: 1rem;
+                  }
+                  .form-section {
+                      background: #f8f9fa;
+                      border-radius: 8px;
+                      padding: 1.5rem;
+                      margin-bottom: 1rem;
+                  }
+                  .result-section {
+                      background: #e8f5e8;
+                      border-radius: 8px;
+                      padding: 1.5rem;
+                      margin-top: 1rem;
+                      display: none;
+                  }
+                  .error-section {
+                      background: #f8d7da;
+                      border-radius: 8px;
+                      padding: 1.5rem;
+                      margin-top: 1rem;
+                      display: none;
+                  }
+                  .loading {
+                      display: none;
+                  }
+                  .loading.show {
+                      display: block;
+                  }
+                  .btn-api {
+                      min-width: 120px;
+                  }
+                  .footer {
+                      background-color: #f8f9fa;
+                      padding: 2rem 0;
+                      margin-top: 3rem;
+                  }
+              </style>
+              </head>
+              <body>
+                  <!-- Navigation -->
+                  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                      <div class="container">
+                          <a class="navbar-brand" href="/">
+                              <i class="fas fa-home me-2"></i>Prequalification Data APIs
+                          </a>
+                          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                              <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarNav">
+                              <ul class="navbar-nav ms-auto">
+                                  <li class="nav-item">
+                                      <a class="nav-link" href="/">
+                                          <i class="fas fa-home me-1"></i>Home
+                                      </a>
+                                  </li>
+                                  <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                          <i class="fas fa-cogs me-1"></i>APIs
+                                      </a>
+                                      <ul class="dropdown-menu">
+                                          <li>
+                                              <a class="dropdown-item" href="/usps">
+                                                  <i class="fas fa-mail-bulk me-2"></i>USPS Address Validation
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/flood">
+                                                  <i class="fas fa-water me-2"></i>Flood Report
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/soft-pull">
+                                                  <i class="fas fa-search me-2"></i>Soft Pull
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/hard-pull">
+                                                  <i class="fas fa-search-plus me-2"></i>Hard Pull
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/ofac">
+                                                  <i class="fas fa-shield-alt me-2"></i>OFAC Check
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/credit-report">
+                                                  <i class="fas fa-file-invoice me-2"></i>Credit Report
+                                              </a>
+                                          </li>
+                                          <li>
+                                              <a class="dropdown-item" href="/s3-files">
+                                                  <i class="fas fa-cloud-download-alt me-2"></i>Loans Files Manager
+                                              </a>
+                                          </li>
+                                      </ul>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </nav>
+                  <!-- Main Content -->
+                  <main class="container my-4">
+                      <div class="row">
+                          <div class="col-12">
+                              <div class="d-flex align-items-center mb-4">
+                                  <div class="me-3">
+                                      <i class="fas fa-mail-bulk fa-2x text-primary"></i>
+                                  </div>
+                                  <div>
+                                      <h1 class="mb-1">USPS Address Validation</h1>
+                                      <p class="text-muted mb-0">Validate and standardize US addresses using the USPS API</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-8">
+                              <div class="card">
+                                  <div class="card-header">
+                                      <h5 class="mb-0">
+                                          <i class="fas fa-edit me-2"></i>Address Validation Form
+                                      </h5>
+                                  </div>
+                                  <div class="card-body">
+                                      <form id="uspsForm" novalidate>
+                                          <div class="form-section">
+                                              <h6 class="mb-3">
+                                                  <i class="fas fa-info-circle me-2"></i>Loan Information
+                                              </h6>
+                                              <div class="row">
+                                                  <div class="col-md-6">
+                                                      <div class="mb-3">
+                                                          <label for="loan_id" class="form-label">Loan ID *</label>
+                                                          <input type="text" class="form-control" id="loan_id" name="loan_id" required>
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid loan ID.
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="form-section">
+                                              <h6 class="mb-3">
+                                                  <i class="fas fa-home me-2"></i>Address Information
+                                              </h6>
+                                              <div class="row">
+                                                  <div class="col-md-8">
+                                                      <div class="mb-3">
+                                                          <label for="street_address" class="form-label">Street Address *</label>
+                                                          <input type="text" class="form-control" id="street_address" name="street_address" required>
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid street address.
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                      <div class="mb-3">
+                                                          <label for="secondary_address" class="form-label">Secondary Address</label>
+                                                          <input type="text" class="form-control" id="secondary_address" name="secondary_address" placeholder="Apt, Suite, etc.">
+                                          
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-md-4">
+                                                      <div class="mb-3">
+                                                          <label for="city" class="form-label">City *</label>
+                                                          <input type="text" class="form-control" id="city" name="city" required>
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid city.
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <div class="mb-3">
+                                                          <label for="state" class="form-label">State *</label>
+                                                          <input type="text" class="form-control" id="state" name="state" maxlength="2" required>
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid 2-letter state code.
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-3">
+                                                      <div class="mb-3">
+                                                          <label for="zip" class="form-label">ZIP Code</label>
+                                                          <input type="text" class="form-control" id="zip" name="zip" pattern="[0-9]{5}(-[0-9]{4})?">
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid ZIP code (12345 or 12345-6789).
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-md-3">
+                                                      <div class="mb-3">
+                                                          <label for="zip4" class="form-label">ZIP+4</label>
+                                                          <input type="text" class="form-control" id="zip4" name="zip4" pattern="[0-9]{4}">
+                                                          <div class="invalid-feedback">
+                                                  Please provide a valid ZIP+4 code (4 digits).
+                                              </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="d-flex justify-content-between">
+                                              <a href="/" class="btn btn-secondary">
+                                                  <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                              </a>
+                                              <button type="submit" class="btn btn-primary">
+                                                  <i class="fas fa-check me-2"></i>Validate Address
+                                              </button>
+                                          </div>
+                                      </form>
+                                      <!-- Loading Indicator -->
+                                      <div class="loading text-center mt-3">
+                                          <div class="spinner-border text-primary" role="status">
+                                              <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                          <p class="mt-2">Validating address...</p>
+                                      </div>
+                                      <!-- Results Section -->
+                                      <div class="result-section"></div>
+                                      <div class="error-section"></div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-lg-4">
+                              <div class="card">
+                                  <div class="card-header">
+                                      <h5 class="mb-0">
+                                          <i class="fas fa-info-circle me-2"></i>API Information
+                                      </h5>
+                                  </div>
+                                  <div class="card-body">
+                                      <h6>Endpoint:</h6>
+                                      <code>/prequal/usps</code>
+                                      <h6 class="mt-3">Method:</h6>
+                                      <span class="badge bg-primary">POST</span>
+                                      <h6 class="mt-3">Required Fields:</h6>
+                                      <ul class="list-unstyled">
+                                          <li>
+                                              <i class="fas fa-check text-success me-2"></i>Loan ID
+                                          </li>
+                                          <li>
+                                              <i class="fas fa-check text-success me-2"></i>Street Address
+                                          </li>
+                                          <li>
+                                              <i class="fas fa-check text-success me-2"></i>City
+                                          </li>
+                                          <li>
+                                              <i class="fas fa-check text-success me-2"></i>State
+                                          </li>
+                                      </ul>
+                                      <h6 class="mt-3">Optional Fields:</h6>
+                                      <ul class="list-unstyled">
+                                          <li>
+                                              <i class="fas fa-info text-info me-2"></i>Secondary Address
+                                          </li>
+                                          <li>
+                                              <i class="fas fa-info text-info me-2"></i>ZIP Code
+                                          </li>
+                                          <li>
+                                              <i class="fas fa-info text-info me-2"></i>ZIP+4
+                                          </li>
+                                      </ul>
+                                      <div class="alert alert-info mt-3">
+                                          <small>
+                                              <i class="fas fa-lightbulb me-2"></i>
+                                              <strong>Tip:</strong> The USPS API will validate and standardize the address format according to USPS standards. Optional fields will be sent as null if left empty. When a PDF report is generated, you'll see view and download buttons.
+                                          </small>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="card mt-3">
+                                  <div class="card-header">
+                                      <h5 class="mb-0">
+                                          <i class="fas fa-code me-2"></i>Sample Request
+                                      </h5>
+                                  </div>
+                                  <div class="card-body">
+                                      <pre class="bg-light p-3 rounded">
+                                          <code>{
+            "loan_id": "LOAN123456",
+            "street_address": "123 Main St",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10001",
+            "secondary_address": null,
+            "zip4": null
+          }</code>
+                                      </pre>
+                                  </div>
+                              </div>
+                              <div class="card mt-3">
+                                  <div class="card-header">
+                                      <h5 class="mb-0">
+                                          <i class="fas fa-file-pdf me-2"></i>Sample PDF Response
+                                      </h5>
+                                  </div>
+                                  <div class="card-body">
+                                      <pre class="bg-light p-3 rounded">
+                                          <code>{
+            "data": {
+              "report_file": "https://your-api-domain.com/reports/USPS - 123 Main St.pdf"
+            },
+            "message": "Address Not Found",
+            "status": "Failed",
+            "success": true
+          }</code>
+                                      </pre>
+                                      <div class="alert alert-success mt-2">
+                                          <small>
+                                              <i class="fas fa-info-circle me-2"></i>
+                                  When
+                                              <code>success: true</code> and
+                                              <code>report_file</code> is present, PDF viewing buttons will appear. The URL is used directly from the API response. Try different download methods if one doesn't work.
+                                          </small>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </main>
+                  <!-- Footer -->
+                  <footer class="footer">
+                      <div class="container text-center">
+                          <p class="text-muted mb-0">
+                              <i class="fas fa-code me-1"></i>
+                          Prequalification Data API Dashboard - Built with Flask & Bootstrap
+                          </p>
+                      </div>
+                  </footer>
+                  <!-- Scripts -->
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                  <script>
+                  // Common JavaScript functions
+                  function showLoading() {
+                      document.querySelector('.loading').classList.add('show');
+                  }
+
+                  function hideLoading() {
+                      document.querySelector('.loading').classList.remove('show');
+                  }
+
+                  function showResult(data) {
+                      const resultSection = document.querySelector('.result-section');
+                      const errorSection = document.querySelector('.error-section');
+                      
+                      if (resultSection) {
+                          resultSection.style.display = 'block';
+                          resultSection.innerHTML = `
+                              
+                      <h5>
+                          <i class="fas fa-check-circle text-success me-2"></i>API Response
+                      </h5>
+                      <pre class="bg-white p-3 rounded border">${JSON.stringify(data, null, 2)}</pre>
+                          `;
+                      }
+                      
+                      if (errorSection) {
+                          errorSection.style.display = 'none';
+                      }
+                  }
+
+                  function showError(error) {
+                      const resultSection = document.querySelector('.result-section');
+                      const errorSection = document.querySelector('.error-section');
+                      
+                      if (errorSection) {
+                          errorSection.style.display = 'block';
+                          errorSection.innerHTML = `
+                      <h5>
+                          <i class="fas fa-exclamation-triangle text-danger me-2"></i>Error
+                      </h5>
+                      <p class="mb-0">${error}</p>
+                          `;
+                      }
+                      
+                      if (resultSection) {
+                          resultSection.style.display = 'none';
+                      }
+                  }
+
+                  function clearResults() {
+                      const resultSection = document.querySelector('.result-section');
+                      const errorSection = document.querySelector('.error-section');
+                      
+                      if (resultSection) resultSection.style.display = 'none';
+                      if (errorSection) errorSection.style.display = 'none';
+                  }
+
+                  // Form validation helper
+                  function validateForm(formId) {
+                      const form = document.getElementById(formId);
+                      if (!form.checkValidity()) {
+                          form.classList.add('was-validated');
+                          return false;
+                      }
+                      return true;
+                  }
+                  </script>
+                  <script>
+          // Override the base showResult function for USPS-specific PDF handling
+          function showResult(data) {
+              const resultSection = document.querySelector('.result-section');
+              const errorSection = document.querySelector('.error-section');
+              
+              if (resultSection) {
+                  resultSection.style.display = 'block';
+                  
+                  // Check if PDF was generated successfully
+                  let resultContent = '';
+                  
+                  if (data.success === true && data.data && data.data.report_file) {
+                      // PDF was generated successfully
+                      resultContent = `
+                          
+                      <h5>
+                          <i class="fas fa-check-circle text-success me-2"></i>API Response
+                      </h5>
+                      <div class="alert alert-info mb-3">
+                          <i class="fas fa-file-pdf me-2"></i>
+                          <strong>PDF Generated Successfully!</strong>
+                          <br>
+                          <small>File: ${data.data.report_file}</small>
+                      </div>
+                      <div class="mb-3">
+                          <button class="btn btn-primary me-2" onclick="viewPDF('${data.data.report_file}')">
+                              <i class="fas fa-eye me-2"></i>View PDF
+                          </button>
+                          <button class="btn btn-success me-2" onclick="downloadPDF('${data.data.report_file}')">
+                              <i class="fas fa-download me-2"></i>Download PDF
+                          </button>
+                      </div>
+                      <h6>Full Response:</h6>
+                      <pre class="bg-white p-3 rounded border">${JSON.stringify(data, null, 2)}</pre>
+                      `;
+                  } else {
+                      // Regular response without PDF
+                      resultContent = `
+                      <h5>
+                          <i class="fas fa-check-circle text-success me-2"></i>API Response
+                      </h5>
+                      <pre class="bg-white p-3 rounded border">${JSON.stringify(data, null, 2)}</pre>
+                      `;
+                  }
+                  
+                  resultSection.innerHTML = resultContent;
+              }
+              
+              if (errorSection) {
+                  errorSection.style.display = 'none';
+              }
+          }
+
+          // PDF viewing functions
+          function viewPDF(filename) {
+              // Open PDF using the direct URL provided by the API
+              window.open(filename, '_blank');
+          }
+
+          function downloadPDF(filename) {
+              console.log('Attempting to download:', filename);
+              
+              // Extract filename from URL
+              const downloadName = filename.split('/').pop() || 'document.pdf';
+              
+              // Method 1: Try fetch and blob download (most reliable)
+              fetch(filename, {
+                  method: 'GET',
+                  mode: 'cors',
+                  headers: {
+                      'Accept': 'application/pdf, application/octet-stream, */*',
+                  }
+              })
+              .then(response => {
+                  console.log('Fetch response:', response.status, response.statusText);
+                  if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  return response.blob();
+              })
+              .then(blob => {
+                  console.log('Blob created, size:', blob.size);
+                  
+                  // Create blob URL
+                  const blobUrl = window.URL.createObjectURL(blob);
+                  
+                  // Create download link
+                  const link = document.createElement('a');
+                  link.href = blobUrl;
+                  link.download = downloadName;
+                  link.style.display = 'none';
+                  
+                  // Add to DOM, click, and remove
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  
+                  // Clean up blob URL
+                  setTimeout(() => {
+                      window.URL.revokeObjectURL(blobUrl);
+                  }, 100);
+                  
+                  console.log('Download initiated successfully');
+              })
+              .catch(error => {
+                  console.error('Fetch download failed:', error);
+                  
+                  // Method 2: Fallback to direct link (may open in browser)
+                  console.log('Trying direct link method...');
+                  const link = document.createElement('a');
+                  link.href = filename;
+                  link.download = downloadName;
+                  link.target = '_blank';
+                  link.style.display = 'none';
+                  
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                  
+                  console.log('Direct link method attempted');
+              });
+          }
+
+          document.getElementById('uspsForm').addEventListener('submit', async function(e) {
+              e.preventDefault();
+              
+              if (!validateForm('uspsForm')) {
+                  return;
+              }
+              
+              clearResults();
+              showLoading();
+              
+              const formData = new FormData(this);
+              const data = Object.fromEntries(formData.entries());
+              
+              // Convert empty strings to null for optional fields
+              const optionalFields = ['secondary_address', 'zip', 'zip4'];
+              optionalFields.forEach(field => {
+                  if (data[field] === '') {
+                      data[field] = null;
+                  }
+              });
+              
+              // Debug: Log the data being sent
+              console.log('USPS API Request Data:', data);
+              
+              try {
+                  const response = await fetch('/prequal/usps', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(data)
+                  });
+                  
+                  const result = await response.json();
+                  
+                  if (response.ok) {
+                      showResult(result);
+                  } else {
+                      showError(result.error || 'An error occurred while validating the address');
+                  }
+              } catch (error) {
+                  showError('Network error: ' + error.message);
+              } finally {
+                  hideLoading();
+              }
+          });
+
+          // Auto-format state input
+          document.getElementById('state').addEventListener('input', function(e) {
+              e.target.value = e.target.value.toUpperCase();
+          });
+
+          // Auto-format ZIP code
+          document.getElementById('zip').addEventListener('input', function(e) {
+              let value = e.target.value.replace(/\D/g, '');
+              if (value.length > 5) {
+                  value = value.substring(0, 5) + '-' + value.substring(5, 9);
+              }
+              e.target.value = value;
+          });
+                  </script>
+              </body>
+          </html>

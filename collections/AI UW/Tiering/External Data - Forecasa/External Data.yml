@@ -1,0 +1,27 @@
+info:
+  name: External Data
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/tier-external-data-records/"
+  body:
+    type: json
+    data: |-
+      {
+          "tiering_validation": "47722781-c963-49ae-988f-998f82d4079a",
+          "entity_name": "HOLAAAAAAAAA",
+          "verified_exits": 2,
+          "total_volume_external": "2.00",
+          "avg_sale_price": "22.30",
+          "management_experience_properties": 11,
+          "management_experience_time": 2
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,34 @@
+info:
+  name: deposits
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/deposits/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "bank_statement": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "date": "2024-11-15",
+              "amount": "25000.00",
+              "description": "Wire Transfer - Investment Return",
+              "source": "Investment Account"
+          },
+          {
+              "asset_verification": "27b40008-cdee-4be9-b1ee-03bc83b1a94b",
+              "date": "2024-11-22",
+              "amount": "15000.00",
+              "description": "ACH Deposit - Rent Collection",
+              "source": "Rental Income"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,41 @@
+info:
+  name: OCR Google
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/ocr/"
+  body:
+    type: json
+    data: |-
+      {
+          //"url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/cogs-1761837988349-COGS.pdf"
+           //"url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/operatingAgreement-1761253965972-Operating_Agreement.pdf"
+          //"url": "https://rbialliance.retool.com/api/file/573a821b-0efe-41ee-b718-477713b747c0" //rotated track record
+          "url": "https://rbialliance.retool.com/api/file/3448e321-c366-45b3-8094-faf3ac3c3cc6"
+
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.access) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("access_token", response.access);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

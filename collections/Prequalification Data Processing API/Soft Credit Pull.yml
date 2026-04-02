@@ -1,0 +1,31 @@
+info:
+  name: Soft Credit Pull
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{url}}/soft-pull"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": "3047",
+          "first_name": "Adrian",
+          "last_name": "Fumero Suarez",
+          "ssn": "608898317",
+          "street_address": "724 Southwest 32nd Court",
+          "city": "Cape Coral",
+          "state": "FL",
+          "zip_code": "33991"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

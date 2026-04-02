@@ -1,0 +1,99 @@
+info:
+  name: phase-summaries big query
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/phase-summaries/?final_approval_validation=d1cc6f5c-8be6-44dc-a8ab-79c2ef3349ce"
+  params:
+    - name: final_approval_validation
+      value: d1cc6f5c-8be6-44dc-a8ab-79c2ef3349ce
+      type: query
+  body:
+    type: text
+    data: |-
+      {
+        "workflow_loan_summary": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad",
+        "entity_name": "Tech Corp Ltd",
+        "entity_type": "LLC",
+        "loan_type": "DSCR",
+        
+        "phase_1_status": "pass",
+        "phase_2_status": "pass",
+        "phase_3_status": "pass",
+        "phase_4_status": "pass",
+        "phase_5_status": "pass",
+        "phase_6_status": "pass",
+        "phase_7_status": "pass",
+        "phase_8_status": "manual_review",
+        "phase_9_status": "pass",
+        "phase_10_status": "pass",
+        
+        "final_decision": "approved_with_conditions",
+        "approval_authority": "underwriter",
+        "decision_date": "2024-01-16T10:30:00Z",
+        "decision_rationale": "Loan meets all credit, collateral, and operational requirements. One minor exception related to CPL coverage variance has been approved with compensating factors. Conditions have been established to ensure full compliance prior to funding.",
+        
+        "risk_score": 85.50,
+        "risk_heatmap": {
+          "credit": "low",
+          "collateral": "low",
+          "legal_title": "low",
+          "insurance": "low",
+          "fraud_aml": "low",
+          "operational": "low"
+        },
+        
+        "total_exceptions_count": 1,
+        "hard_exceptions_count": 0,
+        "soft_exceptions_count": 1,
+        "unresolved_exceptions_count": 0,
+        
+        "compensating_factors": [
+          "Variance within 2% tolerance",
+          "Title company confirmed coverage will be adjusted at closing"
+        ],
+        "compensating_factors_valid": true,
+        
+        "cross_risk_check_passed": true,
+        "inconsistencies_detected": null,
+        
+        "is_manual_override": false,
+        "override_justification": null,
+        "override_approver": null,
+        "override_timestamp": null,
+        
+        "data_locked": true,
+        "locked_fields": ["loanAmount", "interestRate", "loanTerm", "propertyAddress", "borrowerEntity"],
+        "lock_timestamp": "2024-01-16T10:31:00Z",
+        
+        "clear_to_close_eligible": false,
+        "clear_to_close_date": null,
+        
+        "phase_results_summary": {
+          "phase_1": {"name": "Borrower Eligibility", "status": "pass", "issues": []},
+          "phase_2": {"name": "Experience Tiering", "status": "pass", "issues": []},
+          "phase_3": {"name": "Credit Review", "status": "pass", "issues": []},
+          "phase_4": {"name": "Non-Owner Occupancy", "status": "pass", "issues": []},
+          "phase_5": {"name": "Collateral Review", "status": "pass", "issues": []},
+          "phase_6": {"name": "DSCR Cash Flow", "status": "pass", "issues": []},
+          "phase_7": {"name": "Title Insurance", "status": "pass", "issues": []},
+          "phase_8": {"name": "Closing Protection", "status": "manual_review", "issues": ["CPL coverage amount variance detected"]},
+          "phase_9": {"name": "Insurance Policy", "status": "pass", "issues": []},
+          "phase_10": {"name": "Asset Verification", "status": "pass", "issues": []}
+        },
+        
+        "policy_references": [
+          "UW-POLICY-001: CPL Coverage Requirements",
+          "UW-POLICY-015: Compensating Factors Framework",
+          "UW-POLICY-022: Conditional Approval Guidelines"
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

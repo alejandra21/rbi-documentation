@@ -1,0 +1,27 @@
+info:
+  name: LexisNexis Entries
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/lexis-nexis-entries/?guarantor_credit_review=9cb94ff8-201b-4b42-9d50-76e87f7e8769"
+  params:
+    - name: guarantor_credit_review
+      value: 9cb94ff8-201b-4b42-9d50-76e87f7e8769
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_1",
+          "loan_id": 382,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

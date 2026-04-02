@@ -1,0 +1,26 @@
+info:
+  name: Validations_1
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/validations/?phase=title_insurance"
+  params:
+    - name: phase
+      value: title_insurance
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "workflow_loan_summary": "99fe0616-541c-4e49-953b-9f5332e5f04d",
+          "entity_name": "pepe garcia"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

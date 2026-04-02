@@ -1,0 +1,28 @@
+info:
+  name: Funding Shield - Info Submission
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: https://api.retool.com/v1/workflows/dc5ef6e4-49ae-4314-800b-3184819d8d7b/startTrigger
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: X-Workflow-Api-Key
+      value: retool_wk_08a0bb23a0d24e90bdca26761b09a722
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": 615
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+docs: "Generated from cURL: curl -X POST --url \"https://api.retool.com/v1/workflows/dc5ef6e4-49ae-4314-800b-3184819d8d7b/startTrigger\" --data '{\"loan_id\":615}' -H 'Content-Type: application/json' -H 'X-Workflow-Api-Key: retool_wk_08a0bb23a0d24e90bdca26761b09a722'"

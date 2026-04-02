@@ -1,0 +1,27 @@
+info:
+  name: Zillow Zhvi_1
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/api/phase5-business-rules/zillow-zhvi/"
+  params:
+    - name: zipcode
+      value: "12345"
+      type: query
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+          "zipcode": "33976",
+          "latest_zhvi_value": 285121
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

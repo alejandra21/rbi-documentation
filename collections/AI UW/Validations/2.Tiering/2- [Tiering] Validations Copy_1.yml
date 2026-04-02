@@ -1,0 +1,25 @@
+info:
+  name: 2- [Tiering] Validations Copy_1
+  type: http
+  seq: 8
+
+http:
+  method: PATCH
+  url: "{{base_url}}/api/workflows/validations/:id/?phase=tiering"
+  params:
+    - name: phase
+      value: tiering
+      type: query
+    - name: id
+      value: 57b90e4b-0849-418e-9e79-47db247f0c72
+      type: path
+  body:
+    type: json
+    data: "{}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

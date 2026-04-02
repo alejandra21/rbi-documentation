@@ -1,0 +1,334 @@
+info:
+  name: ID Analyzer
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+  body:
+    type: json
+    data: |-
+      {
+          //"image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+          //"image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966359-ID-Tomas_Monteagudo.jpeg"
+          "image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966357-ID-Yunier.pdf"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: New Request
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "96"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 28 Oct 2025 15:12:20 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=nXlHNjQKWVeKNv%2BM5BYMsPv%2B49BVH6COS3taVgL6s%2B0%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1761664339"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=nXlHNjQKWVeKNv%2BM5BYMsPv%2B49BVH6COS3taVgL6s%2B0%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1761664339"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": null,
+              "message": "An error ocurred using ocr endpoint",
+              "status": "Failed",
+              "success": false
+          }
+  - name: ID Analyzer
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              "image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "1177"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 02 Dec 2025 16:51:53 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=4u61BTzmrncHr9O1L3jFHRje95iMy4bLfeXjdkLxrss%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1764694305"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=4u61BTzmrncHr9O1L3jFHRje95iMy4bLfeXjdkLxrss%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1764694305"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": {
+                  "dob": {
+                      "confidence": 0.61,
+                      "value": "1971-11-14"
+                  },
+                  "document_number": {
+                      "confidence": 0.944,
+                      "value": "G42895869"
+                  },
+                  "document_type": "Passport",
+                  "expiry": {
+                      "confidence": 0.825,
+                      "value": "2031-09-14"
+                  },
+                  "full_name": {
+                      "confidence": 0.554,
+                      "value": "VANNESA CAROLINA BALDERRAMA BUSTAMANTE"
+                  },
+                  "issued": {
+                      "confidence": 0.997,
+                      "value": "2021-09-14"
+                  },
+                  "personal_number": {
+                      "confidence": 0.769,
+                      "value": "BABV711114MSRLSN09"
+                  },
+                  "place_of_birth": {
+                      "confidence": 0.994,
+                      "value": "SONORA"
+                  },
+                  "temporary_flag": {
+                      "confidence": null,
+                      "value": false
+                  },
+                  "warning": [
+                      {
+                          "code": "IP_COUNTRY_MISMATCH",
+                          "confidence": 1,
+                          "decision": "accept",
+                          "description": "Inconsistency between user IP address country (US) and document country (MX).",
+                          "severity": "low"
+                      },
+                      {
+                          "code": "SCREEN_DETECTED",
+                          "confidence": 0.7933336296118796,
+                          "decision": "review",
+                          "description": "The document image contains a screen, monitor or mobile device therefore is possibly recaptured.",
+                          "severity": "medium"
+                      },
+                      {
+                          "code": "FEATURE_VERIFICATION_FAILED",
+                          "confidence": 1,
+                          "decision": "review",
+                          "description": "Document features does not match with official document, the document could be fake, blurry or low resolution.",
+                          "severity": "high"
+                      }
+                  ]
+              },
+              "message": "Everything OK",
+              "status": "Ok",
+              "success": true
+          }
+  - name: ID Analyzer
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              //"image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+              //"image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966359-ID-Tomas_Monteagudo.jpeg"
+              "image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966357-ID-Yunier.pdf"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "612"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 02 Dec 2025 16:55:14 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=gJitEryFGYfKynwBsoff0JDJgsFXAYh0QQZbHM8bvfs%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1764694505"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=gJitEryFGYfKynwBsoff0JDJgsFXAYh0QQZbHM8bvfs%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1764694505"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": {
+                  "address_1": {
+                      "confidence": 0.939,
+                      "value": "823121 SW 124TH CT"
+                  },
+                  "address_2": {
+                      "confidence": 0.972,
+                      "value": "MIAMI, FL"
+                  },
+                  "dob": {
+                      "confidence": 0.988,
+                      "value": "1986-08-13"
+                  },
+                  "document_number": {
+                      "confidence": 0.585,
+                      "value": "R235-742-41-000-"
+                  },
+                  "document_type": "Driver's License",
+                  "expiry": {
+                      "confidence": 0.992,
+                      "value": "2026-01-21"
+                  },
+                  "full_name": {
+                      "confidence": 0.829,
+                      "value": "YUNIER RODRIGUEZ RIVERO"
+                  },
+                  "issued": {
+                      "confidence": 0.992,
+                      "value": "2025-01-29"
+                  },
+                  "postcode": {
+                      "confidence": 0.994,
+                      "value": "33170"
+                  },
+                  "temporary_flag": {
+                      "confidence": 0.49506518244743347,
+                      "value": true
+                  }
+              },
+              "message": "Everything OK",
+              "status": "Ok",
+              "success": true
+          }
+  - name: ID Analyzer
+    request:
+      url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/id-analyzer-details
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+              //"image_url":"https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/615/documents/governmentIds-1761253871758-1.pasaporte.pdf"
+              "image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966359-ID-Tomas_Monteagudo.jpeg"
+              //"image_url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966357-ID-Yunier.pdf"
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Length
+          value: "979"
+        - name: Content-Type
+          value: application/json
+        - name: Date
+          value: Tue, 02 Dec 2025 16:58:38 GMT
+        - name: Nel
+          value: '{"report_to":"heroku-nel","response_headers":["Via"],"max_age":3600,"success_fraction":0.01,"failure_fraction":0.1}'
+        - name: Report-To
+          value: '{"group":"heroku-nel","endpoints":[{"url":"https://nel.heroku.com/reports?s=4di7%2Fy1XRDtcMOaYG8n2dRqkyz6ze%2BTNg9KQPato%2FYc%3D\u0026sid=1b10b0ff-8a76-4548-befa-353fc6c6c045\u0026ts=1764694697"}],"max_age":3600}'
+        - name: Reporting-Endpoints
+          value: heroku-nel="https://nel.heroku.com/reports?s=4di7%2Fy1XRDtcMOaYG8n2dRqkyz6ze%2BTNg9KQPato%2FYc%3D&sid=1b10b0ff-8a76-4548-befa-353fc6c6c045&ts=1764694697"
+        - name: Server
+          value: Heroku
+        - name: Via
+          value: 1.1 heroku-router
+      body:
+        type: json
+        data: |-
+          {
+              "data": {
+                  "address_1": {
+                      "confidence": 0.902,
+                      "value": "83142 KENISTON LN"
+                  },
+                  "address_2": {
+                      "confidence": 0.958,
+                      "value": "JACKSONVILLE, FL"
+                  },
+                  "dob": {
+                      "confidence": 0.993,
+                      "value": "1974-03-21"
+                  },
+                  "document_number": {
+                      "confidence": 0.129,
+                      "value": "M532-800-74-101-0"
+                  },
+                  "document_type": "Driver's License",
+                  "expiry": {
+                      "confidence": 0.986,
+                      "value": "2033-03-21"
+                  },
+                  "full_name": {
+                      "confidence": 0.963,
+                      "value": "TOMAS MONTEAGUDO LEIVA"
+                  },
+                  "issued": {
+                      "confidence": 0.993,
+                      "value": "2024-06-03"
+                  },
+                  "postcode": {
+                      "confidence": 0.989,
+                      "value": "32277-3544"
+                  },
+                  "temporary_flag": {
+                      "confidence": null,
+                      "value": false
+                  },
+                  "warning": [
+                      {
+                          "code": "LOW_TEXT_CONFIDENCE",
+                          "confidence": 0.871,
+                          "decision": "accept",
+                          "description": "Low text confidence score detected for field documentNumber.",
+                          "severity": "medium"
+                      },
+                      {
+                          "code": "IMAGE_EDITED",
+                          "confidence": 1,
+                          "decision": "review",
+                          "description": "The front document image contains exif header indicating that it was edited in Microsoft Paint.",
+                          "severity": "medium"
+                      }
+                  ]
+              },
+              "message": "Everything OK",
+              "status": "Ok",
+              "success": true
+          }

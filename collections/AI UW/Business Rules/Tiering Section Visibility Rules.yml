@@ -1,0 +1,23 @@
+info:
+  name: Tiering Section Visibility Rules
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{base_url}}/api/business-rules/product-tier-rules/"
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_1",
+          "loan_id": 382,
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

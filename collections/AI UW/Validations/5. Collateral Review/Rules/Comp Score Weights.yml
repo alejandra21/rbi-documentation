@@ -1,0 +1,15 @@
+info:
+  name: Comp Score Weights
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/phase5-business-rules/comp-score-weights/"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

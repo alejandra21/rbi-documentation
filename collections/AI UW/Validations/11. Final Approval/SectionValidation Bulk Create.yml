@@ -1,0 +1,104 @@
+info:
+  name: SectionValidation Bulk Create
+  type: http
+  seq: 13
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/section-validations/bulk-create/"
+  body:
+    type: json
+    data: |
+      [
+          {
+              "section_summary": "7c8d6937-5a37-423f-ac67-7e1b25e49104",
+              "validation_id": "BE-EV-001",
+              "name": "Entity Type Verification",
+              "description": "Verify entity is properly formed LLC, Corporation, or Partnership",
+              "source_phase_number": 1,
+              "source_phase_name": "Borrower Eligibility",
+              "status": "pass",
+              "associated_risk_categories": ["operational", "fraud_aml"]
+          },
+          {
+              "section_summary": "7c8d6937-5a37-423f-ac67-7e1b25e49104",
+              "validation_id": "BE-EV-002",
+              "name": "State Registration Verification",
+              "description": "Confirm entity is registered in state of operation",
+              "source_phase_number": 1,
+              "source_phase_name": "Borrower Eligibility",
+              "status": "pass",
+              "associated_risk_categories": ["operational"]
+          },
+          {
+              "section_summary": "7c8d6937-5a37-423f-ac67-7e1b25e49104",
+              "validation_id": "BE-EV-003",
+              "name": "Tax ID Verification",
+              "description": "Verify valid EIN matches entity records",
+              "source_phase_number": 1,
+              "source_phase_name": "Borrower Eligibility",
+              "status": "pass",
+              "associated_risk_categories": ["fraud_aml"]
+          },
+          {
+              "section_summary": "c48fba73-6b5d-4bed-9a8f-b932b2e5e70e",
+              "validation_id": "BE-OIV-001",
+              "name": "Owner Identity Match",
+              "description": "Verify owner identity matches government ID",
+              "source_phase_number": 1,
+              "source_phase_name": "Borrower Eligibility",
+              "status": "pass",
+              "associated_risk_categories": ["fraud_aml", "operational"]
+          },
+          {
+              "section_summary": "c48fba73-6b5d-4bed-9a8f-b932b2e5e70e",
+              "validation_id": "BE-OIV-002",
+              "name": "Ownership Percentage Verification",
+              "description": "Confirm ownership percentages sum to 100%",
+              "source_phase_number": 1,
+              "source_phase_name": "Borrower Eligibility",
+              "status": "pass",
+              "associated_risk_categories": ["operational"]
+          },
+          {
+              "section_summary": "c2e606c5-89cd-4fce-8c19-51eb588384e5",
+              "validation_id": "ET-EV-001",
+              "name": "Forecasa Experience Verification",
+              "description": "Verify borrower experience from Forecasa database",
+              "source_phase_number": 2,
+              "source_phase_name": "Experience Tiering",
+              "status": "pass",
+              "associated_risk_categories": ["credit"]
+          },
+          {
+              "section_summary": "c2e606c5-89cd-4fce-8c19-51eb588384e5",
+              "validation_id": "ET-EV-002",
+              "name": "Track Record Analysis",
+              "description": "Analyze previous project completion rate",
+              "source_phase_number": 2,
+              "source_phase_name": "Experience Tiering",
+              "status": "pass",
+              "associated_risk_categories": ["credit", "operational"]
+          },
+          {
+              "section_summary": "5de18ac9-3507-45ea-a12a-5216bb58d180",
+              "validation_id": "CP-CPL-001",
+              "name": "CPL Coverage Amount",
+              "description": "Verify CPL coverage meets minimum requirements",
+              "source_phase_number": 8,
+              "source_phase_name": "Closing Protection",
+              "status": "pass_with_exception",
+              "issue": "Coverage amount is $50k below required minimum for this loan size",
+              "severity": "soft",
+              "exception_id": "EXC-2026-001",
+              "policy_reference": "CPL-POL-003",
+              "associated_risk_categories": ["legal_title"]
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

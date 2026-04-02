@@ -1,0 +1,23 @@
+info:
+  name: Borrower Eligibility Validations
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/borrower-eligibility-validations"
+  body:
+    type: json
+    data: |-
+      {
+          "workflow_loan_summary": "",
+          "entity_name": "",
+          "entity_type": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

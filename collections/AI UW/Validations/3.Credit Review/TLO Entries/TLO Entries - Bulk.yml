@@ -1,0 +1,30 @@
+info:
+  name: TLO Entries - Bulk
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/tlo-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "title": "pepe1",
+              "description": "fddf1",
+              "guarantor_credit_review": "9cb94ff8-201b-4b42-9d50-76e87f7e8769"
+          },
+          {
+              "title": "pepe2",
+              "description": "fddf2",
+              "guarantor_credit_review": "9cb94ff8-201b-4b42-9d50-76e87f7e8769"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

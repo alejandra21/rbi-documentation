@@ -1,0 +1,59 @@
+info:
+  name: Cross Risk Inconsistencies - Bulk Create
+  type: http
+  seq: 38
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/cross-risk-inconsistencies/bulk-create/"
+  body:
+    type: json
+    data: |
+      [
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "inconsistency_id": "CRI-001",
+          "field_name": "property_address",
+          "source_phase_1": 8,
+          "value_1": "123 Main St, Los Angeles, CA 90001",
+          "source_phase_2": 9,
+          "value_2": "123 Main Street, Los Angeles, CA 90001",
+          "description": "Property address format differs between Closing Protection (Phase 8) and Insurance Policy (Phase 9)",
+          "severity": "low",
+          "status": "resolved",
+          "resolution_notes": "Confirmed both addresses refer to same property, standardized to match title records"
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "inconsistency_id": "CRI-002",
+          "field_name": "loan_amount",
+          "source_phase_1": 6,
+          "value_1": "500000",
+          "source_phase_2": 8,
+          "value_2": "495000",
+          "description": "CPL coverage amount ($495k) is less than loan amount ($500k) from DSCR phase",
+          "severity": "medium",
+          "status": "accepted",
+          "resolution_notes": "1% variance within acceptable tolerance per policy CPL-001. Condition added to obtain updated CPL prior to funding."
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "inconsistency_id": "CRI-003",
+          "field_name": "borrower_entity_name",
+          "source_phase_1": 1,
+          "value_1": "Tech Corp Ltd",
+          "source_phase_2": 3,
+          "value_2": "Tech Corp Limited",
+          "description": "Entity name abbreviation differs between Borrower Eligibility and Credit Review phases",
+          "severity": "low",
+          "status": "resolved",
+          "resolution_notes": "Verified legal entity name is 'Tech Corp Ltd' per state registration. Credit bureau uses full spelling 'Limited'."
+        }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

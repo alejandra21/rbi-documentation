@@ -1,0 +1,7 @@
+info:
+  name: Guarantor Credit Review
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

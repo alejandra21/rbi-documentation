@@ -1,0 +1,52 @@
+info:
+  name: AuthorityMatrixRule - Bulk Create
+  type: http
+  seq: 25
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/authority-matrix-rules/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "risk_profile": "No Exceptions",
+            "exception_range": "0",
+            "required_approval": "automated",
+            "can_ai_approve": true,
+            "restrictions": ""
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "risk_profile": "≤2 SOFT Exceptions",
+            "exception_range": "1-2 soft",
+            "required_approval": "underwriter",
+            "can_ai_approve": false,
+            "restrictions": ""
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "risk_profile": "Multiple Exceptions",
+            "exception_range": ">2 soft",
+            "required_approval": "credit_committee",
+            "can_ai_approve": false,
+            "restrictions": ""
+          },
+          {
+            "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+            "risk_profile": "Policy Override",
+            "exception_range": "Any",
+            "required_approval": "executive",
+            "can_ai_approve": false,
+            "restrictions": "Fraud exceptions,Title defects,Authority stacking prohibited"
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

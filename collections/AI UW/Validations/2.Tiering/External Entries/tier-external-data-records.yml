@@ -1,0 +1,22 @@
+info:
+  name: tier-external-data-records
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/tier-external-data-records/?tiering_validation__workflow_loan_summary=12abb743-e75f-4535-9706-32a3b361e5c5"
+  params:
+    - name: tiering_validation__workflow_loan_summary
+      value: 12abb743-e75f-4535-9706-32a3b361e5c5
+      type: query
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

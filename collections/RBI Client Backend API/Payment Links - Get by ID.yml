@@ -1,0 +1,22 @@
+info:
+  name: Payment Links - Get by ID
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{base_url}}/payment-links/:id"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: id
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,137 @@
+info:
+  name: Phase Summaries Bulk Create
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/phase-summaries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 1,
+          "phase_name": "Borrower Eligibility",
+          "overall_status": "pass",
+          "pass_count": 7,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 2,
+          "phase_name": "Experience Tiering",
+          "overall_status": "pass",
+          "pass_count": 4,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 3,
+          "phase_name": "Credit Review",
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 4,
+          "phase_name": "Non-Owner Occupancy",
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 6,
+          "phase_name": "DSCR Cash Flow",
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 7,
+          "phase_name": "Title Insurance",
+          "overall_status": "pass",
+          "pass_count": 4,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 8,
+          "phase_name": "Closing Protection",
+          "overall_status": "pass_with_exception",
+          "pass_count": 2,
+          "fail_count": 0,
+          "pass_with_exception_count": 1,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 1
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 9,
+          "phase_name": "Insurance Policy",
+          "overall_status": "pass",
+          "pass_count": 5,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        },
+        {
+          "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+          "phase_number": 10,
+          "phase_name": "Asset Verification",
+          "overall_status": "pass",
+          "pass_count": 3,
+          "fail_count": 0,
+          "pass_with_exception_count": 0,
+          "manual_review_count": 0,
+          "hard_stops": 0,
+          "hard_exceptions": 0,
+          "soft_exceptions": 0
+        }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

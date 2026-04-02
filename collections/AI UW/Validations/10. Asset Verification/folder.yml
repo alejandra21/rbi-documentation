@@ -1,0 +1,7 @@
+info:
+  name: 10. Asset Verification
+  type: folder
+  seq: 10
+
+request:
+  auth: inherit

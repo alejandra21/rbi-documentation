@@ -1,0 +1,7 @@
+info:
+  name: 11. Final Approval
+  type: folder
+  seq: 11
+
+request:
+  auth: inherit

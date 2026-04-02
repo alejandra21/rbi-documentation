@@ -1,0 +1,30 @@
+info:
+  name: ExceptionAppliedCompensator - Bulk Create
+  type: http
+  seq: 35
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/exception-applied-compensators/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "exception_entry": "1817c078-e0bd-45ab-9df8-daa04c229604",
+            "description": "Variance within 2% tolerance",
+            "sequence": 1
+          },
+          {
+            "exception_entry": "1817c078-e0bd-45ab-9df8-daa04c229604",
+            "description": "Title company confirmed coverage adjustment",
+            "sequence": 2
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

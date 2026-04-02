@@ -1,0 +1,25 @@
+info:
+  name: 2- [Credit Review] Validations_1
+  type: http
+  seq: 8
+
+http:
+  method: PATCH
+  url: "{{base_url}}/api/workflows/validations/:id/?phase=credit_review"
+  params:
+    - name: phase
+      value: credit_review
+      type: query
+    - name: id
+      value: 57b90e4b-0849-418e-9e79-47db247f0c72
+      type: path
+  body:
+    type: json
+    data: "{}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

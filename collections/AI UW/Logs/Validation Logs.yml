@@ -1,0 +1,27 @@
+info:
+  name: Validation Logs
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/validation-logs/"
+  body:
+    type: json
+    data: |-
+      {
+          "content_type": 10,
+          "object_id": "7c524590-c5ea-4ca7-a4ff-62fc9ca4bb85",
+          "source": "secretary_of_state",
+          "validation_type": "entity_name",
+          "status": "completed",
+          "validation_result": { "pepe": true },
+          "response_data": { "pepe": true }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

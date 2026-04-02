@@ -1,0 +1,19 @@
+info:
+  name: Ocrolus Download
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: https://prequal-dat-dev-c69f455bd1be.herokuapp.com/prequal/ocrolus/download?doc_uuid=62a90aa9-a3be-4301-ba90-d9e8d459097b
+  params:
+    - name: doc_uuid
+      value: 62a90aa9-a3be-4301-ba90-d9e8d459097b
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,20 @@
+info:
+  name: Loan Applications - Get
+  type: http
+  seq: 23
+
+http:
+  method: GET
+  url: "{{private_url}}/loan-applications"
+  headers:
+    - name: Content-Type
+      value: application/json
+      disabled: true
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

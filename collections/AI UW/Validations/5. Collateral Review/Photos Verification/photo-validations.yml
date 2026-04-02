@@ -1,0 +1,73 @@
+info:
+  name: photo-validations
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review/photo-validations/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "appraisal_statement": "Property has granite countertops in kitchen",
+              "validation_summary": "Validated in photo: Kitchen interior showing countertop material",
+              "is_valid": true,
+              "evidence_type": "photo",
+              "photo_count": 1,
+              "photo_reference_ids": [
+                  "kitchen_interior_001"
+              ]
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "appraisal_statement": "C4 condition - deferred maintenance visible",
+              "validation_summary": "Validated in photos: Worn flooring, dated fixtures, minor damage visible",
+              "is_valid": true,
+              "evidence_type": "photo",
+              "photo_count": 3,
+              "photo_reference_ids": [
+                  "floor_001",
+                  "fixture_002",
+                  "damage_003"
+              ]
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "appraisal_statement": "Roof replaced within last 5 years",
+              "validation_summary": "Validated in photo: Exterior showing clean, uniform shingles with no visible wear",
+              "is_valid": true,
+              "evidence_type": "photo",
+              "photo_count": 1,
+              "photo_reference_ids": [
+                  "exterior_roof_001"
+              ]
+          },
+          {
+              "collateral_review_validation": "579780e3-a79f-44e3-b419-0e771de55836",
+              "appraisal_statement": "Interior inspection completed",
+              "validation_summary": "Validated: Multiple interior photos present (kitchen, bathrooms, living areas)",
+              "is_valid": true,
+              "evidence_type": "photo",
+              "photo_count": 8,
+              "photo_reference_ids": [
+                  "kitchen_001",
+                  "bath_001",
+                  "bath_002",
+                  "living_001",
+                  "bedroom_001",
+                  "bedroom_002",
+                  "bedroom_003",
+                  "hall_001"
+              ]
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,32 @@
+info:
+  name: Condition Entries Ex2
+  type: http
+  seq: 16
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/condition-entries/"
+  body:
+    type: json
+    data: |-
+      {
+        "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+        "condition_id": "COND-002",
+        "responsible_phase": 9,
+        "condition_type": "Insurance Policy Verification",
+        "category": "prior_to_closing",
+        "description": "Verify flood insurance policy effective date aligns with closing date",
+        "status": "satisfied",
+        "is_measurable": true,
+        "is_verifiable": true,
+        "satisfied_at": "2024-01-16T11:00:00Z",
+        "satisfied_by": "Insurance Team",
+        "blocks_clear_to_close": false
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

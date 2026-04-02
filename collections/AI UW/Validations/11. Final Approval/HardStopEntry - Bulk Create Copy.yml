@@ -1,0 +1,59 @@
+info:
+  name: HardStopEntry - Bulk Create Copy
+  type: http
+  seq: 34
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/hard-stop-entries/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "final_approval_validation": "2b0357d1-d1c7-4aa7-ae21-c87c3fe0492a",
+            "hard_stop_id": "HS-BE-005",
+            "source_phase": 1,
+            "phase_name": "Borrower Eligibility",
+            "description": "Borrower entity is administratively dissolved in the state of formation. Entity does not legally exist.",
+            "policy_rule_id": "BE-POL-001",
+            "is_curable": true,
+            "status": "active",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "final_approval_validation": "2b0357d1-d1c7-4aa7-ae21-c87c3fe0492a",
+            "hard_stop_id": "HS-CR-006",
+            "source_phase": 5,
+            "phase_name": "Collateral Review",
+            "description": "Property appraisal shows severe structural damage requiring $200k+ repair. Property value insufficient for loan amount.",
+            "policy_rule_id": "COL-POL-003",
+            "is_curable": false,
+            "status": "active",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          },
+          {
+            "final_approval_validation": "2b0357d1-d1c7-4aa7-ae21-c87c3fe0492a",
+            "hard_stop_id": "HS-IP-007",
+            "source_phase": 9,
+            "phase_name": "Insurance Policy",
+            "description": "Property is in flood zone but borrower refuses to obtain required flood insurance.",
+            "policy_rule_id": "INS-POL-005",
+            "is_curable": true,
+            "status": "active",
+            "resolved_at": null,
+            "resolved_by": null,
+            "resolution_notes": null
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

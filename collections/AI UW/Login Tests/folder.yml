@@ -1,0 +1,7 @@
+info:
+  name: Login Tests
+  type: folder
+  seq: 11
+
+request:
+  auth: inherit

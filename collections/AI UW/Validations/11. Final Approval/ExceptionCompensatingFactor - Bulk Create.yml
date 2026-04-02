@@ -1,0 +1,38 @@
+info:
+  name: ExceptionCompensatingFactor - Bulk Create
+  type: http
+  seq: 32
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/exception-compensating-factors/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+            "exception_entry": "1817c078-e0bd-45ab-9df8-daa04c229604",
+            "factor_id": "CF-001",
+            "type": "other",
+            "description": "Variance within 2% tolerance",
+            "is_sufficient": true,
+            "is_allowed_by_policy": true,
+            "sequence": 1
+          },
+          {
+            "exception_entry": "1817c078-e0bd-45ab-9df8-daa04c229604",
+            "factor_id": "CF-002",
+            "type": "other",
+            "description": "Title company confirmed coverage adjustment",
+            "is_sufficient": true,
+            "is_allowed_by_policy": true,
+            "sequence": 2
+          }
+        ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

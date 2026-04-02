@@ -1,0 +1,30 @@
+info:
+  name: liens
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/liens/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "title_insurance_validation": "ef9c378e-98e7-4851-b147-a450db40a0b3",
+              "type": null,
+              "lienholder": "pepito",
+              "description": "bbb",
+              "rbi_classification": "bbb",
+              "underwriting_action": "bbb",
+              "is_valid": true,
+              "ocr_extracted_text": "holaaaa"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

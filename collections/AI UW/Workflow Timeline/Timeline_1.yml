@@ -1,0 +1,25 @@
+info:
+  name: Timeline_1
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/timelines/"
+  body:
+    type: json
+    data: |-
+      {
+          "step_name": "Eligibility",
+          "executed_by": "retool",
+          "status": "completed",
+          "content_type": 14,
+          "object_id": "a253e6cc-cdd3-4f6a-9b83-dac8d4693976"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

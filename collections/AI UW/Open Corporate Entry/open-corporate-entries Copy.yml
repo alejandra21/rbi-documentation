@@ -1,0 +1,35 @@
+info:
+  name: open-corporate-entries Copy
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/api/open-corporate-entries/"
+  body:
+    type: json
+    data: |-
+      {
+          "entity_name": "ACME Corporation test",
+          "state":"FL",
+          "response": {
+              "company_number": "12345678",
+              "jurisdiction_code": "us_de",
+              "name": "ACME Corporation",
+              "incorporation_date": "2020-01-15",
+              "company_type": "Corporation",
+              "registered_address": {
+                  "street_address": "123 Main St",
+                  "locality": "Wilmington",
+                  "region": "DE",
+                  "postal_code": "19801"
+              }
+          }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

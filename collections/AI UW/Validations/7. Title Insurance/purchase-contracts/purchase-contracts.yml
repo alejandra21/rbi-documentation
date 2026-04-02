@@ -1,0 +1,31 @@
+info:
+  name: purchase-contracts
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/purchase-contracts/bulk-create/"
+  body:
+    type: json
+    data: |-
+      [
+          {
+              "seller": "HARRELSON REVOCABLE TRUST",
+              "buyer": "HOMEINC LLC",
+              "property_address": "2869 HIAWATHA AVE NE, PALM BAY, FL 32905",
+              "contract_price": 225000,
+              "earnest_money_deposit": 1000,
+              "closing_date": "2025-11-20",
+              "closing_date_raw": "the Closing shall occur on_ 11/20/2025",
+              "legal_description": "HIAWATHA GARDENS SEC 2 LOTS 1,2 & 3 BLK N EXC W 60 FT",
+              "title_insurance_validation": "8557251a-05ae-444a-b424-aea7b895b421"
+          }
+      ]
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

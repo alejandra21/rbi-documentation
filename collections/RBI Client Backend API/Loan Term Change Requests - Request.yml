@@ -1,0 +1,27 @@
+info:
+  name: Loan Term Change Requests - Request
+  type: http
+  seq: 15
+
+http:
+  method: POST
+  url: "{{base_url}}/loan-term-change-requests/request-changes"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "loanApplicationTermId": 1,
+        "requestedChanges": {
+          "loanAmount": 180000
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,126 @@
+info:
+  name: Validations_1
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/validations/?phase=collateral_review"
+  params:
+    - name: phase
+      value: collateral_review
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "workflow_loan_summary": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad",
+          "appraisal_report_url": "https://example.com/appraisal-report.pdf",
+          "as_is_value_appraisal": "485000.00",
+          "confidence_tier": "Acceptable w/ Review",
+          "confidence_tier_status": "Pass",
+          "comp_confidence_score": 84,
+          "market_stability_score": 70,
+          "rental_confidence_score": 100,
+          "pos_address_raw": "456 Investment Ave, Miami, FL 33101",
+          "appraisal_address_raw": "456 Investment Ave, Miami, FL 33101",
+          "pos_address_normalized": "456 INVESTMENT AVE, MIAMI FL 33101-1234",
+          "appraisal_address_normalized": "456 Investment Ave, Miami, FL 33101",
+          "address_match": true,
+          "bedrooms": 3,
+          "bathrooms": "4.0",
+          "total_rooms": 8,
+          "unit_count": 1,
+          "condition_rating": "C3",
+          "quality_rating": "Q3",
+          "condition_quality_raw": "C3/Q3",
+          "appraiser_license_state": "FL",
+          "is_appraiser_license_valid": true,
+          "signature_type": "Digital",
+          "is_signature_present": true,
+          "effective_date": "2025-01-15",
+          "effective_date_age_days": 45,
+          "effective_date_within_threshold": true,
+          "is_room_count_valid": true,
+          "is_unit_count_valid": true,
+          "is_property_type_valid": true,
+          "photos_consistent": true,
+          "uad_fields_complete": true,
+          "subject_gla_sqft": 2168,
+          "gla_variance_threshold_pct": "10.00",
+          "gla_within_threshold": true,
+          "photo_validation_method": "Appraisal OCR",
+          "engine_3_final_score": 84,
+          "engine_3_avg_recency_score": 85,
+          "engine_3_avg_distance_score": 83,
+          "engine_3_avg_adjustment_score": 83,
+          "engine_3_recency_weight": "0.40",
+          "engine_3_distance_weight": "0.30",
+          "engine_3_adjustment_weight": "0.30",
+          "engine_4_final_score": 70,
+          "engine_4_price_trend_score": 70,
+          "engine_4_supply_level_score": 70,
+          "engine_4_days_on_market_score": 70,
+          "engine_4_sale_concessions_score": 70,
+          "engine_4_listing_stagnation_modifier": 0,
+          "engine_4_price_trend_weight": "0.35",
+          "engine_4_supply_level_weight": "0.25",
+          "engine_4_days_on_market_weight": "0.20",
+          "engine_4_sale_concessions_weight": "0.20",
+          "price_trend_label": "Stable",
+          "supply_level_months": "4.50",
+          "days_on_market": 42,
+          "sale_concessions_label": "Occasional",
+          "listing_stagnation_status": "Not Applied",
+          "price_trend_passed": true,
+          "supply_level_passed": true,
+          "days_on_market_passed": true,
+          "sale_concessions_passed": true,
+          "listing_stagnation_passed": true,
+          "current_listing_price": "244800.00",
+          "listing_vs_appraisal_variance_pct": "-49.50",
+          "listing_below_appraisal": true,
+          "listing_stagnation_points": 0,
+          "engine_5_final_score": 100,
+          "lease_status": "Valid",
+          "lease_rent_monthly": "2800.00",
+          "appraisal_market_rent_monthly": "3000.00",
+          "rent_variance_pct": "-6.70",
+          "rent_variance_within_threshold": true,
+          "final_selected_rent_monthly": "2800.00",
+          "final_rent_source": "Lease",
+          "final_rent_reason": "Lease valid, variance within 10%, using lease rent",
+          "score_valid_executed_lease": 40,
+          "score_rent_variance": 30,
+          "score_rent_comps_consistent": 20,
+          "score_appraiser_supports_rent": 10,
+          "valid_executed_lease": true,
+          "rent_comps_consistent": true,
+          "appraiser_supports_rent": true,
+          "engine_5_lease_weight": "0.40",
+          "engine_5_rent_variance_weight": "0.30",
+          "engine_5_rent_comps_weight": "0.20",
+          "engine_5_appraiser_support_weight": "0.10",
+          "avm_clear_capital_value": "478000.00",
+          "zhvi_zillow_value": "492000.00",
+          "avm_clear_capital_variance_pct": "-1.40",
+          "zhvi_zillow_variance_pct": "1.40",
+          "avm_overall_variance_pct": "0.00",
+          "engine_7_variance_threshold_pct": "5.00",
+          "avm_matches_appraisal": true,
+          "zhvi_matches_appraisal": true,
+          "avm_trend_supports_value": true,
+          "avm_used_for_reconciliation_only": true,
+          "primary_value_source": "Appraisal",
+          "engine_8_flag_count": 1,
+          "engine_8_high_severity_count": 0,
+          "engine_8_medium_severity_count": 0,
+          "engine_8_low_severity_count": 1
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

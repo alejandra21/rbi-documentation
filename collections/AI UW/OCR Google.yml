@@ -1,0 +1,41 @@
+info:
+  name: OCR Google
+  type: http
+  seq: 18
+
+http:
+  method: POST
+  url: "{{base_url}}/api/ocr/document-ai/"
+  body:
+    type: json
+    data: |-
+      {
+
+          "url": "https://rbialliance.retool.com/api/file/3448e321-c366-45b3-8094-faf3ac3c3cc6",
+          "project_id": "canvas-hook-479217-h8",
+          "processor_id": "b63c65455705ced9"
+
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.access) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("access_token", response.access);
+            console.log("✅ Token saved to environment variable: jwt_token");
+        } else {
+            console.log("⚠️ No 'token' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

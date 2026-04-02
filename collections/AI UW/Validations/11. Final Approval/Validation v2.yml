@@ -1,0 +1,976 @@
+info:
+  name: Validation v2
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/validations/?phase=final_approval"
+  params:
+    - name: phase
+      value: final_approval
+      type: query
+  body:
+    type: json
+    data: |
+      {
+          "workflow_loan_summary": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad",
+          "phase_1_status": "pass",
+          "phase_2_status": "pass",
+          "phase_3_status": "pass",
+          "phase_4_status": "pass",
+          "phase_5_status": "pass",
+          "phase_6_status": "pass",
+          "phase_7_status": "pass",
+          "phase_8_status": "pass_with_exception",
+          "phase_9_status": "pass",
+          "phase_10_status": "pass",
+          "cross_phase_inputs": [
+              {
+                  "dataField": "Borrower Entity & Ownership",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "Entity name (not guarantor)",
+                  "value": "Tech Corp Ltd"
+              },
+              {
+                  "dataField": "Loan Purpose",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "Purchase vs Refinance",
+                  "value": "Purchase"
+              },
+              {
+                  "dataField": "Loan Program",
+                  "sourcePhase": 1,
+                  "sourceSystem": "POS",
+                  "notes": "DSCR, Bridge, Fix and Flip",
+                  "value": "DSCR"
+              },
+              {
+                  "dataField": "Credit Metrics (FICO)",
+                  "sourcePhase": 2,
+                  "sourceSystem": "Credit / AI admin",
+                  "notes": "Final AI-calculated values",
+                  "value": 720
+              },
+              {
+                  "dataField": "DSCR",
+                  "sourcePhase": 6,
+                  "sourceSystem": "AI admin",
+                  "notes": "Final AI-calculated values",
+                  "value": 1.25
+              },
+              {
+                  "dataField": "Liquidity & Assets",
+                  "sourcePhase": 3,
+                  "sourceSystem": "Ocrolus / OCR",
+                  "notes": "Ocrolus + OCR verified",
+                  "value": "$125,000"
+              },
+              {
+                  "dataField": "Experience & Tier",
+                  "sourcePhase": 4,
+                  "sourceSystem": "POS / AI Tier",
+                  "notes": "Tier-based authority",
+                  "value": "Tier 2"
+              },
+              {
+                  "dataField": "Collateral Value",
+                  "sourcePhase": 5,
+                  "sourceSystem": "Appraisal AI",
+                  "notes": "Requirements being drafted",
+                  "value": "$650,000"
+              },
+              {
+                  "dataField": "Title Status",
+                  "sourcePhase": 7,
+                  "sourceSystem": "Title OCR",
+                  "notes": "Ownership + lien validation",
+                  "value": "Clear"
+              },
+              {
+                  "dataField": "CPL Status",
+                  "sourcePhase": 8,
+                  "sourceSystem": "CPL OCR",
+                  "notes": "Fraud detection in wiring",
+                  "value": "Valid"
+              },
+              {
+                  "dataField": "Insurance Status",
+                  "sourcePhase": 9,
+                  "sourceSystem": "Insurance OCR",
+                  "notes": "Coverage validation",
+                  "value": "Active"
+              }
+          ],
+          "phase_completion_gate_passed": true,
+          "phases_not_run": [],
+          "phases_without_terminal_state": [],
+          "phase_completion_gate_result": "proceed",
+          "phase_completion_gate_message": "All phases 1-10 have executed with terminal states. Proceeding to decision synthesis.",
+          "phase_outcomes": [
+              {
+                  "phaseName": "Borrower Eligibility",
+                  "phaseNumber": 1,
+                  "status": "pass",
+                  "riskCategory": "credit",
+                  "completedAt": "2024-01-10",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Experience Tiering",
+                  "phaseNumber": 2,
+                  "status": "pass",
+                  "riskCategory": "credit",
+                  "completedAt": "2024-01-12",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Credit Review",
+                  "phaseNumber": 3,
+                  "status": "pass",
+                  "riskCategory": "credit",
+                  "completedAt": "2024-01-13",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Non-Owner Occupancy",
+                  "phaseNumber": 4,
+                  "status": "pass",
+                  "riskCategory": "fraud_aml",
+                  "completedAt": "2024-01-13",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Collateral Review",
+                  "phaseNumber": 5,
+                  "status": "pass",
+                  "riskCategory": "collateral",
+                  "completedAt": "2024-01-14",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "DSCR Cash Flow",
+                  "phaseNumber": 6,
+                  "status": "pass",
+                  "riskCategory": "credit",
+                  "completedAt": "2024-01-14",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Title Insurance",
+                  "phaseNumber": 7,
+                  "status": "pass",
+                  "riskCategory": "legal_title",
+                  "completedAt": "2024-01-15",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Closing Protection",
+                  "phaseNumber": 8,
+                  "status": "pass_with_exception",
+                  "riskCategory": "legal_title",
+                  "completedAt": "2024-01-15",
+                  "issues": [
+                      "CPL coverage amount variance detected"
+                  ],
+                  "isHardStop": false,
+                  "exceptionCount": 1,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 1
+              },
+              {
+                  "phaseName": "Insurance Policy",
+                  "phaseNumber": 9,
+                  "status": "pass",
+                  "riskCategory": "insurance",
+                  "completedAt": "2024-01-15",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              },
+              {
+                  "phaseName": "Asset Verification",
+                  "phaseNumber": 10,
+                  "status": "pass",
+                  "riskCategory": "operational",
+                  "completedAt": "2024-01-16",
+                  "issues": [],
+                  "isHardStop": false,
+                  "exceptionCount": 0,
+                  "hardExceptionCount": 0,
+                  "softExceptionCount": 0
+              }
+          ],
+          "risk_summary": [
+              {
+                  "category": "credit",
+                  "categoryLabel": "Credit Risk",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 1,
+                          "phaseName": "Borrower Eligibility",
+                          "status": "pass",
+                          "validationCount": 5
+                      },
+                      {
+                          "phaseNumber": 2,
+                          "phaseName": "Experience Tiering",
+                          "status": "pass",
+                          "validationCount": 4
+                      },
+                      {
+                          "phaseNumber": 3,
+                          "phaseName": "Credit Review",
+                          "status": "pass",
+                          "validationCount": 3
+                      },
+                      {
+                          "phaseNumber": 6,
+                          "phaseName": "DSCR Cash Flow",
+                          "status": "pass",
+                          "validationCount": 3
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "CR-001",
+                          "name": "FICO Score Check",
+                          "description": "Minimum FICO score requirement (660)",
+                          "sourcePhase": 3,
+                          "phaseName": "Credit Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CR-002",
+                          "name": "Trade Line Count",
+                          "description": "Minimum 3 active trade lines required",
+                          "sourcePhase": 3,
+                          "phaseName": "Credit Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CR-003",
+                          "name": "Bankruptcy History",
+                          "description": "No bankruptcy within 4 years",
+                          "sourcePhase": 3,
+                          "phaseName": "Credit Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CR-004",
+                          "name": "DSCR Ratio",
+                          "description": "Minimum DSCR of 1.0x required",
+                          "sourcePhase": 6,
+                          "phaseName": "DSCR Cash Flow",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CR-005",
+                          "name": "Entity Verification",
+                          "description": "Borrower entity registered and in good standing",
+                          "sourcePhase": 1,
+                          "phaseName": "Borrower Eligibility",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CR-006",
+                          "name": "Experience Level",
+                          "description": "Borrower experience tier meets program requirements",
+                          "sourcePhase": 2,
+                          "phaseName": "Experience Tiering",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 6,
+                  "passWithExceptionCount": 0,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 0,
+                  "hardStops": 0,
+                  "overallStatus": "pass"
+              },
+              {
+                  "category": "collateral",
+                  "categoryLabel": "Collateral Risk",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass",
+                          "validationCount": 5
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "CO-001",
+                          "name": "LTV Ratio",
+                          "description": "Loan-to-Value within program limits (80%)",
+                          "sourcePhase": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CO-002",
+                          "name": "Appraisal Validity",
+                          "description": "Appraisal is current and compliant",
+                          "sourcePhase": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CO-003",
+                          "name": "Property Condition",
+                          "description": "Property condition meets minimum standards",
+                          "sourcePhase": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CO-004",
+                          "name": "Comparable Sales",
+                          "description": "Appraisal comps are valid and within range",
+                          "sourcePhase": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "CO-005",
+                          "name": "Market Trend",
+                          "description": "Local market shows stable or increasing values",
+                          "sourcePhase": 5,
+                          "phaseName": "Collateral Review",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 5,
+                  "passWithExceptionCount": 0,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 0,
+                  "hardStops": 0,
+                  "overallStatus": "pass"
+              },
+              {
+                  "category": "legal_title",
+                  "categoryLabel": "Legal/Title Risk",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 7,
+                          "phaseName": "Title Insurance",
+                          "status": "pass",
+                          "validationCount": 4
+                      },
+                      {
+                          "phaseNumber": 8,
+                          "phaseName": "Closing Protection",
+                          "status": "pass_with_exception",
+                          "validationCount": 3
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "LT-001",
+                          "name": "Title Clear",
+                          "description": "Property title is clear of encumbrances",
+                          "sourcePhase": 7,
+                          "phaseName": "Title Insurance",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "LT-002",
+                          "name": "Ownership Match",
+                          "description": "Title ownership matches borrower entity",
+                          "sourcePhase": 7,
+                          "phaseName": "Title Insurance",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "LT-003",
+                          "name": "Lien Position",
+                          "description": "Lender will be in first lien position",
+                          "sourcePhase": 7,
+                          "phaseName": "Title Insurance",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "LT-004",
+                          "name": "Title Commitment",
+                          "description": "Title commitment received and reviewed",
+                          "sourcePhase": 7,
+                          "phaseName": "Title Insurance",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "LT-005",
+                          "name": "CPL Validity",
+                          "description": "Closing Protection Letter is valid and active",
+                          "sourcePhase": 8,
+                          "phaseName": "Closing Protection",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "LT-006",
+                          "name": "CPL Coverage Amount",
+                          "description": "CPL coverage amount matches loan amount",
+                          "sourcePhase": 8,
+                          "phaseName": "Closing Protection",
+                          "status": "pass_with_exception",
+                          "severity": "soft",
+                          "issue": "CPL coverage is $495,000 vs loan amount of $500,000 (1% variance)",
+                          "exceptionId": "EXC-001",
+                          "policyReference": "CPL-001"
+                      },
+                      {
+                          "id": "LT-007",
+                          "name": "Agent Verification",
+                          "description": "Title agent is on approved agent list",
+                          "sourcePhase": 8,
+                          "phaseName": "Closing Protection",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 6,
+                  "passWithExceptionCount": 1,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 1,
+                  "hardStops": 0,
+                  "overallStatus": "pass_with_exception"
+              },
+              {
+                  "category": "insurance",
+                  "categoryLabel": "Insurance Risk",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass",
+                          "validationCount": 5
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "IN-001",
+                          "name": "Coverage Amount",
+                          "description": "Insurance coverage meets minimum requirements",
+                          "sourcePhase": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "IN-002",
+                          "name": "Policy Effective Date",
+                          "description": "Policy effective date aligns with closing",
+                          "sourcePhase": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "IN-003",
+                          "name": "Mortgagee Clause",
+                          "description": "Lender listed as mortgagee/loss payee",
+                          "sourcePhase": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "IN-004",
+                          "name": "Flood Insurance",
+                          "description": "Flood insurance obtained if in flood zone",
+                          "sourcePhase": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "IN-005",
+                          "name": "Carrier Rating",
+                          "description": "Insurance carrier has acceptable AM Best rating",
+                          "sourcePhase": 9,
+                          "phaseName": "Insurance Policy",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 5,
+                  "passWithExceptionCount": 0,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 0,
+                  "hardStops": 0,
+                  "overallStatus": "pass"
+              },
+              {
+                  "category": "fraud_aml",
+                  "categoryLabel": "Fraud/AML Risk",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 4,
+                          "phaseName": "Non-Owner Occupancy",
+                          "status": "pass",
+                          "validationCount": 3
+                      },
+                      {
+                          "phaseNumber": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass",
+                          "validationCount": 3
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "FA-001",
+                          "name": "Occupancy Verification",
+                          "description": "Property is confirmed non-owner occupied",
+                          "sourcePhase": 4,
+                          "phaseName": "Non-Owner Occupancy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "FA-002",
+                          "name": "Income Consistency",
+                          "description": "Rental income consistent with market rates",
+                          "sourcePhase": 4,
+                          "phaseName": "Non-Owner Occupancy",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "FA-003",
+                          "name": "Identity Verification",
+                          "description": "Borrower identity verified against documents",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "FA-004",
+                          "name": "Asset Sourcing",
+                          "description": "Funds are properly sourced and documented",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "FA-005",
+                          "name": "AML/OFAC Check",
+                          "description": "No matches on OFAC or sanctions lists",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "FA-006",
+                          "name": "Wire Fraud Prevention",
+                          "description": "Wiring instructions verified through CPL",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 6,
+                  "passWithExceptionCount": 0,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 0,
+                  "hardStops": 0,
+                  "overallStatus": "pass"
+              },
+              {
+                  "category": "operational",
+                  "categoryLabel": "Operational/Data Integrity",
+                  "contributingPhases": [
+                      {
+                          "phaseNumber": 1,
+                          "phaseName": "Borrower Eligibility",
+                          "status": "pass",
+                          "validationCount": 2
+                      },
+                      {
+                          "phaseNumber": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass",
+                          "validationCount": 2
+                      }
+                  ],
+                  "validations": [
+                      {
+                          "id": "OP-001",
+                          "name": "Document Completeness",
+                          "description": "All required documents received and valid",
+                          "sourcePhase": 1,
+                          "phaseName": "Borrower Eligibility",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "OP-002",
+                          "name": "Data Consistency",
+                          "description": "Data consistent across all sources",
+                          "sourcePhase": 1,
+                          "phaseName": "Borrower Eligibility",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "OP-003",
+                          "name": "Account Verification",
+                          "description": "Bank accounts verified via Ocrolus/OCR",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      },
+                      {
+                          "id": "OP-004",
+                          "name": "Signature Validation",
+                          "description": "All signatures verified and consistent",
+                          "sourcePhase": 10,
+                          "phaseName": "Asset Verification",
+                          "status": "pass"
+                      }
+                  ],
+                  "passCount": 4,
+                  "passWithExceptionCount": 0,
+                  "manualReviewCount": 0,
+                  "failCount": 0,
+                  "hardExceptions": 0,
+                  "softExceptions": 0,
+                  "hardStops": 0,
+                  "overallStatus": "pass"
+              }
+          ],
+          "total_hard_stops": 0,
+          "has_unresolved_hard_stops": false,
+          "hard_stops": [],
+          "total_exceptions_count": 1,
+          "hard_exceptions_count": 0,
+          "soft_exceptions_count": 1,
+          "unresolved_exceptions_count": 0,
+          "permitted_compensators": [
+              {
+                  "id": "PC-001",
+                  "type": "lower_ltv",
+                  "description": "Lower LTV (current: 76.9%)",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true,
+                  "value": "76.9%",
+                  "minimumRequired": "80%"
+              },
+              {
+                  "id": "PC-002",
+                  "type": "higher_dscr",
+                  "description": "Higher DSCR (current: 1.25)",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true,
+                  "value": 1.25,
+                  "minimumRequired": 1.0
+              },
+              {
+                  "id": "PC-003",
+                  "type": "excess_liquidity",
+                  "description": "Excess Liquidity ($125,000)",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true,
+                  "value": "$125,000",
+                  "minimumRequired": "$50,000"
+              },
+              {
+                  "id": "PC-004",
+                  "type": "proven_experience",
+                  "description": "Proven Borrower Experience (Tier 2)",
+                  "isAllowedByPolicy": true,
+                  "isSufficient": true,
+                  "value": "Tier 2"
+              }
+          ],
+          "cross_risk_consistent": true,
+          "cross_risk_inconsistencies": [],
+          "cross_risk_requires_manual_review": false,
+          "cross_risk_reconciliation_status": "pass",
+          "required_authority": "underwriter",
+          "authority_routing_reason": "Standard loan with 1 approved soft exception, within underwriter delegation limits (≤2 soft exceptions)",
+          "can_ai_auto_approve": false,
+          "non_delegable_items": [],
+          "delegation_chain": [
+              {
+                  "level": "automated",
+                  "name": "AI Validation Engine",
+                  "approved": true,
+                  "approvedAt": "2024-01-16T08:00:00Z",
+                  "decision": "Recommend Approval"
+              },
+              {
+                  "level": "underwriter",
+                  "name": "Sarah Johnson",
+                  "approved": true,
+                  "approvedAt": "2024-01-16T10:30:00Z",
+                  "decision": "Approved with Conditions"
+              }
+          ],
+          "authority_matrix": [
+              {
+                  "riskProfile": "No Exceptions",
+                  "exceptionRange": "0",
+                  "requiredApproval": "automated",
+                  "canAIApprove": true,
+                  "restrictions": []
+              },
+              {
+                  "riskProfile": "≤2 SOFT Exceptions",
+                  "exceptionRange": "1-2 soft",
+                  "requiredApproval": "underwriter",
+                  "canAIApprove": false,
+                  "restrictions": []
+              },
+              {
+                  "riskProfile": "Multiple Exceptions",
+                  "exceptionRange": ">2 soft",
+                  "requiredApproval": "credit_committee",
+                  "canAIApprove": false,
+                  "restrictions": []
+              },
+              {
+                  "riskProfile": "Policy Override",
+                  "exceptionRange": "Any",
+                  "requiredApproval": "executive",
+                  "canAIApprove": false,
+                  "restrictions": [
+                      "Fraud exceptions",
+                      "Title defects",
+                      "Authority stacking prohibited"
+                  ]
+              }
+          ],
+          "manual_decision_recorded": true,
+          "manual_decision_compensating_factors": [
+              "Variance within 2% tolerance",
+              "Title company confirmed coverage adjustment"
+          ],
+          "manual_decision_policy_citation": "CPL-001: Coverage variance within 2% is acceptable with documented cure commitment",
+          "manual_decision_approver_identity": "Sarah Johnson",
+          "manual_decision_approver_role": "underwriter",
+          "manual_decision_timestamp": "2024-01-16T10:30:00Z",
+          "manual_decision_is_valid": true,
+          "manual_decision_missing_fields": [],
+          "final_decision": "approved_with_conditions",
+          "decision_rationale": "Loan meets all credit, collateral, and operational requirements. One minor soft exception related to CPL coverage variance has been approved with valid compensating factors.",
+          "decision_by": "Sarah Johnson",
+          "decision_timestamp": "2024-01-16T10:30:00Z",
+          "remediation_requests": [],
+          "locked_fields": [
+              {
+                  "fieldName": "loanAmount",
+                  "displayName": "Loan Amount",
+                  "value": 500000,
+                  "lockedAt": "2024-01-16T10:31:00Z",
+                  "lockedBy": "System",
+                  "requiresExecutiveOverride": true,
+                  "changeTriggersReUnderwrite": true,
+                  "reUnderwriteFromPhase": 5
+              },
+              {
+                  "fieldName": "borrowerEntity",
+                  "displayName": "Borrower Entity",
+                  "value": "Tech Corp Ltd",
+                  "lockedAt": "2024-01-16T10:31:00Z",
+                  "lockedBy": "System",
+                  "requiresExecutiveOverride": true,
+                  "changeTriggersReUnderwrite": true,
+                  "reUnderwriteFromPhase": 1
+              },
+              {
+                  "fieldName": "propertyAddress",
+                  "displayName": "Property Address",
+                  "value": "123 Main St, Los Angeles, CA 90001",
+                  "lockedAt": "2024-01-16T10:31:00Z",
+                  "lockedBy": "System",
+                  "requiresExecutiveOverride": true,
+                  "changeTriggersReUnderwrite": true,
+                  "reUnderwriteFromPhase": 5
+              },
+              {
+                  "fieldName": "appraisedValue",
+                  "displayName": "Appraised Value",
+                  "value": 650000,
+                  "lockedAt": "2024-01-16T10:31:00Z",
+                  "lockedBy": "System",
+                  "requiresExecutiveOverride": true,
+                  "changeTriggersReUnderwrite": true,
+                  "reUnderwriteFromPhase": 5
+              },
+              {
+                  "fieldName": "insuranceCoverage",
+                  "displayName": "Insurance Coverage",
+                  "value": 650000,
+                  "lockedAt": "2024-01-16T10:31:00Z",
+                  "lockedBy": "System",
+                  "requiresExecutiveOverride": true,
+                  "changeTriggersReUnderwrite": true,
+                  "reUnderwriteFromPhase": 9
+              }
+          ],
+          "audit_trail": [
+              {
+                  "id": "AUD-001",
+                  "timestamp": "2024-01-16T08:00:00Z",
+                  "action": "Final Approval Initiated",
+                  "performedBy": "System",
+                  "details": "Final Approval phase started - consolidating results from phases 1-10",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-002",
+                  "timestamp": "2024-01-16T08:01:00Z",
+                  "action": "Phase Completion Gate Passed",
+                  "performedBy": "System",
+                  "details": "All 10 phases have executed with terminal states",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-003",
+                  "timestamp": "2024-01-16T08:02:00Z",
+                  "action": "Exception Aggregation Complete",
+                  "performedBy": "System",
+                  "details": "Consolidated 1 exception across 6 risk categories",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-004",
+                  "timestamp": "2024-01-16T08:03:00Z",
+                  "action": "Hard Stop Check Passed",
+                  "performedBy": "System",
+                  "details": "No unresolved hard stops detected",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-005",
+                  "timestamp": "2024-01-16T08:04:00Z",
+                  "action": "Compensating Factor Evaluated",
+                  "performedBy": "System",
+                  "details": "Exception EXC-001: Compensators allowed and sufficient",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-006",
+                  "timestamp": "2024-01-16T08:05:00Z",
+                  "action": "Authority Routing Determined",
+                  "performedBy": "System",
+                  "details": "1 soft exception - Underwriter approval required",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-007",
+                  "timestamp": "2024-01-16T09:30:00Z",
+                  "action": "Exception Approved",
+                  "performedBy": "Sarah Johnson",
+                  "details": "Exception EXC-001 approved with compensating factors",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-008",
+                  "timestamp": "2024-01-16T10:28:00Z",
+                  "action": "Cross-Risk Reconciliation Passed",
+                  "performedBy": "System",
+                  "details": "No inconsistencies detected across risk categories",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-009",
+                  "timestamp": "2024-01-16T10:30:00Z",
+                  "action": "Manual Decision Captured",
+                  "performedBy": "Sarah Johnson",
+                  "details": "Decision: Approved with Conditions. All required fields present.",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-010",
+                  "timestamp": "2024-01-16T10:30:00Z",
+                  "action": "Final Decision Rendered",
+                  "performedBy": "Sarah Johnson",
+                  "details": "Loan approved with conditions",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-011",
+                  "timestamp": "2024-01-16T10:31:00Z",
+                  "action": "Conditions Registered",
+                  "performedBy": "System",
+                  "details": "2 conditions registered (1 prior to funding, 1 prior to closing)",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-012",
+                  "timestamp": "2024-01-16T10:32:00Z",
+                  "action": "Data Fields Locked",
+                  "performedBy": "System",
+                  "details": "Loan amount, borrower entity, property address, appraised value, insurance coverage locked",
+                  "fieldLocked": "loanAmount, borrowerEntity, propertyAddress, appraisedValue, insuranceCoverage",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-013",
+                  "timestamp": "2024-01-16T10:35:00Z",
+                  "action": "Approval Memo Generated",
+                  "performedBy": "System",
+                  "details": "Final approval memo generated and stored (version 1.0)",
+                  "isImmutable": true
+              },
+              {
+                  "id": "AUD-014",
+                  "timestamp": "2024-01-16T10:35:00Z",
+                  "action": "Clear-to-Close Gate Evaluated",
+                  "performedBy": "System",
+                  "details": "Status: Pending - 1 condition outstanding",
+                  "isImmutable": true
+              }
+          ],
+          "clear_to_close_eligible": false,
+          "clear_to_close_status": "pending",
+          "clear_to_close_all_conditions_met": false,
+          "clear_to_close_pending_conditions": 1,
+          "clear_to_close_gate_message": "Approved with conditions - 1 condition pending. Clear to Close will be eligible once all conditions are satisfied.",
+          "clear_to_close_last_evaluated": "2024-01-16T10:35:00Z",
+          "processed_at": "2024-01-16T10:35:00Z",
+          "processed_by": "Sarah Johnson",
+          "overall_status": "pass",
+          "cross_risk_check_passed":true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

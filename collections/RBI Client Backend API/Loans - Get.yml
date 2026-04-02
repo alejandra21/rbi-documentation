@@ -1,0 +1,22 @@
+info:
+  name: Loans - Get
+  type: http
+  seq: 40
+
+http:
+  method: GET
+  url: "{{private_url}}/panel/loans"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  auth:
+    type: bearer
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzA4Mywicm9sZSI6ImFkbWluIiwiYnV5ZXJfaWQiOm51bGwsImlhdCI6MTc2MTkyNjQwOSwiZXhwIjoxNzYyMDEyODA5fQ.dAu4kINjqCM8MWPrH5PjUg8nkGHCRJtEWd10Y9AhW30
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

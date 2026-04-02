@@ -1,0 +1,27 @@
+info:
+  name: User - Update User
+  type: http
+  seq: 19
+
+http:
+  method: POST
+  url: "{{base_url}}/update-user"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  body:
+    type: json
+    data: |-
+      {
+        "full_name": "John Doe Updated",
+        "email": "john.updated@example.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
