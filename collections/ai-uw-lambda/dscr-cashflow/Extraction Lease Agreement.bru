@@ -1,0 +1,22 @@
+meta {
+  name: Extraction Lease Agreement
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/extraction-lease-agreement-file/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

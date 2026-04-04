@@ -1,0 +1,22 @@
+meta {
+  name: Title Commitment Extraction
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/title-commitment-extraction/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

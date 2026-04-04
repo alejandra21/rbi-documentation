@@ -1,0 +1,23 @@
+meta {
+  name: Parse Address
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/parse-address/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "address": "123 Main St, Miami, FL 33101"
+  }
+}

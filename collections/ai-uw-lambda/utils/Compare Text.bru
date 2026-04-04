@@ -1,0 +1,25 @@
+meta {
+  name: Compare Text
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/compare-text/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "text1": "John Doe",
+    "text2": "John D.",
+    "threshold": 0.8
+  }
+}

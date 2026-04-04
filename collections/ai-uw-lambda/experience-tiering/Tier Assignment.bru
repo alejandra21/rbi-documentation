@@ -1,0 +1,22 @@
+meta {
+  name: Tier Assignment
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/tier-assignment/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

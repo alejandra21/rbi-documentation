@@ -1,0 +1,25 @@
+meta {
+  name: Compare Addresses
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/compare-addresses/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "address1": "123 Main St, Miami, FL 33101",
+    "address2": "123 Main Street, Miami, Florida 33101",
+    "threshold": 0.85
+  }
+}

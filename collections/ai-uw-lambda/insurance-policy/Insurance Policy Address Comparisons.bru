@@ -1,0 +1,22 @@
+meta {
+  name: Insurance Policy Address Comparisons
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/insurance-policy-address-comparisons/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

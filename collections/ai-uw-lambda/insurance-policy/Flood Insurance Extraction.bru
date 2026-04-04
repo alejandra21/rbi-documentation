@@ -1,0 +1,22 @@
+meta {
+  name: Flood Insurance Extraction
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/flood-insurance-extraction/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

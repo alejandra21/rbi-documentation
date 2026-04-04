@@ -1,0 +1,22 @@
+meta {
+  name: Validations Owners
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/validations-owners/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

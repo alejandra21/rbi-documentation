@@ -1,0 +1,22 @@
+meta {
+  name: AVM Comparison
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/avm-comparison/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

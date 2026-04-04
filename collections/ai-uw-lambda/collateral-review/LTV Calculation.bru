@@ -1,0 +1,22 @@
+meta {
+  name: LTV Calculation
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/ltv-calculation/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

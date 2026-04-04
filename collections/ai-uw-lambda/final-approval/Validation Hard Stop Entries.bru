@@ -1,0 +1,22 @@
+meta {
+  name: Validation Hard Stop Entries
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/validation-hard-stop-entries/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

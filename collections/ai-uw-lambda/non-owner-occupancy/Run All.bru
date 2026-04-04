@@ -1,0 +1,22 @@
+meta {
+  name: Run All
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/phase4-non-owner-occupancy/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

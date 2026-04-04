@@ -1,0 +1,22 @@
+meta {
+  name: Validation Flag Dat
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/validation-flag-dat/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

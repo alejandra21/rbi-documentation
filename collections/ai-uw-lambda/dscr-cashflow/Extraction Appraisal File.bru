@@ -1,0 +1,22 @@
+meta {
+  name: Extraction Appraisal File
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/extraction-load-appraisal-file/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: HO6 Extraction
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/ho6-extraction/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}

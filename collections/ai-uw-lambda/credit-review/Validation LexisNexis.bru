@@ -1,0 +1,22 @@
+meta {
+  name: Validation LexisNexis
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/validation-lexis-nexis/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001"
+  }
+}
