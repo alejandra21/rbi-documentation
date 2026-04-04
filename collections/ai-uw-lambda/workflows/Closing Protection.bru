@@ -1,0 +1,28 @@
+meta {
+  name: Closing Protection
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/workflows/phase8-closing-protection/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "property": {
+      "address": "123 Main St, Miami, FL 33101"
+    },
+    "loan": {
+      "amount": 320000
+    }
+  }
+}

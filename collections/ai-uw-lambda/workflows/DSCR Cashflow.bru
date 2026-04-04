@@ -1,0 +1,30 @@
+meta {
+  name: DSCR Cashflow
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/workflows/phase6-dscr-cashflow/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "loan": {
+      "amount": 320000,
+      "type": "DSCR",
+      "rate": 7.5
+    },
+    "property": {
+      "appraised_value": 450000
+    }
+  }
+}

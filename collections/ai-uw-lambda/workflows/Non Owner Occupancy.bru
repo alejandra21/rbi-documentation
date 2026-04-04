@@ -1,0 +1,26 @@
+meta {
+  name: Non Owner Occupancy
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/workflows/phase4-non-owner-occupancy/run
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": 615,
+    "validation_id": "val-test-001",
+    "property": {
+      "address": "123 Main St, Miami, FL 33101",
+      "type": "single_family"
+    }
+  }
+}
