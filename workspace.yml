@@ -6,6 +6,8 @@ info:
 collections:
   - name: "AI UW"
     path: "collections/AI UW"
+  - name: "ai-uw-lambda"
+    path: "collections/ai-uw-lambda"
   - name: "Externals"
     path: "collections/Externals"
   - name: "Liquid-Dat"
