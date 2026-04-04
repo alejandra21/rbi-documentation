@@ -7,6 +7,15 @@ http:
   method: GET
   url: "{{base_url}}/api/workflows/summary"
   params:
+    - name: page
+      value: "1"
+      type: query
+    - name: page_size
+      value: "10"
+      type: query
+    - name: search
+      value: ""
+      type: query
     - name: overall_status
       value: UNDER_REVIEW
       type: query
@@ -15,18 +24,6 @@ http:
       value: BRIDGE
       type: query
       disabled: true
-    - name: search
-      value: ""
-      type: query
-      disabled: true
-  body:
-    type: json
-    data: |-
-      {
-          "phase": "PHASE_1",
-          "loan_id": 382,
-          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
-      }
   auth: inherit
 
 settings:

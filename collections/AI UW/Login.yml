@@ -17,16 +17,7 @@ http:
 runtime:
   scripts:
     - type: after-response
-      code: bru.setVar("access_token", res.body.access);
-  actions:
-    - type: set-variable
-      phase: after-response
-      selector:
-        expression: res.body.access
-        method: jsonq
-      variable:
-        name: access_token
-        scope: runtime
+      code: bru.setEnvVar("access_token", res.body.access);
 
 settings:
   encodeUrl: true

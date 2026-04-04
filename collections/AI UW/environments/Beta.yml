@@ -24,3 +24,5 @@ variables:
     value: admin2
   - secret: true
     name: password
+  - name: access_token
+    value: ""

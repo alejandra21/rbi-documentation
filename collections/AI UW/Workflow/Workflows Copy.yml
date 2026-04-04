@@ -5,11 +5,7 @@ info:
 
 http:
   method: GET
-  url: "{{base_url}}/api/workflows/:id/"
-  params:
-    - name: id
-      value: "{{workflow_run_id}}"
-      type: path
+  url: "{{base_url}}/api/workflows"
   body:
     type: json
     data: |-

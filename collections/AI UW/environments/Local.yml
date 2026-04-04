@@ -14,3 +14,5 @@ variables:
     value: ""
   - name: local_password
     value: ""
+  - name: access_token
+    value: ""
