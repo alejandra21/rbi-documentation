@@ -16,3 +16,5 @@ variables:
     value: ""
   - name: access_token
     value: ""
+  - name: workflow_run_id
+    value: ""

@@ -20,18 +20,7 @@ http:
 runtime:
   scripts:
     - type: after-response
-      code: |-
-        // Parse the JSON response
-        let response = res.getBody();
-
-        // Check if 'token' exists in the response
-        if (response.token) {
-            // Save token to environment variable
-        //     pm.collectionVariables.set("jwt_token", response.token);
-            console.log("✅ Token saved to environment variable: jwt_token");
-        } else {
-            console.log("⚠️ No 'token' found in the response body.");
-        }
+      code: bru.setVar("jwt_token", res.body.token);
 
 settings:
   encodeUrl: true

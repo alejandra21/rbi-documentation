@@ -26,3 +26,5 @@ variables:
     name: password
   - name: access_token
     value: ""
+  - name: workflow_run_id
+    value: ""

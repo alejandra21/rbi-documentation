@@ -5,13 +5,13 @@ info:
 
 http:
   method: GET
-  url: "{{base_url}}/api/workflows/borrower-eligibility-validations?latest=true&workflow_loan_summary_id=055959aa-790d-4d9a-a763-c2032bf29e52"
+  url: "{{base_url}}/api/workflows/borrower-eligibility-validations?latest=true&workflow_loan_summary_id=383b88f0-933f-4b0b-8b10-8f8be3fabcf3"
   params:
     - name: latest
       value: "true"
       type: query
     - name: workflow_loan_summary_id
-      value: 055959aa-790d-4d9a-a763-c2032bf29e52
+      value: 383b88f0-933f-4b0b-8b10-8f8be3fabcf3
       type: query
   body:
     type: json

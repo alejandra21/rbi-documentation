@@ -19,18 +19,7 @@ http:
 runtime:
   scripts:
     - type: after-response
-      code: |-
-        // Parse the JSON response
-        let response = res.getBody();
-
-        // Check if 'token' exists in the response
-        if (response.id) {
-            // Save token to environment variable
-        //     pm.collectionVariables.set("workflow_run_id", response.id);
-            console.log("✅ ID saved to environment variable");
-        } else {
-            console.log("⚠️ No 'ID' found in the response body.");
-        }
+      code: bru.setEnvVar("workflow_run_id", res.body.id);
 
 settings:
   encodeUrl: true
