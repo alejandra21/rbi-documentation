@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(chmod +x /Users/miltonweinhold/Documents/bruno/RBI/scripts/examples/run-single-request.sh /Users/miltonweinhold/Documents/bruno/RBI/scripts/examples/run-collection.sh)"
+    ]
+  }
+}

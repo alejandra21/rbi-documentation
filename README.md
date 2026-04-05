@@ -17,6 +17,7 @@ This repository contains the [Bruno](https://www.usebruno.com/) API collections 
 ## Requirements
 
 - [Bruno](https://www.usebruno.com/) desktop app
+- [Node.js](https://nodejs.org/) 18+ (for CLI usage)
 
 ## Setup
 
@@ -27,3 +28,51 @@ This repository contains the [Bruno](https://www.usebruno.com/) API collections 
 ## Environments
 
 Each collection includes its own environment configurations (e.g. `local`, `dev`, `staging`). Select the appropriate environment from the environment switcher in Bruno before running requests.
+
+## Running from the CLI
+
+Bruno provides an official CLI (`@usebruno/cli`) to run requests and collections from the terminal — useful for automation, CI/CD, and scripting.
+
+### Install
+
+```bash
+npm install -g @usebruno/cli
+```
+
+### Usage
+
+```bash
+# Run a single request
+bru run "<folder>/<Request Name>.bru" --env <environment>
+
+# Run all requests in a folder
+bru run <folder>/ --env <environment>
+
+# Run the entire collection
+bru run --env <environment>
+```
+
+### Examples
+
+See [`scripts/examples/`](scripts/examples/) for ready-to-run shell scripts.
+
+```bash
+# Run a single workflow against local
+cd collections/ai-uw-lambda
+bru run "initial-phase/Initial Validation.bru" --env local
+
+# Run the full ai-uw-lambda collection against local and output a JSON report
+cd collections/ai-uw-lambda
+bru run --env local --reporter-json ../../scripts/examples/output/results.json
+```
+
+### Useful flags
+
+| Flag | Description |
+|------|-------------|
+| `--env <name>` | Select environment (e.g. `local`, `production`) |
+| `--env-var key=value` | Override an environment variable inline |
+| `--reporter-json <file>` | Export results as JSON |
+| `--reporter-html <file>` | Export results as HTML |
+| `--reporter-junit <file>` | Export results as JUnit XML (CI-friendly) |
+| `--parallel` | Run requests in parallel |
