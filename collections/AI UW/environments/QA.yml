@@ -1,0 +1,10 @@
+name: QA
+variables:
+  - name: base_url
+    value: https://ai-underwriting-backend-qa-bda7d5625b58.herokuapp.com
+  - name: email
+    value: miltonw@rbialliance.com
+  - secret: true
+    name: password
+  - secret: true
+    name: access_token
