@@ -3,7 +3,7 @@ variables:
   - name: base_url
     value: http://localhost:8000
   - name: email
-    value: admin2
+    value: lambda
   - secret: true
     name: password
   - name: OPEN_AI_API_KEY
@@ -14,7 +14,7 @@ variables:
     value: ""
   - name: local_password
     value: ""
-  - name: access_token
-    value: ""
   - name: workflow_run_id
     value: ""
+  - name: access_token
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MDM1MDM0LCJpYXQiOjE3NzU5NDg2MzQsImp0aSI6Ijc0ZDJmNzQ0MTAyNTRmNzJiOWY0YmQyNjNkMTMwZjUxIiwidXNlcl9pZCI6MX0.SFYskflidjHGKSK5neV9wpDNq5j-l14EdwQ3X2xHiyQ
