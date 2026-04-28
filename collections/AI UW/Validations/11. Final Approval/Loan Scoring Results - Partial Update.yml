@@ -1,0 +1,27 @@
+info:
+  name: Loan Scoring Results - Partial Update
+  type: http
+  seq: 43
+
+http:
+  method: PATCH
+  url: "{{base_url}}/api/workflows/loan-scoring-results/<id>/"
+  body:
+    type: json
+    data: |-
+      {
+        "decision": "REVIEW",
+        "confidence": "0.750000",
+        "risk_rating": "0.3200",
+        "prob_approve": "0.750000",
+        "prob_deny": "0.250000",
+        "error_message": null,
+        "success": true
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

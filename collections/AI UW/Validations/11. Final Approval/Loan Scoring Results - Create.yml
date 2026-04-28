@@ -1,0 +1,42 @@
+info:
+  name: Loan Scoring Results - Create
+  type: http
+  seq: 41
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/loan-scoring-results/"
+  body:
+    type: json
+    data: |-
+      {
+        "final_approval_validation": "7982b1f1-7d7e-4518-bbf3-3c0e1dbff0f2",
+        "score_source": "pos",
+        "lendingwise_id": "LW-12345",
+        "input_total_loan_amount": "500000.00",
+        "input_arv": "650000.00",
+        "input_ltc": "75.00",
+        "input_ltv": "65.00",
+        "input_purchase_price": "450000.00",
+        "input_appraisal_value": "600000.00",
+        "input_company_risk_rating": "3.50",
+        "input_loan_purpose": "purchase",
+        "input_loan_program": "bridge",
+        "decision": "APPROVE",
+        "confidence": "0.920000",
+        "risk_rating": "0.1500",
+        "prob_approve": "0.920000",
+        "prob_deny": "0.080000",
+        "called_at": "2024-01-16T10:30:00Z",
+        "success": true,
+        "raw_request": null,
+        "raw_response": null,
+        "error_message": null
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
