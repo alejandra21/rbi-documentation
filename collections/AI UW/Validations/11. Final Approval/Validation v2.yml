@@ -14,7 +14,7 @@ http:
     type: json
     data: |
       {
-          "workflow_loan_summary": "9bde3157-4cf6-4a29-a0d1-4e5acf4c74ad",
+          "workflow_loan_summary": "{{workflow_id}}",
           "phase_1_status": "pass",
           "phase_2_status": "pass",
           "phase_3_status": "pass",
@@ -968,6 +968,11 @@ http:
           "cross_risk_check_passed":true
       }
   auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setEnvVar("phase_summary_phase_11", res.body.id);
 
 settings:
   encodeUrl: true

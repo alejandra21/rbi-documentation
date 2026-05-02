@@ -1,0 +1,63 @@
+info:
+  name: Loans - Update
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{base_url}}/panel/update-loan"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "id": 1,
+        "loan_id_smart": "RBI-001",
+        "loan_program": "Bridge Loan",
+        "loan_purpose": "Purchase",
+        "email": "borrower@example.com",
+        "phone": "555-000-0000",
+        "guarantor_first_name": "John",
+        "guarantor_last_name": "Doe",
+        "current_loan_status": "active",
+        "originating_entity": "",
+        "rate": null,
+        "term_months": null,
+        "origination_fee": null,
+        "broker_fee": null,
+        "exit_strategy": "",
+        "loanAddresses": [
+          {
+            "id": 1,
+            "property_address": "123 Main St",
+            "property_city": "Miami",
+            "property_state": "FL",
+            "property_zip": "33101",
+            "property_county": "",
+            "property_type": "",
+            "apn": "",
+            "year_built": null,
+            "beds": null,
+            "baths": null,
+            "sqft": null
+          }
+        ],
+        "loanParticipations": [
+          {
+            "id": 1,
+            "participant_name": "Lender A",
+            "participation_date": "2026-01-15",
+            "participation_amount": 500000,
+            "monthly_payment": 4000
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

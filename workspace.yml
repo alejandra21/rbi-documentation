@@ -20,6 +20,8 @@ collections:
     path: "collections/RBI Client Backend API"
   - name: "Who-Dat"
     path: "collections/Who-Dat"
+  - name: "POS"
+    path: "collections/POS"
 
 specs:
 

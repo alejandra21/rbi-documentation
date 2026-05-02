@@ -1,0 +1,28 @@
+info:
+  name: Participations - Create
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/loans/participations"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "loan_id": 1,
+        "participant_name": "Lender A",
+        "participation_date": "2026-01-15",
+        "participation_amount": 500000,
+        "monthly_payment": 4000
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

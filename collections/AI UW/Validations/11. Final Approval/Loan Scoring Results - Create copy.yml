@@ -1,0 +1,58 @@
+info:
+  name: Loan Scoring Results - Create copy
+  type: http
+  seq: 44
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/loan-scoring-results/"
+  body:
+    type: json
+    data: |-
+      {
+          "final_approval_validation": "efffbb1b-96eb-410f-beef-67fc83ba1b30",
+          "score_source": "pos",
+          "input_total_loan_amount": 210000,
+          "input_arv": null,
+          "input_ltc": 75,
+          "input_ltv": 75,
+          "input_purchase_price": null,
+          "input_appraisal_value": 280000,
+          "input_company_risk_rating": null,
+          "input_loan_purpose": "Cash-out Refinance",
+          "input_loan_program": "DSCR",
+          "decision": "REVIEW",
+          "confidence": 0.6945493384979832,
+          "risk_rating": 30.55,
+          "prob_approve": 0.6945493384979832,
+          "prob_deny": 0.30545066150201683,
+          "called_at": "2026-04-28T23:31:49.212444Z",
+          "success": true,
+          "raw_request": {
+            "Total Loan Amount": 210000,
+            "ARV": null,
+            "LTC": 75,
+            "LTV": 75,
+            "Purchase Price": null,
+            "Appraisal Value": 280000,
+            "Company Risk Rating": null,
+            "Loan Purpose": "Cash-out Refinance",
+            "Loan Program": "DSCR"
+          },
+          "raw_response": {
+            "decision": "REVIEW",
+            "confidence": 0.6945493384979832,
+            "risk_rating": 30.55,
+            "probabilities": {
+              "APPROVE": 0.6945493384979832,
+              "DENY": 0.30545066150201683
+            }
+          }
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

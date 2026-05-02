@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-          "loan_id": 615,
+          "loan_id": {{loan_id}},
           "source": "ai-uw-app"
       }
   auth: inherit
@@ -18,7 +18,9 @@ http:
 runtime:
   scripts:
     - type: after-response
-      code: bru.setEnvVar("workflow_run_id", res.body.id);
+      code: |-
+        bru.setEnvVar("workflow_run_id", res.body.id);
+        bru.setEnvVar("workflow_id", res.body.workflow_loan_summary);
 
 settings:
   encodeUrl: true

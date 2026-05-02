@@ -1,0 +1,30 @@
+opencollection: 1.0.0
+
+info:
+  name: POS
+
+request:
+  auth:
+    type: bearer
+    token: "{{jwt_token}}"
+  variables:
+    - name: base_url
+      value: "http://localhost:3000/api/v1"
+    - name: public_url
+      value: "http://localhost:3000/api/public/v1"
+    - name: jwt_token
+      value: ""
+    - name: email
+      value: ""
+    - name: password
+      value: ""
+
+docs:
+  content: POS — Loan participations endpoints
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

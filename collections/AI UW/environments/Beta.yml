@@ -28,3 +28,51 @@ variables:
     value: ""
   - name: workflow_run_id
     value: ""
+  - name: workflow_id
+    value: ""
+  - name: loan_id
+    value: "615"
+  - name: workflow_run_id_phase_1
+    value: ""
+  - name: workflow_run_id_phase_2
+    value: ""
+  - name: workflow_run_id_phase_3
+    value: ""
+  - name: workflow_run_id_phase_4
+    value: ""
+  - name: workflow_run_id_phase_5
+    value: ""
+  - name: workflow_run_id_phase_6
+    value: ""
+  - name: workflow_run_id_phase_7
+    value: ""
+  - name: workflow_run_id_phase_8
+    value: ""
+  - name: workflow_run_id_phase_9
+    value: ""
+  - name: workflow_run_id_phase_10
+    value: ""
+  - name: workflow_run_id_phase_11
+    value: ""
+  - name: phase_summary_phase_1
+    value: ""
+  - name: phase_summary_phase_2
+    value: ""
+  - name: phase_summary_phase_3
+    value: ""
+  - name: phase_summary_phase_4
+    value: ""
+  - name: phase_summary_phase_5
+    value: ""
+  - name: phase_summary_phase_6
+    value: ""
+  - name: phase_summary_phase_7
+    value: ""
+  - name: phase_summary_phase_8
+    value: ""
+  - name: phase_summary_phase_9
+    value: ""
+  - name: phase_summary_phase_10
+    value: ""
+  - name: phase_summary_phase_11
+    value: ""

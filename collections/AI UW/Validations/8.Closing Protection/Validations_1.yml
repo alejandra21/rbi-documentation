@@ -14,10 +14,15 @@ http:
     type: json
     data: |-
       {
-          "workflow_loan_summary": "99fe0616-541c-4e49-953b-9f5332e5f04d",
+          "workflow_loan_summary": "{{workflow_id}}",
           "entity_name": "pepe garcia"
       }
   auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setEnvVar("phase_summary_phase_8", res.body.id);
 
 settings:
   encodeUrl: true

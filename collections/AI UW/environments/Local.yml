@@ -16,5 +16,53 @@ variables:
     value: ""
   - name: workflow_run_id
     value: ""
+  - name: workflow_id
+    value: ""
+  - name: loan_id
+    value: "615"
+  - name: workflow_run_id_phase_1
+    value: ""
+  - name: workflow_run_id_phase_2
+    value: ""
+  - name: workflow_run_id_phase_3
+    value: ""
+  - name: workflow_run_id_phase_4
+    value: ""
+  - name: workflow_run_id_phase_5
+    value: ""
+  - name: workflow_run_id_phase_6
+    value: ""
+  - name: workflow_run_id_phase_7
+    value: ""
+  - name: workflow_run_id_phase_8
+    value: ""
+  - name: workflow_run_id_phase_9
+    value: ""
+  - name: workflow_run_id_phase_10
+    value: ""
+  - name: workflow_run_id_phase_11
+    value: ""
+  - name: phase_summary_phase_1
+    value: ""
+  - name: phase_summary_phase_2
+    value: ""
+  - name: phase_summary_phase_3
+    value: ""
+  - name: phase_summary_phase_4
+    value: ""
+  - name: phase_summary_phase_5
+    value: ""
+  - name: phase_summary_phase_6
+    value: ""
+  - name: phase_summary_phase_7
+    value: ""
+  - name: phase_summary_phase_8
+    value: ""
+  - name: phase_summary_phase_9
+    value: ""
+  - name: phase_summary_phase_10
+    value: ""
+  - name: phase_summary_phase_11
+    value: ""
   - name: access_token
     value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MDM1MDM0LCJpYXQiOjE3NzU5NDg2MzQsImp0aSI6Ijc0ZDJmNzQ0MTAyNTRmNzJiOWY0YmQyNjNkMTMwZjUxIiwidXNlcl9pZCI6MX0.SFYskflidjHGKSK5neV9wpDNq5j-l14EdwQ3X2xHiyQ

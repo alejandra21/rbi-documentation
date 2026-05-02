@@ -1,0 +1,31 @@
+info:
+  name: Participations - Update
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{base_url}}/panel/loans/participations/:id"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "participant_name": "Lender A",
+        "participation_date": "2026-01-15",
+        "participation_amount": 500000,
+        "monthly_payment": 4000
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

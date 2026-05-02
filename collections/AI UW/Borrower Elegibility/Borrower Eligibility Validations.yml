@@ -10,11 +10,16 @@ http:
     type: json
     data: |-
       {
-          "workflow_loan_summary": "",
+          "workflow_loan_summary": "{{workflow_id}}",
           "entity_name": "",
           "entity_type": ""
       }
   auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: bru.setEnvVar("phase_summary_phase_1", res.body.id);
 
 settings:
   encodeUrl: true

@@ -10,7 +10,7 @@ http:
     type: json
     data: |-
       {
-          "workflow_run_id": "f52be692-4b00-440d-bf72-9a42c0c4f2bf",
+          "workflow_run_id": "{{workflow_run_id}}",
           "result": {
               "eligibility":{
                   "entity_name_is_valid": true,

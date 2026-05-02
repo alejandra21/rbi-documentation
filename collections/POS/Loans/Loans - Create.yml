@@ -1,0 +1,53 @@
+info:
+  name: Loans - Create
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/create-loan"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "loan_id_smart": "RBI-001",
+        "loan_program": "Bridge Loan",
+        "loan_purpose": "Purchase",
+        "email": "borrower@example.com",
+        "phone": "555-000-0000",
+        "guarantor_first_name": "John",
+        "guarantor_last_name": "Doe",
+        "current_loan_status": "active",
+        "originating_entity": "",
+        "rate": null,
+        "term_months": null,
+        "origination_fee": null,
+        "broker_fee": null,
+        "exit_strategy": "",
+        "loanAddresses": [
+          {
+            "property_address": "123 Main St",
+            "property_city": "Miami",
+            "property_state": "FL",
+            "property_zip": "33101",
+            "property_county": "",
+            "property_type": "",
+            "apn": "",
+            "year_built": null,
+            "beds": null,
+            "baths": null,
+            "sqft": null
+          }
+        ],
+        "loanParticipations": []
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

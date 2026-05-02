@@ -11,7 +11,7 @@ http:
     data: |-
       {
           "phase": "PHASE_10",
-          "loan_id": 615
+          "loan_id": {{loan_id}}
           //"callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
       }
   auth: inherit
@@ -19,7 +19,9 @@ http:
 runtime:
   scripts:
     - type: after-response
-      code: bru.setEnvVar("workflow_run_id", res.body.id);
+      code: |-
+        bru.setEnvVar("workflow_run_id", res.body.id);
+        bru.setEnvVar("workflow_run_id_phase_10", res.body.id);
 
 settings:
   encodeUrl: true

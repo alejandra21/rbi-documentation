@@ -1,0 +1,22 @@
+info:
+  name: Participations - Get
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/panel/loans/:loanId/participations"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: loanId
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
