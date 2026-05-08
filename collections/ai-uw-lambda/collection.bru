@@ -1,0 +1,31 @@
+auth {
+  mode: awsv4
+}
+
+auth:awsv4 {
+  accessKeyId: {{awsAccessKeyId}}
+  secretAccessKey: {{awsSecretAccessKey}}
+  sessionToken:
+  service: lambda
+  region: us-east-1
+  profileName:
+}
+
+docs {
+  Collection-level AWS SigV4 auth.
+
+  Every request in this collection hits the dispatcher Lambda Function URL
+  (`{{aiUwLambdaUrl}}` → `xsug4clelwjxmace3mckpnmdae0flkdi.lambda-url.us-east-1.on.aws`),
+  which is configured with `authorization_type = AWS_IAM`. AWS rejects
+  unsigned or wrong-signed requests with 403 Forbidden before the dispatcher
+  ever runs, so each request must be SigV4-signed.
+
+  Individual requests should set `auth: inherit` to pick this up.
+
+  Required env vars (set in `staging` env, vars:secret recommended):
+    awsAccessKeyId      — IAM access key id (user `ai-uw-bruno-invoker`)
+    awsSecretAccessKey  — matching secret
+
+  Mint a fresh pair with:
+    aws iam create-access-key --user-name ai-uw-bruno-invoker --profile deployer
+}

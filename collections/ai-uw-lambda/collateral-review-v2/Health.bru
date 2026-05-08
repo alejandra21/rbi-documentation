@@ -1,0 +1,17 @@
+meta {
+  name: Health
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{aiUwLambdaUrl}}/health
+  body: none
+  auth: inherit
+}
+
+docs {
+  Quick connectivity check. Hits the dispatcher Lambda's GET /health route.
+  Returns `{"status":"ok","environment":"staging"}` when the API Gateway →
+  dispatcher → Lambda chain is wired correctly.
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Run OpenAI
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/collateral-review-v2-openai/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "pdf_url": "{{pdf_url}}"
+  }
+}
+
+docs {
+  Same payload as `Run Gemini`, but the dispatcher routes to
+  `ai-uw-collateral-review-v2-openai` whose `AI_BACKEND=openai`.
+
+  Required SSM secret: `/ai-uw/openai-api-key` (already declared by terraform;
+  populate via `aws ssm put-parameter`).
+
+  Use this side-by-side with the Gemini variant to compare outputs on the
+  same PDF. The repo also includes `make compare PDF_URL=...` and
+  `tests/comparison/` for an automated parity harness.
+}

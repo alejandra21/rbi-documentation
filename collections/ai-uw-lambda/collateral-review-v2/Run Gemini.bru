@@ -1,0 +1,46 @@
+meta {
+  name: Run Gemini
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/collateral-review-v2-gemini/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "pdf_url": "{{pdf_url}}"
+  }
+}
+
+docs {
+  Run the v2 collateral-review pipeline against the Gemini backend.
+
+  Routing:
+    Bruno → API Gateway → ai-uw-dispatcher → ai-uw-collateral-review-v2-gemini
+
+  The dispatcher matches `collateral-review-v2-gemini` in WORKFLOW_ROUTING and
+  invokes the Lambda whose `AI_BACKEND` env var is set to `gemini`.
+
+  Required SSM secret: `/ai-uw/gemini-api-key` (set via the AWS console or
+  `aws ssm put-parameter --name /ai-uw/gemini-api-key --value <key> --type SecureString --overwrite`).
+
+  Cold-start ~10s, hot ~2s. The v2 lambdas have Timeout: 300s so a large PDF
+  with deep AI analysis may take a few minutes.
+
+  Response shape (success):
+    {
+      "success": true,
+      "appraisal_id": "...",
+      "scores": { ... },
+      "risk_flags": [ ... ],
+      "extracted": { ... }
+    }
+}

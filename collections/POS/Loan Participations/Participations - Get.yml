@@ -11,7 +11,7 @@ http:
       value: application/json
   params:
     - name: loanId
-      value: ""
+      value: "4143"
       type: path
   auth: inherit
 

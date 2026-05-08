@@ -1,0 +1,30 @@
+meta {
+  name: Run Direct (workflow alias)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/collateral-review-v2-gemini/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "pdf_url": "{{pdf_url}}"
+  }
+}
+
+docs {
+  Bare `collateral-review-v2` workflow name (no -gemini / -openai suffix).
+  In dispatcher's WORKFLOW_ROUTING this maps to the same `collateral-review-v2`
+  folder, so it lands on whichever physical Lambda boto3 picks first — useful
+  if you're running locally with `sam local start-lambda` and only one
+  variant is up. In AWS production this resolves to the gemini Lambda by
+  default (because of insertion order in the dict).
+}

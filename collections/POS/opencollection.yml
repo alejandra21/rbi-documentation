@@ -9,9 +9,9 @@ request:
     token: "{{jwt_token}}"
   variables:
     - name: base_url
-      value: "http://localhost:3000/api/v1"
+      value: "http://localhost:3001/api/v1"
     - name: public_url
-      value: "http://localhost:3000/api/public/v1"
+      value: "http://localhost:3001/api/public/v1"
     - name: jwt_token
       value: ""
     - name: email

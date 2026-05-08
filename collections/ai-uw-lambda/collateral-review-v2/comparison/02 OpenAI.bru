@@ -1,0 +1,75 @@
+meta {
+  name: 02 OpenAI
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/collateral-review-v2-openai/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "pdf_url": "{{pdf_url}}"
+  }
+}
+
+script:post-response {
+  // Same field extraction as 01 Gemini; result lands in cmp_openai.
+  const body = res.getBody() || {};
+  const data = body.data || body;
+  const flags = (data?.module_scores?.risk_flags) || data?.risk_flags || [];
+  const prop  = (data?.extraction_snapshot?.property) || (data?.extracted_data?.property) || {};
+
+  const summary = {
+    overall_score:   data.overall_score ?? null,
+    overall_status:  data.overall_status ?? null,
+    risk_score:      data.risk_score ?? null,
+    mod_comp_confidence:          data?.module_scores?.comp_confidence?.score ?? null,
+    mod_market_stability:         data?.module_scores?.market_stability?.score ?? null,
+    mod_valuation_reconciliation: data?.module_scores?.valuation_reconciliation?.score ?? null,
+    mod_subject_property:         data?.module_scores?.subject_property?.score ?? null,
+    mod_document_integrity:       data?.module_scores?.document_integrity?.score ?? null,
+    flags_total:  flags.length,
+    flags_high:   flags.filter(f => f.severity === "high").length,
+    flags_medium: flags.filter(f => f.severity === "medium").length,
+    flags_low:    flags.filter(f => f.severity === "low").length,
+    flag_categories:  Array.from(new Set(flags.map(f => f.category || "unknown"))).sort(),
+    flag_keys:        Array.from(new Set(flags.map(f => `${f.category || "unknown"}:${(f.message || "").slice(0,80)}`))),
+    prop_address:        prop.address || data?.property_data?.address || null,
+    prop_value:          prop.appraised_value ?? null,
+    prop_form_type:      prop.form_type ?? null,
+    prop_effective_date: prop.effective_date ?? null,
+    ai_model:        data.ai_model ?? null,
+    prompt_version:  data.prompt_version ?? null,
+    processing_time_ms: data.processing_time_ms ?? null,
+    ai_cost_cents:   data.total_cost_cents ?? data.ai_cost_cents ?? null,
+    page_count:      data.page_count ?? null,
+  };
+  bru.setVar("cmp_openai",      JSON.stringify(summary));
+  bru.setVar("cmp_openai_full", JSON.stringify(body));
+  console.log("[openai] score=" + summary.overall_score + " status=" + summary.overall_status + " flags=" + summary.flags_total);
+}
+
+tests {
+  test("openai returned 2xx", function() { expect(res.getStatus()).to.be.below(300); });
+  test("openai overall_score present", function() {
+    const data = (res.getBody() || {}).data || res.getBody();
+    expect(data.overall_score).to.not.be.undefined;
+  });
+}
+
+docs {
+  Step 2 of 3. Same payload + extraction as `01 Gemini` but routes to the
+  OpenAI variant. Result captured in `cmp_openai`.
+
+  The dispatcher serialises calls per Lambda function via the boto3 client,
+  but Bruno's Collection Runner serialises requests by definition, so this
+  step always runs after `01 Gemini` finishes.
+}

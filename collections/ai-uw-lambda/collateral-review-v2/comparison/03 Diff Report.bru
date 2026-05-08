@@ -1,0 +1,133 @@
+meta {
+  name: 03 Diff Report
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{aiUwLambdaUrl}}/health
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  // ── Pull both summaries written by 01 and 02 ─────────────────────────────
+  const gemRaw = bru.getVar("cmp_gemini");
+  const oaiRaw = bru.getVar("cmp_openai");
+  if (!gemRaw || !oaiRaw) {
+    console.log("Missing cmp_gemini or cmp_openai — run requests 01 + 02 in this collection first.");
+    return;
+  }
+  const gem = JSON.parse(gemRaw);
+  const oai = JSON.parse(oaiRaw);
+
+  // ── Helpers (port of tests/comparison/compare.py) ────────────────────────
+  const fmt = (v) => (v === null || v === undefined) ? "-" : String(v);
+  const delta = (a, b) => (typeof a === "number" && typeof b === "number") ? Math.abs(a - b) : null;
+
+  function jaccard(setA, setB) {
+    const a = new Set(setA || []);
+    const b = new Set(setB || []);
+    if (a.size === 0 && b.size === 0) return 1.0;
+    let inter = 0;
+    for (const x of a) if (b.has(x)) inter++;
+    const union = new Set([...a, ...b]).size;
+    return union === 0 ? 0 : inter / union;
+  }
+
+  // ── Compute the diff ─────────────────────────────────────────────────────
+  const score_delta   = delta(gem.overall_score, oai.overall_score);
+  const status_agrees = gem.overall_status === oai.overall_status;
+  const flag_jaccard  = jaccard(gem.flag_keys, oai.flag_keys);
+  const cat_jaccard   = jaccard(gem.flag_categories, oai.flag_categories);
+
+  const numericFields = [
+    "overall_score","risk_score",
+    "mod_comp_confidence","mod_market_stability","mod_valuation_reconciliation",
+    "mod_subject_property","mod_document_integrity",
+    "flags_total","flags_high","flags_medium","flags_low",
+    "prop_value","ai_cost_cents","processing_time_ms","page_count",
+  ];
+  const stringFields = [
+    "overall_status","prop_address","prop_form_type","prop_effective_date",
+    "ai_model","prompt_version",
+  ];
+
+  // ── Print the report ─────────────────────────────────────────────────────
+  let out = [];
+  out.push("\n==================== Collateral Review v2 — Gemini vs OpenAI ====================");
+  out.push(`overall_status_agrees: ${status_agrees ? "✓" : "✗"}   score_delta: ${score_delta ?? "-"}   flag_jaccard: ${flag_jaccard.toFixed(2)}   category_jaccard: ${cat_jaccard.toFixed(2)}`);
+  out.push("");
+  out.push(["Field","Gemini","OpenAI","Δ"].map(s => s.padEnd(34)).join(""));
+  out.push("─".repeat(34*4));
+  for (const k of numericFields) {
+    const d = delta(gem[k], oai[k]);
+    out.push([k, fmt(gem[k]), fmt(oai[k]), d === null ? "-" : String(d)].map(s => String(s).padEnd(34)).join(""));
+  }
+  for (const k of stringFields) {
+    const same = gem[k] === oai[k];
+    out.push([k, fmt(gem[k]), fmt(oai[k]), same ? "=" : "≠"].map(s => String(s).padEnd(34)).join(""));
+  }
+  out.push("");
+  out.push(`flag_categories  gemini=${JSON.stringify(gem.flag_categories)}  openai=${JSON.stringify(oai.flag_categories)}`);
+  out.push("==============================================================================\n");
+  console.log(out.join("\n"));
+
+  // Persist for any downstream tooling
+  bru.setVar("cmp_diff_summary", JSON.stringify({
+    score_delta, status_agrees, flag_jaccard, cat_jaccard,
+  }));
+}
+
+tests {
+  test("api gateway healthy", function() { expect(res.getStatus()).to.equal(200); });
+  test("comparison summaries present", function() {
+    expect(bru.getVar("cmp_gemini")).to.not.be.undefined;
+    expect(bru.getVar("cmp_openai")).to.not.be.undefined;
+  });
+  test("score delta within tolerance (≤ 15 pts)", function() {
+    const gem = JSON.parse(bru.getVar("cmp_gemini") || "{}");
+    const oai = JSON.parse(bru.getVar("cmp_openai") || "{}");
+    if (typeof gem.overall_score === "number" && typeof oai.overall_score === "number") {
+      expect(Math.abs(gem.overall_score - oai.overall_score)).to.be.at.most(15);
+    }
+  });
+  test("flag_keys jaccard ≥ 0.5", function() {
+    const gem = JSON.parse(bru.getVar("cmp_gemini") || "{}");
+    const oai = JSON.parse(bru.getVar("cmp_openai") || "{}");
+    const a = new Set(gem.flag_keys || []);
+    const b = new Set(oai.flag_keys || []);
+    if (a.size === 0 && b.size === 0) return;
+    let inter = 0; for (const x of a) if (b.has(x)) inter++;
+    const union = new Set([...a, ...b]).size;
+    expect(union === 0 ? 1 : inter / union).to.be.at.least(0.5);
+  });
+  test("overall_status agrees", function() {
+    const gem = JSON.parse(bru.getVar("cmp_gemini") || "{}");
+    const oai = JSON.parse(bru.getVar("cmp_openai") || "{}");
+    expect(gem.overall_status).to.equal(oai.overall_status);
+  });
+}
+
+docs {
+  Step 3 of 3. Hits `/health` as a cheap pretext request, then in the
+  post-response script reads `cmp_gemini` + `cmp_openai` (set by 01 + 02)
+  and prints a side-by-side diff table to the Bruno console.
+
+  Mirrors `tests/comparison/compare.py` and the report block at the end
+  of `tests/comparison/run_comparison.py`.
+
+  Assertions match the parity bounds from `tests/comparison/test_parity.py`:
+    • |gemini.overall_score - openai.overall_score| ≤ 15
+    • Jaccard similarity of (category:message) flag keys ≥ 0.5
+    • overall_status strings match exactly
+
+  HOW TO RUN
+    1. Open Bruno → ai-uw-lambda → comparison/.
+    2. Switch env to `staging` (or `local` if running against SAM).
+    3. Edit the env's `pdf_url` to point at the appraisal PDF you want to test.
+    4. Click ⋮ on the `comparison` folder → Run → Run all in order.
+       Or click each request top-to-bottom: 01 → 02 → 03.
+    5. Open the Bruno console (View → Toggle Developer Tools, or right
+       sidebar) to see the diff report printed by request 03.
+}

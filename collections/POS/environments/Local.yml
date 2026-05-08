@@ -1,0 +1,6 @@
+name: Local
+variables:
+  - name: email
+    value: a@a.com
+  - name: password
+    value: "123456."
