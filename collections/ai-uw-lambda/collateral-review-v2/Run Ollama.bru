@@ -1,0 +1,60 @@
+meta {
+  name: Run Ollama
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/collateral-review-v2-ollama/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "pdf_url": "{{pdf_url}}"
+  }
+}
+
+docs {
+  Run the v2 collateral-review pipeline against the Ollama Cloud backend.
+
+  Routing:
+    Bruno → Function URL → ai-uw-dispatcher → ai-uw-collateral-review-v2-ollama
+
+  The dispatcher matches `collateral-review-v2-ollama` in WORKFLOW_ROUTING and
+  invokes the Lambda whose `AI_BACKEND` env var is set to `ollama`. That Lambda
+  uses the Node.js server's model stack on Ollama Cloud:
+    OLLAMA_TEXT_MODEL            = gemma4:31b-cloud         (extract + analyze)
+    OLLAMA_VISION_MODEL          = qwen3-vl:235b-cloud      (photo analysis)
+    OLLAMA_DRAFTER_MODEL         = gpt-oss:120b-cloud       (review-chain drafter)
+    OLLAMA_DRAFTER_FALLBACK_MODEL = gemma4:31b-cloud
+
+  Required SSM secret: `/ai-uw/ollama-api-key` (set via the AWS console or
+  `aws ssm put-parameter --name /ai-uw/ollama-api-key --value <key> --type SecureString --overwrite`).
+  Other Ollama config (`OLLAMA_BASE_URL`, `OLLAMA_*_MODEL`) is wired in
+  `template.yaml` with sensible defaults.
+
+  Cold-start expectation: gemma4:31b cold starts on Ollama Cloud can take
+  several minutes. The Lambda is configured with `Timeout: 900` and is
+  invoked via the dispatcher Function URL (15-min headroom), so long cold
+  runs that would 503 through API Gateway succeed here. Hot calls return in
+  ~30-90s depending on PDF size.
+
+  Use this side-by-side with `Run Gemini` and `Run OpenAI` to compare outputs
+  on the same PDF. The repo also includes `make compare PDF_URL=...` and
+  `tests/comparison/` for an automated parity harness.
+
+  Response shape (success):
+    {
+      "success": true,
+      "appraisal_id": "...",
+      "scores": { ... },
+      "risk_flags": [ ... ],
+      "extracted": { ... }
+    }
+}
