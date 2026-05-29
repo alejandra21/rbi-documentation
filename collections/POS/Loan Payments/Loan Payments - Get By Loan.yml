@@ -1,0 +1,58 @@
+info:
+  name: Loan Payments - Get By Loan
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/loan/:loanId/payments"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: loanId
+      value: "2277"
+      type: path
+    - name: page
+      value: "1"
+      type: query
+      enabled: true
+    - name: limit
+      value: "50"
+      type: query
+      enabled: true
+    - name: from_date
+      value: ""
+      type: query
+      enabled: false
+    - name: to_date
+      value: ""
+      type: query
+      enabled: false
+    - name: payment_type
+      value: "RegPmt"
+      type: query
+      enabled: false
+    - name: payment_status
+      value: ""
+      type: query
+      enabled: false
+    - name: servicer_source
+      value: "tmo"
+      type: query
+      enabled: false
+    - name: record_type
+      value: "transaction"
+      type: query
+      enabled: false
+    - name: order
+      value: "desc"
+      type: query
+      enabled: false
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,34 @@
+info:
+  name: Loan Payments - Servicer Pending (TMO fallback)
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/loan/:loanId/payments"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: loanId
+      value: "72503"
+      type: path
+    - name: limit
+      value: "50"
+      type: query
+      enabled: true
+  auth: inherit
+
+docs: |
+  Caso fallback (Fase 5): loan vendido a un servicer externo (BSI) pero el
+  servicer todavía no cargó su data. La respuesta muestra datos de TMO y marca:
+    result.loan.data_source = "TMO"
+    result.loan.servicer_data_pending = true
+    result.loan.expected_servicer = "BSI"
+    result.loan.data_source_note = "Sold to BSI; showing TMO data until the servicer loads its own."
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
