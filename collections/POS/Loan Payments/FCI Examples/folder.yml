@@ -1,0 +1,15 @@
+info:
+  name: FCI Examples
+  type: folder
+  seq: 5
+
+request:
+  auth: inherit
+
+docs:
+  content: |
+    Ejemplos contra datos reales de QA escritos por el cron sync-fci (Fase 4).
+    Loan 1687: 24 transactions + 11 status. Loan 1847: incluye Payoffs.
+    record_type=transaction → pagos del DDR API (getLoanActivities).
+    record_type=status → mora mensual del paystring (getLoanPayString).
+  type: text/markdown

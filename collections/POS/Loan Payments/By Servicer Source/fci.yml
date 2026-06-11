@@ -1,23 +1,23 @@
 info:
-  name: status
+  name: fci
   type: http
-  seq: 2
+  seq: 4
 
 http:
   method: GET
-  url: "{{base_url}}/loan/:loanId/payments?record_type=status&limit=50"
+  url: "{{base_url}}/loan/:loanId/payments?servicer_source=fci&limit=50"
   headers:
     - name: Content-Type
       value: application/json
   params:
-    - name: record_type
-      value: status
+    - name: servicer_source
+      value: fci
       type: query
     - name: limit
       value: "50"
       type: query
     - name: loanId
-      value: "529"
+      value: "1687"
       type: path
   auth: inherit
 

@@ -1,8 +1,12 @@
-name: Local
+name: QA
 variables:
+  - name: base_url
+    value: https://rbi-qa-portal-324d321fcf50.herokuapp.com/api/v1
   - name: email
-    value: a@a.com
+    value: qa@test.com
   - name: password
     value: "123456."
   - name: jwt_token
     value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiYnV5ZXJfaWQiOm51bGwsImlhdCI6MTc4MDA2NzQ1MCwiZXhwIjoxNzgyNjU5NDUwfQ.XQQZCuNOHeY0cGx2wE1NYI2IizY_AVGhcHBPY8dQjKY
+  - name: public_url
+    value: https://rbi-qa-portal-324d321fcf50.herokuapp.com/api/public/v1
