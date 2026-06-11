@@ -16,9 +16,51 @@ headers {
 
 body:json {
   {
-    "loan_id": 615,
-    "workflow_id": "test-wf-001",
-    "workflow_run_id": "test-run-001",
-    "address": "123 Main St, Miami, FL 33101"
+    "address": "159 Northeast 6th Street Unit 2405, Miami, FL 33132"
   }
+}
+
+script:post-response {
+  const b = res.getBody() || {};
+  const env = b.status ? b : (b.data || b);
+  console.log("[normalize-address] body=" + JSON.stringify(env.body));
+}
+
+tests {
+  test("2xx", function() { expect(res.getStatus()).to.be.below(300); });
+  test("{status, body} envelope (parity with Retool Normalize Address)", function() {
+    const b = res.getBody() || {};
+    const env = b.status ? b : (b.data || b);
+    expect(env.status).to.equal(200);
+    expect(env.body).to.not.be.undefined;
+  });
+  test("body is the Google formatted_address string (when key set + match)", function() {
+    const b = res.getBody() || {};
+    const env = b.status ? b : (b.data || b);
+    // success → string; failure (no key / no match) → {error, message}
+    if (typeof env.body === "string") {
+      expect(env.body.length).to.be.above(0);
+    } else {
+      expect(env.body.error).to.equal(true);
+    }
+  });
+}
+
+docs {
+  Parity test for the lambda `normalize-address` workflow vs Retool
+  `[Utils] Normalize Address` (5b824bd0).
+
+  IMPORTANT: despite the name, this is NOT a string normalizer — Retool calls
+  the Google Maps Geocoding API and returns `results[0].formatted_address`.
+  The lambda handler does the same (shared.geocoding.geocode_formatted_address)
+  and returns the Retool envelope `{status, body}` where body =
+  the formatted-address string on success, or `{error, message}` when the key
+  is missing / no match / Google errors.
+
+  Requires `GOOGLE_MAPS_API_KEY` in the lambda env (wired in template.yaml).
+  This is why it can't be fully tested offline — needs the live Google call.
+
+  3rd util-interface port. Normalize Address ≈ 4,607 runs / 2 weeks
+  (12.5% Retool failure rate — Google misses → `results[0]` threw; the lambda
+  fails soft instead of erroring).
 }

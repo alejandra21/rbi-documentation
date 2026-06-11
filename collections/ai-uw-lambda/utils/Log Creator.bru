@@ -1,0 +1,59 @@
+meta {
+  name: Log Creator
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/create-log/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "content_type": 11,
+    "object_id": "c761e5f3-bd8d-4747-bc01-4094e25939c5",
+    "validation_type": "entity_name",
+    "response_data": {},
+    "source": "retool_text_comparator",
+    "note": "holaaa",
+    "status": "completed"
+  }
+}
+
+script:post-response {
+  const b = res.getBody() || {};
+  const env = b.status ? b : (b.data || b);
+  console.log("[create-log] status=" + env.status + " row_id=" + ((env.body||{}).id));
+}
+
+tests {
+  test("2xx", function() { expect(res.getStatus()).to.be.below(300); });
+  test("returns {status, body} envelope (parity with Retool Log Creator)", function() {
+    const b = res.getBody() || {};
+    const env = b.status ? b : (b.data || b);
+    expect(env.status).to.equal(200);
+    expect(env.body).to.not.be.undefined;
+  });
+}
+
+docs {
+  Parity test for the lambda `create-log` workflow vs Retool `[Utils] Log
+  Creator` (ceea3714). Same input shape Retool's webhook takes
+  ({content_type, object_id, validation_type, response_data, source, note,
+  status}); `status` defaults to "completed".
+
+  The handler POSTs to the AI-UW backend `/api/workflows/validation-logs/`
+  (JWT injected by shared.http_client) and returns `{status, body}` — the same
+  envelope Retool's webhookReturn produced. A Retool workflow can therefore
+  replace its `WorkflowRun [Utils] Log Creator` block with an HTTP call here
+  with no downstream change.
+
+  First of the util-interface ports aimed at cutting Retool's internal
+  workflow-run cost (Log Creator alone: ~9,800 runs / 2 weeks).
+}

@@ -16,11 +16,52 @@ headers {
 
 body:json {
   {
-    "loan_id": 615,
-    "workflow_id": "test-wf-001",
-    "workflow_run_id": "test-run-001",
-    "text1": "John Doe",
-    "text2": "John D.",
-    "threshold": 0.8
+    "text1": "548 LONG ISLAND STREET EAST LEHIGH ACRES FI 33974",
+    "text2": "548 LONG ISLAND STREET EAST LEHIGH ACRES FI 33974",
+    "threshold": 1
   }
+}
+
+script:post-response {
+  const b = res.getBody() || {};
+  const env = b.status ? b : (b.data || b);
+  const r = env.body || env;
+  console.log("[compare-text] match=" + r.match + " similarity=" + r.similarity);
+}
+
+tests {
+  test("2xx", function() { expect(res.getStatus()).to.be.below(300); });
+  test("{status, body} envelope (parity with Retool Text Comparator)", function() {
+    const b = res.getBody() || {};
+    const env = b.status ? b : (b.data || b);
+    expect(env.status).to.equal(200);
+    expect(env.body).to.not.be.undefined;
+  });
+  test("identical text → match true, similarity 1", function() {
+    const b = res.getBody() || {};
+    const r = (b.status ? b : (b.data || b)).body;
+    expect(r.match).to.equal(true);
+    expect(r.similarity).to.equal(1);
+    expect(r.normalized_text1).to.not.be.undefined;
+    expect(r.normalized_text2).to.not.be.undefined;
+  });
+}
+
+docs {
+  Parity test for the lambda `compare-text` workflow vs Retool
+  `[Utils] Text Comparator` (904691fe). Same input ({text1, text2, threshold});
+  `threshold` defaults to 0.9 (Retool: `threshold || 0.9`).
+
+  Returns the Retool envelope `{status, body}` where body =
+  `{match, similarity, normalized_text1, normalized_text2}` (+ `reason` when a
+  side is empty). The handler uses `shared.text.compare_texts` — a faithful
+  Retool port (UPPERCASE + strip punctuation, SequenceMatcher, round 2dp) —
+  NOT the lambda-internal `compare_text` (which lowercases, keys `score`/
+  `normalized1`, and 7 phases depend on it).
+
+  A Retool workflow can replace its `WorkflowRun [Utils] Text Comparator` block
+  with an HTTP call here, same response. Optional `remove_suffixes:true` strips
+  company suffixes (LLC/INC/...).
+
+  2nd util-interface port (after Log Creator). Text Comparator ≈ 4,759 runs / 2 weeks.
 }

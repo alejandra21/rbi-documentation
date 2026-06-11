@@ -16,7 +16,10 @@ headers {
 
 body:json {
   {
-    "pdf_url": "{{pdf_url}}"
+    "loan_id": {{loan_id}},
+    "workflow_id": "{{workflow_id}}",
+    "workflow_run_id": "{{workflow_run_id_phase_5}}",
+    "phase": "PHASE_5_v2"
   }
 }
 
@@ -46,15 +49,26 @@ docs {
   ~30-90s depending on PDF size.
 
   Use this side-by-side with `Run Gemini` and `Run OpenAI` to compare outputs
-  on the same PDF. The repo also includes `make compare PDF_URL=...` and
+  on the same loan. The repo also includes `make compare PDF_URL=...` and
   `tests/comparison/` for an automated parity harness.
+
+  Trigger payload is the v1-style stateful trigger (loan_id/workflow_id, not
+  `pdf_url`); the lambda resolves the appraisal URL from POS itself. See
+  `Run Gemini` docs for the full payload + response shape.
 
   Response shape (success):
     {
       "success": true,
-      "appraisal_id": "...",
-      "scores": { ... },
-      "risk_flags": [ ... ],
-      "extracted": { ... }
+      "validation_id": 123,
+      "data": {
+        "overall_score": 0-100,
+        "overall_status": "pass" | "review" | "fail",
+        "risk_score": 0-100,
+        "module_scores": { ... },
+        "property_data": { ... },
+        "comp_data": { ... },
+        "market_data": { ... },
+        "extraction_snapshot": { ... }
+      }
     }
 }

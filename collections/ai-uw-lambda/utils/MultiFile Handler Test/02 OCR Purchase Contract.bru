@@ -1,0 +1,44 @@
+meta {
+  name: 02 OCR Purchase Contract
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/ocr-document/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/documents/purchaseContractDocument-1779890853752-Contract_99900_-_From_Tierra_RGV_Group_LTD_to_RG_Homes_and_Nike_Homes_-_Closing_date_05-20-2026.pdf",
+    "structured": true,
+    "prompt": "You are given OCR/text of a Purchase Contract.\nExtract ONLY:\n- purchase_contract_seller\n- purchase_contract_buyer\nReturn ONLY a valid JSON object (no markdown/text).\nKeys:\n{\"purchase_contract_seller\": string|null, \"purchase_contract_buyer\": string|null}\nRules:\n- Return the actual party names/entities only (not labels).\n- Ignore \"Buyer's Initials\"/\"Seller's Initials\", generic clause mentions, and all addresses/emails/phones.\n- Look in (1) PARTIES block (\"PARTIES:\" or “Seller”/“Buyer” definitions) and (2) SIGNATURE block (\"Seller: Date:\" / \"Buyer: Date:\") with names nearby.\n- Prefer PARTIES; fallback to SIGNATURE. If unclear/missing, return null. No guessing."
+  }
+}
+
+script:post-response {
+  const body = res.getBody() || {};
+  const r = body.result || (body.data && body.data.result) || body.data || body;
+  const summary = {
+    from: "purchaseContract/purchaseContractDocument",
+    purchase_contract_seller: r.purchase_contract_seller ?? null,
+    purchase_contract_buyer:  r.purchase_contract_buyer ?? null,
+  };
+  bru.setVar("mf_contract", JSON.stringify(summary));
+  console.log("[contract] seller=" + summary.purchase_contract_seller + " buyer=" + summary.purchase_contract_buyer);
+}
+
+docs {
+  Stage 3 of the Retool [Util] MultiFile Handler for the second file: the
+  `purchaseContractDocument`. In Retool this is the conflicting source — its
+  values show up in `conflicts[].alternatives`.
+
+  Same prompt + workflow as `01 OCR Addendum`, different file URL. Captured
+  into collection var `mf_contract`.
+}

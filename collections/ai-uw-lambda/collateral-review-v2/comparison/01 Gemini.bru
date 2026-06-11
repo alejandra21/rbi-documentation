@@ -16,7 +16,10 @@ headers {
 
 body:json {
   {
-    "pdf_url": "{{pdf_url}}"
+    "loan_id": {{loan_id}},
+    "workflow_id": "{{workflow_id}}",
+    "workflow_run_id": "{{workflow_run_id_phase_5}}",
+    "phase": "PHASE_5_v2"
   }
 }
 
@@ -68,9 +71,10 @@ tests {
 }
 
 docs {
-  Step 1 of 3 in the comparison harness. Runs the Gemini Lambda v2 against
-  `pdf_url` and captures the comparable fields into the collection-scope
-  variable `cmp_gemini` (and the full body into `cmp_gemini_full`).
+  Step 1 of 3 in the comparison harness. Runs the Gemini Lambda v2 for
+  `loan_id` (the lambda resolves the appraisal URL from POS) and captures the
+  comparable fields into the collection-scope variable `cmp_gemini` (and the
+  full body into `cmp_gemini_full`).
 
   Mirror of `LambdaV2HttpAdapter(backend="gemini").run(...)` in
   tests/comparison/adapters.py + the field extractor in

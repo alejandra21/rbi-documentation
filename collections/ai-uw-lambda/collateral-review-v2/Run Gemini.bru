@@ -16,7 +16,10 @@ headers {
 
 body:json {
   {
-    "pdf_url": "{{pdf_url}}"
+    "loan_id": {{loan_id}},
+    "workflow_id": "{{workflow_id}}",
+    "workflow_run_id": "{{workflow_run_id_phase_5}}",
+    "phase": "PHASE_5_v2"
   }
 }
 
@@ -29,6 +32,18 @@ docs {
   The dispatcher matches `collateral-review-v2-gemini` in WORKFLOW_ROUTING and
   invokes the Lambda whose `AI_BACKEND` env var is set to `gemini`.
 
+  Trigger payload (v1-style stateful trigger — NOT `pdf_url` anymore):
+    {
+      "loan_id": 615,
+      "workflow_id": "<workflow_loan_summary UUID>",
+      "workflow_run_id": "<WorkflowRun UUID>",   // optional
+      "phase": "PHASE_5_v2"
+    }
+  The lambda enriches this via load_loan_context, resolves the appraisal
+  report URL from the POS document store itself, creates a
+  CollateralReviewV2Validation row, runs PDF → AI → enrichment → scoring,
+  PATCHes the row, and posts the phase + workflow callbacks.
+
   Required SSM secret: `/ai-uw/gemini-api-key` (set via the AWS console or
   `aws ssm put-parameter --name /ai-uw/gemini-api-key --value <key> --type SecureString --overwrite`).
 
@@ -38,9 +53,16 @@ docs {
   Response shape (success):
     {
       "success": true,
-      "appraisal_id": "...",
-      "scores": { ... },
-      "risk_flags": [ ... ],
-      "extracted": { ... }
+      "validation_id": 123,
+      "data": {
+        "overall_score": 0-100,
+        "overall_status": "pass" | "review" | "fail",
+        "risk_score": 0-100,
+        "module_scores": { ... per-module + risk_flags ... },
+        "property_data": { ... },
+        "comp_data": { ... },
+        "market_data": { ... },
+        "extraction_snapshot": { ... }
+      }
     }
 }

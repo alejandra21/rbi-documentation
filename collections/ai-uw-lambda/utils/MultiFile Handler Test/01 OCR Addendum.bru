@@ -1,0 +1,53 @@
+meta {
+  name: 01 OCR Addendum
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/ocr-document/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/documents/addendumsToContract-1779890849305-Amendment_-_Closing_date_Buyer_Address.pdf",
+    "structured": true,
+    "prompt": "You are given OCR/text of a Purchase Contract.\nExtract ONLY:\n- purchase_contract_seller\n- purchase_contract_buyer\nReturn ONLY a valid JSON object (no markdown/text).\nKeys:\n{\"purchase_contract_seller\": string|null, \"purchase_contract_buyer\": string|null}\nRules:\n- Return the actual party names/entities only (not labels).\n- Ignore \"Buyer's Initials\"/\"Seller's Initials\", generic clause mentions, and all addresses/emails/phones.\n- Look in (1) PARTIES block (\"PARTIES:\" or “Seller”/“Buyer” definitions) and (2) SIGNATURE block (\"Seller: Date:\" / \"Buyer: Date:\") with names nearby.\n- Prefer PARTIES; fallback to SIGNATURE. If unclear/missing, return null. No guessing."
+  }
+}
+
+script:post-response {
+  // ocr-document (structured) returns {"result": {...}} from the utils lambda.
+  // Defensive unwrap in case the dispatcher nests it under data.
+  const body = res.getBody() || {};
+  const r = body.result || (body.data && body.data.result) || body.data || body;
+  const summary = {
+    from: "purchaseContract/addendumsToContract",
+    purchase_contract_seller: r.purchase_contract_seller ?? null,
+    purchase_contract_buyer:  r.purchase_contract_buyer ?? null,
+  };
+  bru.setVar("mf_addendum", JSON.stringify(summary));
+  console.log("[addendum] seller=" + summary.purchase_contract_seller + " buyer=" + summary.purchase_contract_buyer);
+}
+
+docs {
+  Stage 3 of the Retool [Util] MultiFile Handler, run for ONE file: the
+  `addendumsToContract` document. In Retool this is the `preferred_from`
+  source, so its extracted values become the top-level `values` block.
+
+  This hits the utils lambda's `ocr-document` workflow with `structured:true`
+  + the exact extraction prompt from the Retool trigger. Response shape:
+    {"result": {"purchase_contract_seller": "...", "purchase_contract_buyer": "..."}}
+
+  Captured into collection var `mf_addendum` for `03 Conflict Diff`.
+
+  NOTE: the lambda has NO port of the MultiFile Handler's type_audit or
+  cross-file conflict-merge stages — only this per-file extraction. Run 01 +
+  02 + 03 to reconstruct the `values` / `conflicts` comparison by hand.
+}

@@ -1,0 +1,105 @@
+meta {
+  name: 03 Conflict Diff
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{aiUwLambdaUrl}}/health
+  body: none
+  auth: inherit
+}
+
+script:post-response {
+  // ── Pull per-file extractions from 01 + 02 ───────────────────────────────
+  const addRaw = bru.getVar("mf_addendum");
+  const conRaw = bru.getVar("mf_contract");
+  if (!addRaw || !conRaw) {
+    console.log("Missing mf_addendum or mf_contract — run 01 + 02 first.");
+    return;
+  }
+  const add = JSON.parse(addRaw);   // preferred_from
+  const con = JSON.parse(conRaw);   // alternative
+
+  // ── Reconstruct the MultiFile Handler merge (addendum = preferred) ────────
+  const fields = ["purchase_contract_seller", "purchase_contract_buyer"];
+  const values = {};
+  const conflicts = [];
+  for (const f of fields) {
+    values[f] = add[f] ?? null;
+    if ((con[f] ?? null) !== (add[f] ?? null)) {
+      conflicts.push({
+        field: f,
+        preferred: add[f] ?? null,
+        preferred_from: "purchaseContract/addendumsToContract",
+        alternatives: [{ value: con[f] ?? null, from: "purchaseContract/purchaseContractDocument" }],
+      });
+    }
+  }
+  const status = conflicts.length ? "needs_review" : "ok";
+
+  // ── Retool reference (from the attached MultiFile Handler response) ───────
+  const retool = {
+    status: "needs_review",
+    values: { purchase_contract_seller: "R&G Homes", purchase_contract_buyer: "Manuel Cantu" },
+    alt:    { purchase_contract_seller: "Tierra RGV Group LTD", purchase_contract_buyer: "R&G Homes and Nika Homes" },
+  };
+
+  // ── Print side-by-side ────────────────────────────────────────────────────
+  const fmt = (v) => (v === null || v === undefined) ? "-" : String(v);
+  const pad = (s) => String(s).padEnd(30);
+  let out = [];
+  out.push("\n=============== MultiFile Handler — Lambda (ocr-document) vs Retool ===============");
+  out.push(`status: lambda=${status}  retool=${retool.status}`);
+  out.push("");
+  out.push([pad("field"), pad("lambda preferred"), pad("retool values"), "match"].join(""));
+  out.push("─".repeat(96));
+  for (const f of fields) {
+    const same = (values[f] ?? null) === (retool.values[f] ?? null);
+    out.push([pad(f), pad(fmt(values[f])), pad(fmt(retool.values[f])), same ? "=" : "≠"].join(""));
+  }
+  out.push("");
+  out.push("alternatives (purchaseContractDocument):");
+  for (const f of fields) {
+    const lambdaAlt = (con[f] ?? null);
+    const same = lambdaAlt === (retool.alt[f] ?? null);
+    out.push([pad("  " + f), pad(fmt(lambdaAlt)), pad(fmt(retool.alt[f])), same ? "=" : "≠"].join(""));
+  }
+  out.push("");
+  out.push("lambda conflicts: " + JSON.stringify(conflicts));
+  out.push("==================================================================================\n");
+  console.log(out.join("\n"));
+
+  bru.setVar("mf_diff", JSON.stringify({ status, values, conflicts }));
+}
+
+tests {
+  test("health ok", function() { expect(res.getStatus()).to.equal(200); });
+  test("both files extracted", function() {
+    expect(bru.getVar("mf_addendum")).to.not.be.undefined;
+    expect(bru.getVar("mf_contract")).to.not.be.undefined;
+  });
+  test("lambda preferred seller matches Retool", function() {
+    const add = JSON.parse(bru.getVar("mf_addendum") || "{}");
+    expect(add.purchase_contract_seller).to.equal("R&G Homes");
+  });
+  test("lambda preferred buyer matches Retool", function() {
+    const add = JSON.parse(bru.getVar("mf_addendum") || "{}");
+    expect(add.purchase_contract_buyer).to.equal("Manuel Cantu");
+  });
+}
+
+docs {
+  SUPERSEDED — use `00 MultiFile Handler` instead. `[Util] MultiFile Handler`
+  is now ported to the lambda workflow `multifile-handler`
+  (shared/shared/multifile_handler.py), which does type_audit, latest-per-type
+  selection, the `_meta`-augmented OCR, and the conflict merge server-side.
+
+  This request predates the port: it reads the two per-file extractions
+  (`mf_addendum` = preferred, `mf_contract` = alternative) from `01`/`02` and
+  rebuilds `values` + `conflicts` client-side as a sanity cross-check against
+  the Retool reference. Kept only as a per-primitive comparison; `00` is the
+  real parity test.
+
+  Run order (legacy path): 01 → 02 → 03. Open the Bruno console for the table.
+}

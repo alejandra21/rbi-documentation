@@ -125,7 +125,8 @@ docs {
   HOW TO RUN
     1. Open Bruno → ai-uw-lambda → comparison/.
     2. Switch env to `staging` (or `local` if running against SAM).
-    3. Edit the env's `pdf_url` to point at the appraisal PDF you want to test.
+    3. Set the env's `loan_id` + `workflow_id` to the loan you want to test
+       (the lambda resolves the appraisal PDF from POS itself).
     4. Click ⋮ on the `comparison` folder → Run → Run all in order.
        Or click each request top-to-bottom: 01 → 02 → 03.
     5. Open the Bruno console (View → Toggle Developer Tools, or right

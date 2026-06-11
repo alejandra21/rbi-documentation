@@ -1,0 +1,110 @@
+meta {
+  name: 00 MultiFile Handler
+  type: http
+  seq: 0
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/multifile-handler/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "document_types": [
+      "purchaseContract/addendumsToContract",
+      "purchaseContract/purchaseContractDocument"
+    ],
+    "use_latest_per_type": true,
+    "base_url": "https://rbi-files.s3.us-east-2.amazonaws.com",
+    "prompt": "You are given OCR/text of a Purchase Contract.\nExtract ONLY:\n- purchase_contract_seller\n- purchase_contract_buyer\nReturn ONLY a valid JSON object (no markdown/text).\nKeys:\n{\"purchase_contract_seller\": string|null, \"purchase_contract_buyer\": string|null}\nRules:\n- Return the actual party names/entities only (not labels).\n- Ignore \"Buyer's Initials\"/\"Seller's Initials\", generic clause mentions, and all addresses/emails/phones.\n- Look in (1) PARTIES block (\"PARTIES:\" or “Seller”/“Buyer” definitions) and (2) SIGNATURE block (\"Seller: Date:\" / \"Buyer: Date:\") with names nearby.\n- Prefer PARTIES; fallback to SIGNATURE. If unclear/missing, return null. No guessing.",
+    "documents": [
+      {
+        "slug": "purchaseContract",
+        "files": [
+          {
+            "id": 36556,
+            "s3Key": "loan_applications/documents/addendumsToContract-1779890849305-Amendment_-_Closing_date_Buyer_Address.pdf",
+            "createdAt": "2026-05-27T14:07:29.000Z",
+            "type": { "slug": "addendumsToContract" },
+            "loanApplicationGuarantor": null
+          },
+          {
+            "id": 36557,
+            "s3Key": "loan_applications/documents/purchaseContractDocument-1779890853752-Contract_99900_-_From_Tierra_RGV_Group_LTD_to_RG_Homes_and_Nike_Homes_-_Closing_date_05-20-2026.pdf",
+            "createdAt": "2026-05-27T14:07:33.000Z",
+            "type": { "slug": "purchaseContractDocument" },
+            "loanApplicationGuarantor": null
+          }
+        ]
+      }
+    ]
+  }
+}
+
+script:post-response {
+  // multifile-handler returns build_final_output directly from the utils lambda.
+  const body = res.getBody() || {};
+  const out = body.status ? body : (body.data || body);
+  bru.setVar("mf_handler", JSON.stringify(out));
+  console.log("[multifile-handler] status=" + out.status
+    + " seller=" + (out.values||{}).purchase_contract_seller
+    + " buyer=" + (out.values||{}).purchase_contract_buyer
+    + " conflicts=" + (out.conflicts||[]).length
+    + " type_mismatches=" + (out.type_mismatches||[]).length);
+}
+
+tests {
+  // Parity assertions against the attached Retool [Util] MultiFile Handler output.
+  test("2xx", function() { expect(res.getStatus()).to.be.below(300); });
+  test("status needs_review", function() {
+    const o = JSON.parse(bru.getVar("mf_handler") || "{}");
+    expect(o.status).to.equal("needs_review");
+  });
+  test("preferred seller = R&G Homes (from addendum)", function() {
+    const o = JSON.parse(bru.getVar("mf_handler") || "{}");
+    expect((o.values||{}).purchase_contract_seller).to.equal("R&G Homes");
+  });
+  test("preferred buyer = Manuel Cantu (from addendum)", function() {
+    const o = JSON.parse(bru.getVar("mf_handler") || "{}");
+    expect((o.values||{}).purchase_contract_buyer).to.equal("Manuel Cantu");
+  });
+  test("2 field conflicts, alternatives from purchaseContractDocument", function() {
+    const o = JSON.parse(bru.getVar("mf_handler") || "{}");
+    expect((o.conflicts||[]).length).to.equal(2);
+    (o.conflicts||[]).forEach(function(c) {
+      expect(c.preferred_from).to.equal("purchaseContract/addendumsToContract");
+    });
+  });
+  test("no type mismatches (both audit MATCH)", function() {
+    const o = JSON.parse(bru.getVar("mf_handler") || "{}");
+    expect((o.type_mismatches||[]).length).to.equal(0);
+  });
+}
+
+docs {
+  Direct test of the ported `[Util] MultiFile Handler` → lambda workflow
+  `multifile-handler` (utils). Posts the same shape Retool's webhook takes
+  (`documents` tree + `document_types` + `prompt` + `use_latest_per_type`)
+  and asserts the response matches the attached Retool reference:
+
+    status:  needs_review
+    values:  seller "R&G Homes", buyer "Manuel Cantu"   (addendum preferred)
+    conflicts: 2, alternatives from purchaseContractDocument
+    type_audit: both MATCH (token_overlap 0.5)
+
+  The `documents` array is trimmed to the `purchaseContract` group only — the
+  handler filters by `document_types`, so the other groups are irrelevant to
+  this case. `base_url` is set explicitly so it doesn't depend on the lambda's
+  BASE_URL_DOCUMENTS env.
+
+  This SUPERSEDES the per-file `01/02/03` requests, which were a manual
+  reconstruction from before the handler existed. The handler does the
+  latest-per-type selection, the `_meta`-augmented OCR, the type-audit, and
+  the cross-file conflict merge in one call.
+}
