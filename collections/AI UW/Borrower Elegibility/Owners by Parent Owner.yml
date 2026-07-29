@@ -1,0 +1,28 @@
+info:
+  name: Owners by Parent Owner
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/entity-owners/?parent_owner=7c524590-c5ea-4ca7-a4ff-62fc9ca4bb85"
+  params:
+    - name: parent_owner
+      value: 7c524590-c5ea-4ca7-a4ff-62fc9ca4bb85
+      type: query
+  auth: inherit
+
+docs: |
+  Filtro parent_owner nuevo en EntityOwnerFilter (backend PR #94). Devuelve los
+  hijos directos de un entity owner — un nivel hacia abajo del arbol de
+  ownership que escribe el Lambda entity-ownership-tracing.
+
+  Para recorrer el arbol completo:
+    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
+  y despues bajar nivel por nivel con este request.
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

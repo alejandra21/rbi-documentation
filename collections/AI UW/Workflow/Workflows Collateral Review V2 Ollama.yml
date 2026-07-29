@@ -1,0 +1,29 @@
+info:
+  name: Workflows Collateral Review V2 Ollama
+  type: http
+  seq: 8
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review-v2-ollama/"
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": {{loan_id}},
+          "source": "ai-uw-app"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setEnvVar("workflow_run_id", res.body.id);
+        bru.setEnvVar("workflow_id", res.body.workflow_loan_summary);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

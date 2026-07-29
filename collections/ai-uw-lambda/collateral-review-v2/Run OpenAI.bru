@@ -23,6 +23,11 @@ body:json {
   }
 }
 
+vars:pre-request {
+  pdf_url: https://rbialliance.retool.com/api/file/435f3e03-2f80-402e-be58-57771c316efc
+  aiUwLambdaUrl: https://xsug4clelwjxmace3mckpnmdae0flkdi.lambda-url.us-east-1.on.aws/
+}
+
 docs {
   Same payload + stateful trigger as `Run Gemini` (loan_id/workflow_id, not
   `pdf_url`), but the dispatcher routes to `ai-uw-collateral-review-v2-openai`
@@ -30,7 +35,7 @@ docs {
 
   Required SSM secret: `/ai-uw/openai-api-key` (already declared by terraform;
   populate via `aws ssm put-parameter`).
-
+  
   Use this side-by-side with the Gemini variant to compare outputs on the
   same loan. The repo also includes `make compare PDF_URL=...` and
   `tests/comparison/` for an automated parity harness.
