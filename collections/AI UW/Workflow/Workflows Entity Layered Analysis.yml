@@ -10,30 +10,51 @@ http:
     type: json
     data: |-
       {
-          "borrower_eligibility_validation": "7c524590-c5ea-4ca7-a4ff-62fc9ca4bb85",
-          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710",
-          "source": "external_app"
+          "borrower_eligibility_validation": "{{borrower_eligibility_validation_id}}",
+          "source": "ai-uw-app"
+          //"callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
       }
   auth: inherit
 
 docs: |
-  Proxy endpoint (backend PR #94) que invoca el Lambda de entity-layered-analysis
-  directamente, sin pasar por Retool. Responde 202 Accepted con el WorkflowRun;
-  la llamada firmada con SigV4 corre en una tarea de Celery.
+  Endpoint que llama el frontend (AI UW app, Fase 1 — seccion "Layered Ownership
+  Structure") para construir el arbol de entity ownership. Proxy del backend
+  (PR #94) que invoca el Lambda de entity-layered-analysis directamente, sin
+  pasar por Retool. Responde 202 Accepted con el WorkflowRun; la llamada firmada
+  con SigV4 corre en una tarea de Celery.
 
   Body:
     borrower_eligibility_validation  UUID (requerido) — la validacion a la que se
                                      enganchan los EntityOwner trazados. De ahi
                                      se derivan loan_id y workflow_loan_summary.
-    callback_url                     opcional
-    source                           opcional (default "external_app")
+    source                           opcional (default "external_app"). El
+                                     frontend manda "ai-uw-app".
+    callback_url                     opcional — el frontend NO lo manda; hace
+                                     polling sobre GET /api/workflows/:id/.
 
   El WorkflowRun se crea con phase PHASE_1. Ojo: loan_summary.phase_1 NO se pone
   en PENDING a proposito — el layered analysis es un sub-componente de la Fase 1,
   no un re-run completo.
 
+  Orden que sigue el frontend (useRunEntityOwnershipTracing) — importa:
+    1. GET /api/workflows/borrower-eligibility-validations/?loan_application_id=<loan_id>
+       para guardar cual es la validacion mas reciente ANTES de correr nada
+       (request "Borrower Elegibility > Latest Validation by Loan", que ademas
+       deja el UUID en {{borrower_eligibility_validation_id}}).
+    2. POST /api/workflows/ con phase PHASE_1 — esto es lo que hace que Retool
+       cree el nuevo registro de validacion (request "Workflow > Create > Phase 1").
+    3. Repetir el paso 1 cada 2s hasta que el id cambie.
+    4. Recien ahi este POST, con el id nuevo. Si se dispara antes, el Lambda cae
+       en su fallback ("la ultima validacion del loan") y cuelga los owners de la
+       corrida ANTERIOR — devolviendo 200, asi que el error es invisible.
+    5. Polling de GET /api/workflows/:id/ hasta que status deje de ser
+       "processing". El status final es el veredicto del workflow (PASS / REVIEW
+       / error), no "completed".
+
   Para leer resultados:
-    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
+    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>&source=ai_layered
+        el frontend filtra por source=ai_layered: sin el filtro tambien vienen los
+        owners de un solo nivel, que se repiten con el primer nivel del arbol
     GET /api/workflows/entity-owners/?parent_owner=<owner_id>
 
 runtime:

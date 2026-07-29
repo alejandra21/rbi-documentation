@@ -1,0 +1,19 @@
+info:
+  name: POS Docs
+  type: http
+  seq: 28
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/loan-application-documents/14189/?phase=borrower_eligibility"
+  params:
+    - name: phase
+      value: borrower_eligibility
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

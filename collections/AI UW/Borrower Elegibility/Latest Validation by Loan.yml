@@ -1,0 +1,42 @@
+info:
+  name: Latest Validation by Loan
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/borrower-eligibility-validations/?loan_application_id={{loan_id}}"
+  params:
+    - name: loan_application_id
+      value: "{{loan_id}}"
+      type: query
+  auth: inherit
+
+docs: |
+  Validaciones de borrower eligibility de un loan, de la mas nueva a la mas
+  vieja. Es el filtro que usa el frontend (y el fallback del Lambda de
+  entity-ownership-tracing): por loan_application_id, no por el UUID del
+  workflow_loan_summary que usa "Borrower Eligibility Validations_1".
+
+  El frontend lo llama dos veces alrededor del POST /api/workflows/ de la Fase 1
+  — una antes para snapshotear el id actual y otra cada 2s hasta que cambie —
+  y recien entonces dispara "Workflow > Workflows Entity Layered Analysis" con
+  el id nuevo.
+
+  Hoy la respuesta no viene paginada; el script de abajo tolera igual un envelope
+  {results: [...]} por si se activa la paginacion mas adelante.
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const rows = Array.isArray(res.body) ? res.body : (res.body.results || []);
+        if (rows.length) {
+          bru.setEnvVar("borrower_eligibility_validation_id", rows[0].id);
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

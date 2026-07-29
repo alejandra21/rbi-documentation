@@ -56,3 +56,5 @@ variables:
     value: ""
   - name: phase_summary_phase_11
     value: ""
+  - name: borrower_eligibility_validation_id
+    value: ""
