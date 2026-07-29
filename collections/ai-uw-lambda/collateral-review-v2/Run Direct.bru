@@ -23,6 +23,10 @@ body:json {
   }
 }
 
+vars:pre-request {
+  pdf_url: https://rbialliance.retool.com/api/file/435f3e03-2f80-402e-be58-57771c316efc
+}
+
 docs {
   Bare `collateral-review-v2` workflow name (no -gemini / -openai suffix).
   In dispatcher's WORKFLOW_ROUTING this maps to the same `collateral-review-v2`

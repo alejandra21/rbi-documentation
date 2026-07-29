@@ -1,0 +1,50 @@
+info:
+  name: Workflows Entity Layered Analysis
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/entity-layered-analysis/"
+  body:
+    type: json
+    data: |-
+      {
+          "borrower_eligibility_validation": "7c524590-c5ea-4ca7-a4ff-62fc9ca4bb85",
+          "callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710",
+          "source": "external_app"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setEnvVar("workflow_run_id", res.body.id);
+
+docs: |-
+  Proxy endpoint (backend PR #94) that invokes the entity-layered-analysis
+  Lambda directly, bypassing Retool. Returns 202 Accepted with the created
+  WorkflowRun; the SigV4-signed Lambda call runs in a Celery task.
+
+  Body:
+    borrower_eligibility_validation  UUID (required) — the validation the
+                                     traced EntityOwner rows attach to.
+                                     loan_id and workflow_loan_summary are
+                                     derived from it by the endpoint.
+    callback_url                     optional
+    source                           optional (defaults to "external_app")
+
+  The WorkflowRun is created with phase PHASE_1. Note that
+  loan_summary.phase_1 is deliberately NOT flipped to PENDING — the layered
+  analysis is a sub-component of Phase 1, not a full re-run.
+
+  Read the results with:
+    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
+    GET /api/workflows/entity-owners/?parent_owner=<owner_id>
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
