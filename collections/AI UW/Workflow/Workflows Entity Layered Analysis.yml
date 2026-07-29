@@ -16,32 +16,31 @@ http:
       }
   auth: inherit
 
+docs: |
+  Proxy endpoint (backend PR #94) que invoca el Lambda de entity-layered-analysis
+  directamente, sin pasar por Retool. Responde 202 Accepted con el WorkflowRun;
+  la llamada firmada con SigV4 corre en una tarea de Celery.
+
+  Body:
+    borrower_eligibility_validation  UUID (requerido) — la validacion a la que se
+                                     enganchan los EntityOwner trazados. De ahi
+                                     se derivan loan_id y workflow_loan_summary.
+    callback_url                     opcional
+    source                           opcional (default "external_app")
+
+  El WorkflowRun se crea con phase PHASE_1. Ojo: loan_summary.phase_1 NO se pone
+  en PENDING a proposito — el layered analysis es un sub-componente de la Fase 1,
+  no un re-run completo.
+
+  Para leer resultados:
+    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
+    GET /api/workflows/entity-owners/?parent_owner=<owner_id>
+
 runtime:
   scripts:
     - type: after-response
       code: |-
         bru.setEnvVar("workflow_run_id", res.body.id);
-
-docs: |-
-  Proxy endpoint (backend PR #94) that invokes the entity-layered-analysis
-  Lambda directly, bypassing Retool. Returns 202 Accepted with the created
-  WorkflowRun; the SigV4-signed Lambda call runs in a Celery task.
-
-  Body:
-    borrower_eligibility_validation  UUID (required) — the validation the
-                                     traced EntityOwner rows attach to.
-                                     loan_id and workflow_loan_summary are
-                                     derived from it by the endpoint.
-    callback_url                     optional
-    source                           optional (defaults to "external_app")
-
-  The WorkflowRun is created with phase PHASE_1. Note that
-  loan_summary.phase_1 is deliberately NOT flipped to PENDING — the layered
-  analysis is a sub-component of Phase 1, not a full re-run.
-
-  Read the results with:
-    GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
-    GET /api/workflows/entity-owners/?parent_owner=<owner_id>
 
 settings:
   encodeUrl: true
