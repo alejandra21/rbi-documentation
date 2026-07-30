@@ -1,0 +1,129 @@
+meta {
+  name: Entity Ownership Extraction
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/entity-ownership-extraction/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": {{loan_id}}
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  Read-only layered entity ownership (workflows PR #44). Reads the loan's
+  entity documents from POS, traces the ownership down to the ultimate
+  individual owners (UBOs), flags the required guarantors per RBI's per-level
+  >=20% rule, and RETURNS the whole answer. Nothing is persisted.
+
+  Routing:
+    Bruno -> Function URL -> ai-uw-dispatcher -> ai-uw-borrower-eligibility
+
+  Registered as `entity-ownership-extraction` in the dispatcher's
+  WORKFLOW_ROUTING and in the borrower-eligibility handler REGISTRY. Excluded
+  from that handler's `run-all`.
+
+  ── Read-only twin of `Entity Ownership Tracing` ────────────────────────────
+
+  Same tracing logic — the tree code is imported from entity_ownership_tracer,
+  not re-implemented — with every AI-UW backend dependency removed:
+
+                              Tracing              Extraction (this one)
+    body                      loan_id +            loan_id
+                              validation_id
+    BorrowerEligibility-      required (looked     not involved
+      Validation                up when omitted)
+    EntityOwner rows          written              none
+    summary PATCH            yes                  no
+    phase callback           yes                  no
+    idempotent               no (writes per run)  yes (changes nothing)
+
+  Use THIS one to read a loan's structure (spot checks, Retool panels, prompt
+  tuning). Use `Entity Ownership Tracing` when Phase 1 needs the tree
+  persisted against a validation record.
+
+  Because there is no validation_id, the fallback that makes Tracing risky —
+  "take the latest validation for the loan", which silently attaches a run's
+  output to a PREVIOUS validation while still returning 200 — does not exist
+  here. There is nothing to attach to.
+
+  ── Body ───────────────────────────────────────────────────────────────────
+
+    loan_id          required — the only field you need
+    entity_name      optional — overrides the name POS reports, for a loan POS
+                     spells differently from its ownership documents
+    model            optional — overrides the extraction model
+    loan_documents   optional — skips the POS document fetch (fixtures)
+
+  Missing loan_id -> {"status": "error", "error": "loan_id is required"}
+
+  ── Where the inputs come from ─────────────────────────────────────────────
+
+  Both reads go straight to POS (no load_loan_context, so the backend's
+  WorkflowLoanSummary is never fetched).
+
+  Borrower entity name, in order of precedence:
+    1. `entity_name` in this body
+    2. GET /api/v1/loan-applications/{loan_id}       -> result.formData.entity_name
+    3. GET /api/v1/loan-application-form/{loan_id}/  -> result.formData.entity_name
+
+  Whichever answered comes back as `borrower_entity_name_source`
+  (input | pos_loan_application | pos_loan_application_form). If none does:
+  {"status": "error", "error": "borrower entity_name not found in loan application"}
+
+  Documents: GET /api/v1/loan-application-documents/{loan_id}, filtered to the
+  slugs operatingAgreementByLawsStockCertPartnershipAgreement,
+  articlesOfOrganizationIncorporation and einLetter. Deleted files dropped.
+
+  ── Timing ─────────────────────────────────────────────────────────────────
+
+  One OCR + AI extraction per entity document, 6 in parallel. A layered loan
+  carries several Operating Agreements, so expect tens of seconds — `timeout`
+  is 0 (no limit) for exactly this reason. Unlike Tracing there are no
+  persisted rows to read while you wait: the response body is the only output,
+  so let the request finish.
+
+  ── Response fields worth checking ─────────────────────────────────────────
+
+    status                       PASS, or REVIEW when the borrower doc is
+                                 missing or a high-severity condition fired
+    borrower_entity              the name that was traced
+    borrower_entity_name_source  which of the three sources supplied it
+    ownership_tree               borrower at depth 0, children nested
+    required_guarantors          individuals reached via a fully-qualifying
+                                 >=20% chain
+    ultimate_individual_owners   leaf individuals (UBOs)
+    layered_structure_detected   true when any direct owner of the borrower is
+                                 itself an entity
+    conditions                   missing docs, foreign-entity due diligence,
+                                 low-confidence matches, manual review
+    validation_checklist         per-entity ownership sums, documents present
+    entity_documents_found       POS files matched by slug
+    entity_records_extracted     of those, how many the AI could read
+    persisted                    always false — stated so its absence is not
+                                 read as a failed write
+    parameters                   the thresholds this answer was computed under
+                                 (model, guarantor_threshold, max_depth, slugs)
+
+  A document that fails to extract is skipped: the entity it described ends up
+  with missing_document: true, a `missing_ownership_document` condition fires
+  and status becomes REVIEW. Compare entity_documents_found against
+  entity_records_extracted to spot it.
+
+  Full contract: docs/ENTITY_OWNERSHIP_EXTRACTION.md in ai-underwriting-workflows.
+}
