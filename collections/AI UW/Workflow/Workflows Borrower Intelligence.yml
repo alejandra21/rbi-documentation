@@ -1,0 +1,103 @@
+info:
+  name: Workflows Borrower Intelligence
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/borrower-intelligence/"
+  body:
+    type: json
+    data: |-
+      {
+          "borrower_eligibility_validation": "{{borrower_eligibility_validation_id}}",
+          "source": "ai-uw-app"
+          //"loan_id": 382,
+          //"callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710"
+      }
+  auth: inherit
+
+docs: |
+  Endpoint que llama el frontend (AI UW app, Fase 2.2 — boton "Re-run Borrower
+  Intelligence", y la entrada "2.2 Borrower Intelligence" del dropdown
+  "Re-execute By Phase"). Proxy del backend que firma con SigV4 el Function URL
+  del Lambda ai-uw-borrower-intelligence y encola la llamada en Celery. Responde
+  202 Accepted con el WorkflowRun (phase = PHASE_2_2).
+
+  ── Por que NO pasa por el dispatcher ──────────────────────────────────────
+
+  El Lambda manda el arbol de ownership a Elementix y hace poll INLINE hasta que
+  el job termina: presupuesto de 840s dentro de un timeout de 900s. El
+  dispatcher corre a 300s, asi que enrutar por ahi cortaria la llamada a medio
+  poll y dejaria la validacion clavada en job_status="submitted" para siempre.
+  Por eso el backend usa un setting aparte:
+
+    AI_UW_BORROWER_INTELLIGENCE_LAMBDA_URL   Terraform output
+                                             `borrower_intelligence_function_url`
+    AI_UW_BORROWER_INTELLIGENCE_TIMEOUT      default 960 — tiene que superar los
+                                             840s del Lambda
+
+  Si falta la URL el endpoint responde 500 con "AI_UW_BORROWER_INTELLIGENCE_LAMBDA_URL
+  not configured" (no cae al dispatcher a proposito). Para invocar el Lambda
+  directo, sin backend, esta el request "ai-uw-lambda > borrower-intelligence >
+  Run Borrower Intelligence".
+
+  ── Body ───────────────────────────────────────────────────────────────────
+
+    borrower_eligibility_validation  UUID, opcional pero MANDALO SIEMPRE que lo
+                                     tengas: dice CUAL arbol de ownership leer.
+                                     De ahi se derivan loan_id y
+                                     workflow_loan_summary, que es el vinculo
+                                     autoritativo.
+    loan_id                          alternativa si no tenes la validacion. El
+                                     orquestador cae entonces a "la ultima
+                                     validacion de Fase 1 del loan" — y despues
+                                     de un re-run de Fase 1 esa "ultima" no es
+                                     la corrida que tenias en mente: lee el
+                                     arbol VIEJO y devuelve 200.
+    source                           opcional (default "external_app"). El
+                                     frontend manda "ai-uw-app".
+    callback_url                     opcional — el frontend no lo manda; hace
+                                     polling sobre GET /api/workflows/:id/.
+
+  Uno de los dos identificadores tiene que venir; si no: 400 "Provide
+  borrower_eligibility_validation or loan_id."
+
+  ── Precondicion: Fase 1 tiene que haber trazado el arbol ──────────────────
+
+  La fase lee GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>&source=ai_layered.
+  Sin owners trazados no hay a quien preguntar y la corrida cierra en
+  job_status="failed". Corre primero "Workflows Entity Layered Analysis".
+
+  ── Que NO pasa ────────────────────────────────────────────────────────────
+
+  Ningun campo phase_* del WorkflowLoanSummary se toca: la Fase 2.2 no tiene
+  columna propia y usar la de otra fase la reportaria mal. El WorkflowRun
+  (phase=PHASE_2_2) es lo unico que trackea la corrida.
+
+  El Lambda crea la BorrowerIntelligenceValidation el mismo — y la crea ANTES de
+  llamar a Elementix, para que una corrida que muera a medio poll deje fila.
+  El backend no persiste el payload; solo cierra el WorkflowRun.
+
+  ── Polling ────────────────────────────────────────────────────────────────
+
+    GET /api/workflows/:id/  hasta que status deje de ser "processing".
+    "completed" / "error" es sobre la LLAMADA, no sobre el veredicto: una corrida
+    que termino con garantes sin resolver igual es una respuesta. El veredicto
+    esta en la validacion (job_status, ai_determined_status).
+
+    El frontend tapa a los 15 minutos (el presupuesto del Lambda es 840s).
+
+  Para leer resultados: "Validations > 2.2 Borrower Intelligence".
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setEnvVar("workflow_run_id_phase_2", res.body.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
