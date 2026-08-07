@@ -23,19 +23,29 @@ body:json {
   }
 }
 
+vars:pre-request {
+  aiUwLambdaUrl: https://xsug4clelwjxmace3mckpnmdae0flkdi.lambda-url.us-east-1.on.aws
+  borrower_eligibility_validation_id: aabdeb0e-2ea6-4a46-9524-cac9410bcefd
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
 docs {
   Layered entity ownership tracer (workflows PR #40). Recursively traces the
   borrower's entity ownership down to the ultimate individual owners (UBOs)
   and flags the required guarantors per RBI's per-level >=20% rule.
-
+  
   Routing:
     Bruno -> Function URL -> ai-uw-dispatcher -> ai-uw-borrower-eligibility
-
+  
   Registered as `entity-ownership-tracing` in the dispatcher's
   WORKFLOW_ROUTING and in the borrower-eligibility handler REGISTRY. It is a
   standalone Phase 1 workflow — NOT part of the `phase1-borrower-eligibility`
   orchestrator — so it has to be triggered on its own.
-
+  
   Body:
     loan_id          required
     validation_id    UUID of the BorrowerEligibilityValidation the traced
@@ -48,19 +58,19 @@ docs {
                      so the mistake is invisible.
     workflow_run_id  optional — used for the phase-result callback
     model            optional — overrides the extraction model
-
+  
   `loan_documents` / `loan_application_form` are hydrated automatically via
   load_loan_context; do not send them. The borrower entity name is read from
   the loan application form (`result.formData.entity_name`); without it the
   workflow returns
   {"status": "error", "error": "borrower entity_name not found in loan application"}.
-
+  
   One AI extraction runs per entity document (Operating Agreement / Articles /
   EIN), so this is slow — trigger it and read the persisted rows rather than
   waiting on the response body:
     GET /api/workflows/entity-owners/?borrower_eligibility_validation=<id>
     GET /api/workflows/entity-owners/?parent_owner=<owner_id>
-
+  
   Response fields worth checking:
     status                       PASS, or REVIEW when the borrower doc is
                                  missing or a high-severity condition fired
@@ -74,9 +84,4 @@ docs {
                                  low-confidence matches, manual review
     layered_structure_detected   true when any direct owner of the borrower is
                                  itself an entity
-}
-
-settings {
-  encodeUrl: true
-  timeout: 0
 }
