@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: "{{base_pos_url}}/public/v1/sign-in"
+  url: "{{base_pos_url}}/api/public/v1/sign-in"
   headers:
     - name: Content-Type
       value: application/json
