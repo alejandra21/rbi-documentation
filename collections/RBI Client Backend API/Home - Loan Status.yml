@@ -1,0 +1,51 @@
+info:
+  name: Home - Loan Status
+  type: http
+  seq: 47
+
+http:
+  method: GET
+  url: "{{private_url}}/home/:loanApplicationId/status"
+  headers:
+    - name: Content-Type
+      value: application/json
+    - name: Authorization
+      value: Bearer {{jwt_token}}
+  params:
+    - name: loanApplicationId
+      value: ""
+      type: path
+  auth: inherit
+
+docs:
+  content: |
+    Pantalla "Loan Status" del POS (Home).
+
+    Devuelve la fase simplificada del file y los milestones de la fase actual
+    + los de la siguiente (estos con `started: false`).
+
+    ## Fase Underwriting — viene del AI Underwriting system
+
+    Cuando `home_status` es `"Underwriting"`, las 11 secciones salen del AI-UW
+    (`GET /api/workflows/summary/?search={loanApplicationId}` — ver la colección
+    "AI UW"). Regla: `finished: true` SOLO si esa phase está `APPROVED`.
+    `PENDING`, `UNDER_REVIEW` y `REJECTED` dan `false`.
+
+    Las 11 secciones van en `false` si el loan no existe en el AI-UW, si la
+    consulta falla, o si falta `AIUW_API_KEY` en el `.env` — en los tres casos
+    el endpoint responde 200 igual.
+
+    Statuses que caen en Underwriting: `underwriter_review`,
+    `final_underwriting`, `manager_review`, `quality_control`.
+
+    ## Variables
+
+    - `private_url` — ej. `http://localhost:3000/api/v1`
+    - `jwt_token` — el de "Sign In"
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

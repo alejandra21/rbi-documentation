@@ -1,0 +1,31 @@
+info:
+  name: Loan Contacts - From POS
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/loan-contacts/from-pos/?loan_id=15597"
+  params:
+    - name: loan_id
+      value: "15597"
+      type: query
+  auth: inherit
+
+docs: |-
+  Reads loan contacts live from the POS API (no DB copy involved).
+
+  Depends on two POS calls, both of which need a POS sign-in first:
+    - /api/v1/loan-application-contact-list/<loan_id>/
+    - /api/v1/loan-applications/<loan_id>
+
+  Expected statuses:
+    - 200: list of {id, role, name, phone, email}
+    - 400: loan_id query param missing
+    - 502: POS unreachable / sign-in failed (body has the upstream reason)
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

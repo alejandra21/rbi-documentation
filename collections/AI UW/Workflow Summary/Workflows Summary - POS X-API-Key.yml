@@ -1,0 +1,77 @@
+info:
+  name: Workflows Summary - POS X-API-Key
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/summary/"
+  headers:
+    - name: X-API-Key
+      value: "{{aiuw_api_key}}"
+  params:
+    - name: search
+      value: ""
+      type: query
+    - name: page
+      value: "1"
+      type: query
+    - name: page_size
+      value: "100"
+      type: query
+  auth: none
+
+docs:
+  content: |
+    La llamada EXACTA que hace el POS para pintar la fase Underwriting del Home
+    (`aiUnderwritingService.getLoanSummary`).
+
+    Diferencias con "Workflows Summary":
+
+    - **Auth por `X-API-Key`** (`<prefix>.<secret>`), no por JWT. Es lo que usa
+      el POS server-to-server; el JWT expira a las 24h.
+    - **`page_size=100`** (el máximo) en vez de 10 — ver abajo.
+
+    ## Ojo: `search` es substring
+
+    Matchea por `icontains` sobre `loan_id`, `property_addresses` y
+    `company_name`, así que `search=123` **también** devuelve el loan `1234` y
+    cualquier propiedad cuya dirección contenga "123". El POS filtra por
+    `loan_id` EXACTO del lado del cliente (`pickSummaryForLoan`), y por eso pide
+    la página completa de 100.
+
+    Al probar: buscá el objeto de `results` cuyo `loan_id` sea exactamente el
+    id de la loan application del POS.
+
+    ## Qué mirar en la respuesta
+
+    `phase_1`…`phase_11` → las 11 secciones del Home, en orden:
+
+    | campo | sección |
+    |---|---|
+    | phase_1 | Borrower Eligibility |
+    | phase_2 | Experience Tiering |
+    | phase_3 | Credit Review |
+    | phase_4 | Non-Owner Occupancy |
+    | phase_5 | Collateral Review |
+    | phase_6 | DSCR & Cash Flow |
+    | phase_7 | Title Insurance |
+    | phase_8 | Closing Protection |
+    | phase_9 | Insurance Policy |
+    | phase_10 | Asset Verification |
+    | phase_11 | Final Approval |
+
+    Valores: `PENDING` | `APPROVED` | `REJECTED` | `UNDER_REVIEW`.
+    En el Home solo `APPROVED` da `finished: true`.
+
+    ## Variables
+
+    - `aiuw_api_key` — la API key de servicio (la emite AI-UW, se muestra una
+      sola vez). Es la misma que va en `AIUW_API_KEY` del `.env` del POS.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
