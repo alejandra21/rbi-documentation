@@ -1,0 +1,32 @@
+info:
+  name: Extensions - Finance Resend (FIN-02)
+  type: http
+  seq: 9
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/finance/resend"
+  headers:
+    - name: Content-Type
+      value: application/json
+  auth: inherit
+
+docs:
+  content: |
+    Manually re-fire the proof-uploaded webhook, for when the automatic send
+    failed and `last_error` is set.
+
+    Two guards worth hitting on purpose:
+      - no proof uploaded yet -> refused
+      - already FUNDS_VERIFIED -> refused with `already_verified`
+
+    With FINANCE_API_BASE_URL unset locally the send fails and is recorded in
+    `last_error` instead of throwing. That is the designed degradation, so a
+    failure here is not necessarily a bug — read last_error on the extension.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,36 @@
+info:
+  name: API Keys - Create (finance full)
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/servicing-api-keys"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "label": "finance-roundtrip",
+        "scopes": ["finance:proof", "finance:decision"]
+      }
+  auth: inherit
+
+docs:
+  content: |
+    Finance's REAL key: it reads the borrower proof AND posts decisions, but
+    still cannot touch the servicing:read surface.
+
+    Copy `result.plaintext` into `finance_api_key`.
+
+    This is the key the Extensions > API Keys screen now issues from the UI —
+    worth minting it both ways at least once and confirming the scopes match.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
