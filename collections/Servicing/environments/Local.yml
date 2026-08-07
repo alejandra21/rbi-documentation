@@ -1,0 +1,26 @@
+name: Local
+variables:
+  - name: base_url
+    value: http://localhost:3001/api/v1
+  - name: public_url
+    value: http://localhost:3001/api/public/v1
+  - name: servicing_api
+    value: http://localhost:3001/api/public/v1/servicing
+  # Admin/superadmin JWT. Issued by rbi-client-backend, not by servicing —
+  # log into the POS QA portal and copy the bearer out of devtools.
+  - name: jwt_token
+    value: ""
+  # Plaintext API keys, returned exactly once by "API Keys - Create".
+  - name: finance_api_key
+    value: ""
+  - name: read_api_key
+    value: ""
+  - name: extension_id
+    value: ""
+  - name: api_key_id
+    value: ""
+  # Copy out of the Location header of "Borrower Proof - Get (302)".
+  - name: signed_token
+    value: ""
+  - name: loan_id
+    value: ""

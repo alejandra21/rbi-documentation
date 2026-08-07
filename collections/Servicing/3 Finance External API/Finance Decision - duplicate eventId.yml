@@ -1,0 +1,39 @@
+info:
+  name: Finance Decision - duplicate eventId
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{servicing_api}}/extension-fee/decision"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "eventId": "{{decision_event_id}}",
+        "externalRecordId": "{{extension_id}}",
+        "decision": "APPROVED",
+        "verifiedBy": "finance-qa",
+        "verifiedAmount": 1500.00
+      }
+  auth: none
+
+docs:
+  content: |
+    Send the SAME eventId twice. Expect 200 with `duplicate: true` — not an
+    error, and not a second state change.
+
+    This matters because Finance retries on 5xx. Without idempotency a retry
+    would re-apply the decision and, worse, re-fire the follow-up work.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

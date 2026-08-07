@@ -1,0 +1,18 @@
+info:
+  name: Loan - Communications
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{servicing_api}}/loans/{{loan_id}}/communications"
+  headers:
+    - name: x-api-key
+      value: "{{read_api_key}}"
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,31 @@
+info:
+  name: API Keys - Create (servicing-read)
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/servicing-api-keys"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "label": "servicing-read-local-test",
+        "scopes": ["servicing:read"]
+      }
+  auth: inherit
+
+docs:
+  content: |
+    The general read key, for folder 4. Copy `result.plaintext` into
+    `read_api_key`. It must NOT be able to reach the borrower-proof endpoint.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

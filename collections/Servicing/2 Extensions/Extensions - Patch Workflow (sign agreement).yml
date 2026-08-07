@@ -1,0 +1,34 @@
+info:
+  name: Extensions - Patch Workflow (sign agreement)
+  type: http
+  seq: 3
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/workflow"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "agreementSignedByBorrower": "2026-08-07"
+      }
+  auth: inherit
+
+docs:
+  content: |
+    Clears the first FIN-06 blocker. A DATEONLY column: any non-empty value that
+    does not start with "0000" counts as signed.
+
+    Re-run "Extensions - Get By ID" afterwards and confirm the blocker is gone
+    while `verificationStatus` stays null — that is the half-open state the gate
+    is designed around.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

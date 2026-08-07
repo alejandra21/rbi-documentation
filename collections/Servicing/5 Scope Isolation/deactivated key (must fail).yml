@@ -1,0 +1,25 @@
+info:
+  name: deactivated key (must fail)
+  type: http
+  seq: 4
+
+http:
+  method: GET
+  url: "{{servicing_api}}/extension-fee/{{extension_id}}/borrower-proof"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+  auth: none
+
+docs:
+  content: |
+    Run "API Keys - Deactivate" first, then this. A deactivated key must be
+    denied on EVERY scope, not merely dropped from the one it was narrowed to.
+    Re-activate afterwards with {"active": true}.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: false
+  maxRedirects: 0

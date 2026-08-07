@@ -1,0 +1,19 @@
+info:
+  name: 5 Scope Isolation
+  type: folder
+  seq: 5
+
+request:
+  auth: none
+
+docs:
+  content: |
+    EVERY request in this folder must FAIL. A 200 here is the bug.
+
+    This is the real test of FIN-11: Finance's key reaches Finance's endpoint
+    and nothing else. The separation is enforced by middleware REGISTRATION
+    ORDER in src/routes/servicingApi.ts — the proof route sits above
+    `router.use(protectExternalRead)`. Any new route added above that line
+    silently escapes the read guard, so re-run this folder whenever the external
+    router changes.
+  type: text/markdown

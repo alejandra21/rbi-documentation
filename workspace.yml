@@ -22,6 +22,8 @@ collections:
     path: "collections/Who-Dat"
   - name: "POS"
     path: "collections/POS"
+  - name: "Servicing"
+    path: "collections/Servicing"
 
 specs:
 

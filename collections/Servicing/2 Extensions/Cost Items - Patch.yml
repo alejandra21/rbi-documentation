@@ -1,0 +1,32 @@
+info:
+  name: Cost Items - Patch
+  type: http
+  seq: 13
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/cost-items/{{cost_item_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "amount": 300.00,
+        "removed": false
+      }
+  auth: inherit
+
+docs:
+  content: |
+    `removed: true` is the interesting one — a synced item that an agent takes
+    out of the breakdown. It should stop counting toward the total without the
+    row disappearing, so the next sync doesn't silently bring it back.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

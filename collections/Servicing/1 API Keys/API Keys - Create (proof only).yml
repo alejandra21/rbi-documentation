@@ -1,0 +1,32 @@
+info:
+  name: API Keys - Create (proof only)
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/servicing-api-keys"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "label": "proof-only",
+        "scopes": ["finance:proof"]
+      }
+  auth: inherit
+
+docs:
+  content: |
+    Deliberately narrower than Finance's key. Copy the plaintext into
+    `proof_only_key` — folder 5 uses it to prove finance:proof alone cannot post
+    a decision.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,24 @@
+info:
+  name: API Keys - Delete
+  type: http
+  seq: 5
+
+http:
+  method: DELETE
+  url: "{{base_url}}/panel/servicing-api-keys/{{api_key_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  auth: inherit
+
+docs:
+  content: |
+    Soft delete — the row stays with `deleted: true`, per the repo-wide rule
+    that nothing is ever destroyed. Cleanup after testing.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

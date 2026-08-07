@@ -1,0 +1,18 @@
+info:
+  name: finance-proof key on payoffs (must fail)
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{servicing_api}}/payoffs"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: false
+  maxRedirects: 0

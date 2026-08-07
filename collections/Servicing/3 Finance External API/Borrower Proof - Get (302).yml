@@ -1,0 +1,34 @@
+info:
+  name: Borrower Proof - Get (302)
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{servicing_api}}/extension-fee/{{extension_id}}/borrower-proof"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+  auth: none
+
+docs:
+  content: |
+    The permanent URL that travels in the Finance webhook payload. Requires the
+    `finance:proof` scope and nothing wider.
+
+    followRedirects is OFF on purpose — you want to READ the 302, not chase it.
+
+    Expect: status 302, and a `Location` of
+    {{public_url}}/documents/signed/<token>. It is ABSOLUTE because
+    SERVICING_PUBLIC_BASE_URL is set. Unset that var and recreate the app
+    container to see it degrade to a relative Location — legal, but it leaves
+    Finance to resolve it.
+
+    Copy the token out of Location into `signed_token`.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: false
+  maxRedirects: 0

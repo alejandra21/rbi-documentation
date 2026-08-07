@@ -1,0 +1,108 @@
+info:
+  name: Workflows Entity Ownership Extraction
+  type: http
+  seq: 10
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/entity-ownership-extraction/"
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": {{loan_id}},
+          "source": "prequal"
+          //"callback_url": "https://webhook.site/95a17655-ff33-4937-a377-0aa128085710",
+          //"entity_name": "BORROWER LLC",
+          //"model": "gpt-5.2"
+      }
+  auth: inherit
+
+docs: |
+  Gemelo de SOLO LECTURA de "Workflows Entity Layered Analysis". Proxy del
+  backend al Lambda `entity-ownership-extraction`: traza la estructura de
+  ownership por capas (borrower -> entidades que lo poseen -> ... -> personas
+  naturales) y DEVUELVE el arbol. No escribe nada.
+
+  Pensado para consumidores externos (prequaldat) que quieren LEER la
+  estructura de un loan, no para avanzar la Fase 1.
+
+  Diferencias con Entity Layered Analysis:
+
+                                Layered Analysis        Extraction (este)
+    body                        borrower_eligibility_   loan_id
+                                validation (UUID)
+    necesita validacion Fase 1  si                      NO
+    filas EntityOwner           las escribe             ninguna
+    PATCH al validation         si                      no
+    phase callback              si                      no
+    correrlo dos veces          reescribe el arbol      no cambia nada
+
+  Como no hay validation_id, tampoco existe el fallback riesgoso del otro
+  ("la ultima validacion del loan"), que cuelga los owners de la corrida
+  ANTERIOR devolviendo 200. Aca no hay nada de donde colgarlos.
+
+  Body:
+    loan_id      requerido — id del loan en POS
+    source       opcional (default "external_app") — tag del que llama
+    callback_url opcional — el resultado se POSTea ahi al terminar
+    entity_name  opcional — pisa el nombre que reporta POS, para loans donde
+                 POS lo escribe distinto que los documentos de ownership
+    model        opcional — pisa el modelo de extraccion
+
+  Loan que no existe en POS -> 400 (el serializer lo valida contra el RBI API).
+
+  ── Es asincrono ───────────────────────────────────────────────────────────
+
+  Responde 202 con el WorkflowRun (phase PHASE_1, result null); la llamada
+  firmada con SigV4 corre en una tarea de Celery. El arbol NO viene en esa
+  respuesta. Dos formas de leerlo:
+
+    1. callback_url — se POSTea el payload completo al terminar.
+    2. Polling de GET /api/workflows/:id/ hasta que status deje de ser
+       "processing" (el script after-response de este request ya guarda el id
+       en {{workflow_run_id}}).
+
+  Ojo con los dos "status": el del WorkflowRun es de la LLAMADA — "completed"
+  = el Lambda contesto, "failed" = la llamada fallo y result trae {"error"}.
+  El veredicto de underwriting es result.status: PASS / REVIEW.
+
+  Esperar decenas de segundos: es un OCR + extraccion AI por cada documento de
+  entidad del loan (6 en paralelo). Por eso `timeout` es 0.
+
+  Dos no-efectos a proposito, porque este endpoint responde una pregunta y no
+  mueve el loan: no crea WorkflowLoanSummary y nunca pone phase_1 en PENDING.
+
+  ── Que trae result ────────────────────────────────────────────────────────
+
+    status                       PASS, o REVIEW si falta el documento del
+                                 borrower o salto una condicion high
+    borrower_entity              el nombre que se trazo
+    ownership_tree               borrower en depth 0, owners anidados en
+                                 children; cada nodo de entidad trae
+                                 state_of_formation (null si no se conoce)
+    required_guarantors          individuos alcanzados por una cadena que
+                                 califica en TODOS los niveles (>=20%)
+    ultimate_individual_owners   individuos hoja (UBOs)
+    layered_structure_detected   true si algun owner directo es una entidad
+    conditions                   documentos faltantes, entidad extranjera,
+                                 match de baja confianza, revision manual
+    validation_checklist         sumas de ownership por entidad, docs presentes
+    persisted                    siempre false — se dice explicito para que su
+                                 ausencia no se lea como una escritura fallida
+    parameters                   los thresholds con los que se calculo
+
+  Contrato completo para integradores: docs/ENTITY_OWNERSHIP_EXTRACTION.md en
+  ai-underwriting-back (y docs/API.md para el resto de la API).
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setEnvVar("workflow_run_id", res.body.id);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

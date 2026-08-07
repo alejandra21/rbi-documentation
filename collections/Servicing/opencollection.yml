@@ -1,0 +1,77 @@
+opencollection: 1.0.0
+
+info:
+  name: Servicing
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  auth:
+    type: bearer
+    token: "{{jwt_token}}"
+  variables:
+    - name: base_url
+      value: http://localhost:3001/api/v1
+    - name: public_url
+      value: http://localhost:3001/api/public/v1
+    - name: servicing_api
+      value: http://localhost:3001/api/public/v1/servicing
+    - name: jwt_token
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzA4Mywicm9sZSI6ImFkbWluIiwiYnV5ZXJfaWQiOm51bGwsImVtYWlsIjoiYWxlamFuZHJhY0ByYmlhbGxpYW5jZS5jb20iLCJmdWxsX25hbWUiOiJBbGVqYW5kcmEgQ29yZGVybyIsImlhdCI6MTc4NjEwMjQ4MCwiZXhwIjoxNzg2MTg4ODgwfQ.Yu20sAoGhtY7_hBw2uFBb7LtFfmk_0rj2WpYkaSdi7c
+    - name: finance_api_key
+      value: svc_g-z6KuI50Df_vagaquhMF7qIUCfvX08xr5wt1n_aKGU
+    - name: read_api_key
+      value: ""
+    - name: extension_id
+      value: "5"
+    - name: api_key_id
+      value: ""
+    - name: signed_token
+      value: ""
+    - name: loan_id
+      value: ""
+    # A key holding ONLY finance:proof, for the scope-isolation checks. Finance's
+    # real key (finance_api_key) holds finance:proof + finance:decision.
+    - name: proof_only_key
+      value: ""
+    # Idempotency key on Finance's decision callback. Bump it for a fresh
+    # decision; reuse it to prove the duplicate is swallowed.
+    - name: decision_event_id
+      value: "evt-local-001"
+    - name: cost_item_id
+      value: ""
+
+docs:
+  content: |
+    Servicing backend — Extensions ↔ Finance batch
+    (branch `integration/extensions-finance`).
+
+    Three auth surfaces, do not mix them up:
+
+    - `{{base_url}}` — private panel routes. Bearer JWT, admin/superadmin only
+      (`requireRole(ADMIN_ROLES)`). Inherited from the collection.
+    - `{{servicing_api}}` — external read API for other teams. DB-backed API key
+      as `x-api-key` (or `Authorization: Bearer <plaintext>`). Never a JWT.
+    - `{{public_url}}` — genuinely public. The signed document link carries its
+      own token and takes no auth header at all.
+
+    Run the folders in order: API Keys mints the keys the later folders use.
+    "Scope Isolation" is the interesting one — every request in it must FAIL.
+
+    Companion doc: servicing-backend `docs/testing/extensions-finance-qa.md`.
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

@@ -1,0 +1,51 @@
+info:
+  name: Finance Decision - APPROVED
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{servicing_api}}/extension-fee/decision"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "eventId": "{{decision_event_id}}",
+        "externalRecordId": "{{extension_id}}",
+        "decision": "APPROVED",
+        "verifiedBy": "finance-qa",
+        "verifiedAt": "2026-08-07T12:00:00Z",
+        "verifiedAmount": 1500.00,
+        "proofOfFundsUrl": "https://finance.example.com/pof/123"
+      }
+  auth: none
+
+docs:
+  content: |
+    FIN-05 — the callback that closes the round trip. This is what finally moves
+    an extension to FUNDS_VERIFIED; before it existed the only way was a manual
+    INSERT.
+
+    `externalRecordId` IS the extension id (as a string). `eventId` is the
+    idempotency key.
+
+    Response carries `amountMismatch`: if `verifiedAmount` differs from what the
+    cost breakdown says is collectable, servicing reports the discrepancy but
+    does NOT block. Send 1500.00 against an extension whose total is something
+    else to see it populate — that reconciliation is easy to get wrong and worth
+    an explicit look.
+
+    Afterwards: re-run `Extensions - Get By ID` and confirm `financeVerification`
+    is FUNDS_VERIFIED and `finalizeReadiness.blockers` is empty.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

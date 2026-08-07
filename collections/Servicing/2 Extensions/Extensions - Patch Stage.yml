@@ -1,0 +1,35 @@
+info:
+  name: Extensions - Patch Stage
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/stage"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "stage": ""
+      }
+  auth: inherit
+
+docs:
+  content: |
+    Where the FIN-06 gate bites when FINANCE_ENABLED=true: advancing to the
+    closing stage must be REFUSED while funds are unverified.
+
+    Run it once with the flag off (succeeds), then flip FINANCE_ENABLED=true,
+    recreate the app container, and run it again (must be refused). Put the flag
+    back to false afterwards — with it on and no way to produce a FUNDS_VERIFIED
+    row, every fee-collecting extension is stuck.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

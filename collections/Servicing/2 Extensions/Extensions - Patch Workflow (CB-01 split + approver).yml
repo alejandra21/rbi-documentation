@@ -1,0 +1,39 @@
+info:
+  name: Extensions - Patch Workflow (CB-01 split + approver)
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/workflow"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "customSplitInvestorPct": 60,
+        "customSplitRbiPct": 30,
+        "customSplitBrokerPct": 10,
+        "exceptionApproverName": "Test Approver",
+        "exceptionApproverEmail": "approver@example.com",
+        "exceptionContext": "waiving the extension fee"
+      }
+  auth: inherit
+
+docs:
+  content: |
+    CB-01 custom terms + exception approver, and the CB-02 regression.
+
+    CB-02: the broker fee is a CARVE-OUT, never an extra charge. Note the
+    borrower total before sending this, then compare after — it must be
+    IDENTICAL. The 10% broker share comes out of RBI's cut, it does not get
+    added on top. If the borrower total grew, CB-02 has regressed.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

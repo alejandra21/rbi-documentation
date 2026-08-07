@@ -1,0 +1,34 @@
+name: Staging
+variables:
+  # CloudFront proxy in front of the dev/staging ALB. This is also what the
+  # backend computes as SERVICING_PUBLIC_BASE_URL there (locals.public_base_url),
+  # so signed document links come back pointing at this same host.
+  - name: base_url
+    value: https://d23ieid7cy8mdg.cloudfront.net/api/v1
+  - name: public_url
+    value: https://d23ieid7cy8mdg.cloudfront.net/api/public/v1
+  - name: servicing_api
+    value: https://d23ieid7cy8mdg.cloudfront.net/api/public/v1/servicing
+  # Same POS-issued admin JWT as local: staging validates with the same SECRET.
+  - name: jwt_token
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzA4Mywicm9sZSI6ImFkbWluIiwiYnV5ZXJfaWQiOm51bGwsImVtYWlsIjoiYWxlamFuZHJhY0ByYmlhbGxpYW5jZS5jb20iLCJmdWxsX25hbWUiOiJBbGVqYW5kcmEgQ29yZGVybyIsImlhdCI6MTc4NjEwMjQ4MCwiZXhwIjoxNzg2MTg4ODgwfQ.Yu20sAoGhtY7_hBw2uFBb7LtFfmk_0rj2WpYkaSdi7c
+  # API keys are rows in the SERVICING database, so they are per-environment.
+  # Keys minted locally do NOT exist here — issue fresh ones against staging.
+  - name: finance_api_key
+    value: ""
+  - name: proof_only_key
+    value: ""
+  - name: read_api_key
+    value: ""
+  - name: extension_id
+    value: ""
+  - name: api_key_id
+    value: ""
+  - name: signed_token
+    value: ""
+  - name: loan_id
+    value: ""
+  - name: decision_event_id
+    value: "evt-staging-001"
+  - name: cost_item_id
+    value: ""

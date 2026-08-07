@@ -1,0 +1,37 @@
+info:
+  name: Cost Items - Create
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/cost-items"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "type": "fee",
+        "label": "Manual QA line item",
+        "amount": 250.00
+      }
+  auth: inherit
+
+docs:
+  content: |
+    A manual line item on top of the synced ones. Copy `result.id` into
+    `cost_item_id` for the patch/delete requests.
+
+    After adding it, re-read the breakdown: the borrower total should grow by
+    exactly this amount. Contrast with the broker fee, which must NOT move the
+    borrower total (CB-02) — same table, opposite behaviour, and that contrast
+    is the whole point of the two.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

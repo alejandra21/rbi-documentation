@@ -1,0 +1,16 @@
+info:
+  name: 3 Finance External API
+  type: folder
+  seq: 3
+
+request:
+  auth: none
+
+docs:
+  content: |
+    FIN-04, the chain Finance actually walks:
+    upload -> permanent API-key URL -> 302 -> short-lived signed link -> download.
+
+    Auth here is `x-api-key`, NOT the collection's JWT — hence `auth: none` plus
+    an explicit header.
+  type: text/markdown

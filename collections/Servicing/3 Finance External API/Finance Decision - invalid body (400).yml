@@ -1,0 +1,39 @@
+info:
+  name: Finance Decision - invalid body (400)
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{servicing_api}}/extension-fee/decision"
+  headers:
+    - name: x-api-key
+      value: "{{finance_api_key}}"
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "eventId": "evt-local-bad-001",
+        "externalRecordId": "{{extension_id}}",
+        "decision": "MAYBE"
+      }
+  auth: none
+
+docs:
+  content: |
+    Must be 400 with `invalid_finance_decision` and a message naming the field —
+    NOT a 500.
+
+    The distinction is deliberate and worth verifying: Finance backs off and
+    retries on 5xx, so a malformed body answered with a 500 would have them
+    retrying a payload that can never succeed. Try each: drop `eventId`, drop
+    `externalRecordId`, point it at a non-existent extension.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

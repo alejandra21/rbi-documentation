@@ -1,0 +1,33 @@
+info:
+  name: Extensions - Get By ID
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{base_url}}/panel/extensions/{{extension_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  auth: inherit
+
+docs:
+  content: |
+    FIN-06 lives in the response: `finalizeReadiness`.
+
+    - `blockers` — "The borrower has not signed the extension agreement" until
+      you patch the workflow.
+    - `verificationStatus` — NOT_SENT / PENDING / FUNDS_VERIFIED / REJECTED, or
+      `null` when no verification row exists. On a fresh local DB it is null and
+      nothing can change that over HTTP (FIN-05 has no route), so the only way
+      to reach FUNDS_VERIFIED is a manual INSERT against MySQL on :3307.
+
+    With FINANCE_ENABLED=false this object is advisory — it reports blockers but
+    the extension still closes.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
