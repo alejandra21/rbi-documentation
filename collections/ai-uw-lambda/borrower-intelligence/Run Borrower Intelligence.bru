@@ -1,0 +1,142 @@
+meta {
+  name: Run Borrower Intelligence
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{borrowerIntelligenceUrl}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "loan_id": {{loan_id}},
+    "workflow_id": "{{workflow_id}}",
+    "workflow_run_id": "{{workflow_run_id_phase_2}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  Phase 2.2 — Borrower Intelligence (workflows branch `feat/borrower-intelligence`).
+  Reads the layered ownership tree Phase 1 persisted, asks Elementix for each
+  required guarantor's real-estate track record, and stores the answer as a
+  `BorrowerIntelligenceValidation` row plus one `BorrowerIntelligenceSubject`
+  per resolved person.
+
+  ── This request does NOT go through the dispatcher ─────────────────────────
+
+  Every other request in this collection hits `{{aiUwLambdaUrl}}` (the
+  ai-uw-dispatcher Function URL). This one hits the borrower-intelligence
+  Lambda's OWN Function URL, `{{borrowerIntelligenceUrl}}`:
+
+    Bruno -> Function URL -> ai-uw-borrower-intelligence   (no dispatcher)
+
+  The workflow submits a job to Elementix and polls inline until it settles —
+  up to ~14 minutes. The dispatcher runs at a 300s timeout and invokes
+  downstream Lambdas with RequestResponse, so routing through it would cut the
+  caller off mid-poll on a job that is perfectly healthy. `borrower-intelligence`
+  IS registered in the dispatcher's WORKFLOW_ROUTING, but only so the name
+  resolves — do not call it that way.
+
+  Both URLs are `authorization_type = AWS_IAM`, so `auth: inherit` picks up the
+  collection's SigV4 config (same awsAccessKeyId / awsSecretAccessKey). The IAM
+  user needs `lambda:InvokeFunctionUrl` on this function too, not just on the
+  dispatcher — a 403 before any Lambda log line means the policy is missing it.
+
+  Env var to set (staging):
+    borrowerIntelligenceUrl  https://ub7hukqzcew5hh4ftqf74m3yt40olcxf.lambda-url.us-east-1.on.aws/
+    (Terraform output `borrower_intelligence_function_url`.)
+
+  ── Body ───────────────────────────────────────────────────────────────────
+
+  The Function URL handler treats the WHOLE body as the workflow input — it
+  wraps it itself as {"workflow": "borrower-intelligence", "input": <body>}.
+  Send the fields flat, as below. (docs/BORROWER_INTELLIGENCE.md shows a nested
+  `input` object; that shape is for a direct boto3 invoke, not for this URL.)
+
+    loan_id                             required
+    workflow_id                         WorkflowLoanSummary id
+    workflow_run_id                     for the phase callback
+    borrower_eligibility_validation_id  optional — see below
+
+  ── Phase 1 must have run first ────────────────────────────────────────────
+
+  `borrower_eligibility_validation_id` says WHICH ownership tree to read. When
+  omitted, the Lambda falls back to
+  GET /api/workflows/borrower-eligibility-validations/?loan_application_id={{loan_id}}
+  and takes the first row — "latest at the moment of the call". If Phase 1 has
+  been re-run and the new validation does not exist yet, that fallback silently
+  reads the OLD tree and still returns 200. Pass the id explicitly whenever you
+  know it (add "borrower_eligibility_validation_id": "<uuid>" to the body).
+
+  No Phase 1 validation at all -> immediate failure:
+  {"success": false, ... "No borrower-eligibility validation found for loan_id=..."}
+
+  ── Timing ─────────────────────────────────────────────────────────────────
+
+  Budget is 840s inside a 900s Lambda timeout, so `timeout` is 0 (no limit) on
+  purpose. You do not have to hold the connection: the row is written BEFORE
+  Elementix is called and the result is delivered as a phase callback too, so
+  you can poll the backend instead (see "Reading the results").
+
+  ── Response ───────────────────────────────────────────────────────────────
+
+  { "success": true, "validation_id": "uuid", "data": { ..., "summary": {} } }
+
+  Failures never raise — they come back as {"success": false, ...} with the row
+  already closed and the callback already fired.
+
+  job_status:
+    submitted  written before Elementix is called; should never be the FINAL
+               state — if you see it, the Lambda died mid-poll (check the 900s
+               timeout override in infra/variables.tf)
+    finished   the job settled. NOT the same as "we found everyone" — check
+               `guarantors_not_found`
+    failed     job crashed, job id unknown/expired, or the tree yielded nothing
+               to ask about; `error_message` says which
+    timeout    the 840s budget ran out with the job still running;
+               `elementix_job_id` is kept, recoverable by hand inside
+               Elementix's 1800s retention window
+
+  ── Reading the results ────────────────────────────────────────────────────
+
+    GET /api/workflows/validations/?phase=borrower_intelligence
+    GET /api/workflows/borrower-intelligence-subjects/?validation=<id>
+    GET /api/workflows/borrower-intelligence-subjects/?entity_owner=<owner_id>
+
+  Defensive parsing:
+    - entities_trace[].matched is tri-state: true / false / null (null = never
+      queried because of the early exit — expected, not an error). Use strict
+      comparison, never truthiness.
+    - guarantors_resolved counts alias spellings, so it can exceed the number
+      of subject rows. The distinct-person count is the number of subjects.
+    - a subject with status="Error" carries identity + `message` only.
+    - money inside the raw blocks is STRINGS; the rollup columns are numbers.
+
+  ── Gotchas worth knowing before you trust a run ───────────────────────────
+
+    - Entities are sent borrower-first then by depth; Elementix stops once
+      every guarantor is resolved, so that order drives latency and cost.
+    - An entity whose state cannot be normalized to a 2-letter code is OMITTED
+      and recorded in `entities_skipped` — a state is never invented.
+    - A required guarantor whose name is under 3 chars is dropped by Elementix's
+      own rule; the orchestrator recounts and reports it in `entities_skipped`
+      ("kind": "guarantor"), in `error_message`, and forces
+      ai_determined_status="requires-review".
+    - ELEMENTIX_API_KEY comes from SSM `elementix-api-key`; the client sends
+      `Authorization: Bearer <key>` — an assumption still unconfirmed with the
+      API owner. A 401 from Elementix is the first thing to check.
+
+  Full contract: docs/BORROWER_INTELLIGENCE.md in ai-underwriting-workflows.
+}
