@@ -1,7 +1,7 @@
 info:
-  name: 5. Collateral Review
+  name: 2.2 Borrower Intelligence
   type: folder
-  seq: 6
+  seq: 3
 
 request:
   auth: inherit
