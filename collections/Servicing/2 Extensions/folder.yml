@@ -1,0 +1,13 @@
+info:
+  name: 2 Extensions
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit
+
+docs:
+  content: |
+    Private panel routes. Bearer JWT, admin/superadmin only — anything else
+    gets a 403 from `requireRole(ADMIN_ROLES)`.
+  type: text/markdown

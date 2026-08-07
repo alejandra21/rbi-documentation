@@ -1,0 +1,32 @@
+info:
+  name: Signed Document - Download
+  type: http
+  seq: 3
+
+http:
+  method: GET
+  url: "{{public_url}}/documents/signed/{{signed_token}}"
+  auth: none
+
+docs:
+  content: |
+    Genuinely public — no API key, no JWT. The token IS the credential, which is
+    why the TTL is 300s by default.
+
+    Then attack it. Each of these must fail cleanly, and the wording matters:
+
+    - change one character of the document id inside the token -> rejected
+    - stretch the expiry -> rejected
+    - truncate the signature -> rejected, NOT a 500
+    - wait past the TTL -> reports EXPIRED, not "invalid" (set
+      DOCUMENT_URL_TTL_SECONDS=10 to iterate without waiting five minutes)
+
+    The unit suite covers the crypto; what you are checking here is that the
+    route surfaces those outcomes rather than leaking a stack trace.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

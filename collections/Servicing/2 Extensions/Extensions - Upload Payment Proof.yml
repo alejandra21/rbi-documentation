@@ -1,0 +1,43 @@
+info:
+  name: Extensions - Upload Payment Proof
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/documents"
+  body:
+    type: multipartForm
+    data:
+      - name: category
+        value: "Borrower Payment Proof"
+        type: text
+        enabled: true
+      - name: file
+        value: ""
+        type: file
+        enabled: true
+  auth: inherit
+
+docs:
+  content: |
+    FIN-04 step one. Pick a local PDF in the `file` field (Bruno's UI, the path
+    cannot be templated here). Do NOT set Content-Type by hand — the boundary
+    has to be generated.
+
+    `category` must be exactly "Borrower Payment Proof": that is the ENUM value
+    the 20260806000006 migration added, and the only one the Finance endpoint
+    looks for.
+
+    Upload TWICE with different files. The proof endpoint serves the newest one
+    (ordered by id DESC) — that is the FIN-07 re-upload path after a rejection.
+
+    Note what does NOT happen: no webhook fires. FIN-02's notifyProofUploaded
+    has no call site yet, so nothing notifies Finance.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

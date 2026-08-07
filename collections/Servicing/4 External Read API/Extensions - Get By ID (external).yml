@@ -1,0 +1,18 @@
+info:
+  name: Extensions - Get By ID (external)
+  type: http
+  seq: 2
+
+http:
+  method: GET
+  url: "{{servicing_api}}/extensions/{{extension_id}}"
+  headers:
+    - name: x-api-key
+      value: "{{read_api_key}}"
+  auth: none
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

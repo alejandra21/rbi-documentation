@@ -1,0 +1,31 @@
+info:
+  name: Extensions - Patch Lien Search
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/extensions/{{extension_id}}/lien-search"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "status": "N/A"
+      }
+  auth: inherit
+
+docs:
+  content: |
+    EXT-N8. Lien Search auto-flips to N/A for the investors configured for it;
+    this endpoint is the manual override on top. Test both: that the auto-N/A
+    happens on its own, and that this still wins over it.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

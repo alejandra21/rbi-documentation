@@ -1,0 +1,32 @@
+info:
+  name: API Keys - Deactivate
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{base_url}}/panel/servicing-api-keys/{{api_key_id}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "active": false
+      }
+  auth: inherit
+
+docs:
+  content: |
+    After this, re-run "Deactivated key is refused" in folder 5. A deactivated
+    key must be denied on EVERY scope, not just the one it was narrowed to.
+
+    Send `{"active": true}` to switch it back on.
+  type: text/markdown
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,13 @@
+info:
+  name: 1 API Keys
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit
+
+docs:
+  content: |
+    FIN-11 — DB-backed API keys with scopes. Admin JWT only.
+    Create the two keys here first; folders 3-5 depend on them.
+  type: text/markdown
