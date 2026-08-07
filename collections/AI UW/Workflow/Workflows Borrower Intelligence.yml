@@ -20,27 +20,34 @@ http:
 docs: |
   Endpoint que llama el frontend (AI UW app, Fase 2.2 — boton "Re-run Borrower
   Intelligence", y la entrada "2.2 Borrower Intelligence" del dropdown
-  "Re-execute By Phase"). Proxy del backend que firma con SigV4 el Function URL
-  del Lambda ai-uw-borrower-intelligence y encola la llamada en Celery. Responde
-  202 Accepted con el WorkflowRun (phase = PHASE_2_2).
+  "Re-execute By Phase"). Mismo patron que "Workflows Entity Layered Analysis":
+  el backend firma con SigV4 la ruta del dispatcher
+  (AI_UW_LAMBDA_URL + /workflows/borrower-intelligence/run) desde una tarea de
+  Celery. Responde 202 Accepted con el WorkflowRun (phase = PHASE_2_2).
 
-  ── Por que NO pasa por el dispatcher ──────────────────────────────────────
+  No hace falta configurar nada nuevo: usa el mismo AI_UW_LAMBDA_URL, el mismo
+  AI_UW_LAMBDA_TIMEOUT y las mismas credenciales SigV4 que el resto de los
+  triggers.
+
+  ── Lo que hay que saber antes de leer los logs ────────────────────────────
 
   El Lambda manda el arbol de ownership a Elementix y hace poll INLINE hasta que
   el job termina: presupuesto de 840s dentro de un timeout de 900s. El
-  dispatcher corre a 300s, asi que enrutar por ahi cortaria la llamada a medio
-  poll y dejaria la validacion clavada en job_status="submitted" para siempre.
-  Por eso el backend usa un setting aparte:
+  dispatcher corre a 300s, asi que en una corrida larga la llamada firmada
+  VUELVE CON ERROR aunque la corrida este perfectamente sana: un Lambda hijo no
+  se muere cuando su invocador se muere. La corrida sigue, escribe su propia
+  fila de validacion (la escribe ANTES de llamar a Elementix) y reporta el
+  resultado por callback.
 
-    AI_UW_BORROWER_INTELLIGENCE_LAMBDA_URL   Terraform output
-                                             `borrower_intelligence_function_url`
-    AI_UW_BORROWER_INTELLIGENCE_TIMEOUT      default 960 — tiene que superar los
-                                             840s del Lambda
+  Por eso la tarea de Celery NO toca el status del WorkflowRun — marcarlo
+  fallido en base a esa respuesta reportaria como roto algo que salio bien. El
+  status final lo pone POST /api/workflows/callback/, igual que en las demas
+  fases. Un error en el log del backend significa "no pudimos confirmar", no
+  "no corrio": para saber que paso, mira job_status en la validacion.
 
-  Si falta la URL el endpoint responde 500 con "AI_UW_BORROWER_INTELLIGENCE_LAMBDA_URL
-  not configured" (no cae al dispatcher a proposito). Para invocar el Lambda
-  directo, sin backend, esta el request "ai-uw-lambda > borrower-intelligence >
-  Run Borrower Intelligence".
+  Si necesitas la respuesta completa en la misma llamada (sin el corte de 300s),
+  usa "ai-uw-lambda > borrower-intelligence > Run Borrower Intelligence", que
+  pega directo al Function URL del Lambda.
 
   ── Body ───────────────────────────────────────────────────────────────────
 
@@ -75,9 +82,8 @@ docs: |
   columna propia y usar la de otra fase la reportaria mal. El WorkflowRun
   (phase=PHASE_2_2) es lo unico que trackea la corrida.
 
-  El Lambda crea la BorrowerIntelligenceValidation el mismo — y la crea ANTES de
-  llamar a Elementix, para que una corrida que muera a medio poll deje fila.
-  El backend no persiste el payload; solo cierra el WorkflowRun.
+  El Lambda crea la BorrowerIntelligenceValidation el mismo. El backend no
+  persiste el payload ni escribe el status del run.
 
   ── Polling ────────────────────────────────────────────────────────────────
 
@@ -86,7 +92,10 @@ docs: |
     que termino con garantes sin resolver igual es una respuesta. El veredicto
     esta en la validacion (job_status, ai_determined_status).
 
-    El frontend tapa a los 15 minutos (el presupuesto del Lambda es 840s).
+    Ese status lo escribe el callback del workflow, no la tarea de Celery — asi
+    que el run se queda en "processing" hasta que la corrida termina de verdad,
+    aunque la llamada al dispatcher ya haya cortado a los 300s. El frontend tapa
+    a los 15 minutos (el presupuesto del Lambda es 840s).
 
   Para leer resultados: "Validations > 2.2 Borrower Intelligence".
 
