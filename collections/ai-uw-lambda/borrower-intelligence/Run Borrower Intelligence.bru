@@ -34,29 +34,44 @@ docs {
   `BorrowerIntelligenceValidation` row plus one `BorrowerIntelligenceSubject`
   per resolved person.
 
-  ── This request does NOT go through the dispatcher ─────────────────────────
+  ── On staging this request does NOT go through the dispatcher ──────────────
 
   Every other request in this collection hits `{{aiUwLambdaUrl}}` (the
-  ai-uw-dispatcher Function URL). This one hits the borrower-intelligence
-  Lambda's OWN Function URL, `{{borrowerIntelligenceUrl}}`:
+  ai-uw-dispatcher Function URL). On staging this one hits the
+  borrower-intelligence Lambda's OWN Function URL, `{{borrowerIntelligenceUrl}}`:
 
     Bruno -> Function URL -> ai-uw-borrower-intelligence   (no dispatcher)
 
   The workflow submits a job to Elementix and polls inline until it settles —
   up to ~14 minutes. The dispatcher runs at a 300s timeout and invokes
-  downstream Lambdas with RequestResponse, so routing through it would cut the
-  caller off mid-poll on a job that is perfectly healthy. `borrower-intelligence`
-  IS registered in the dispatcher's WORKFLOW_ROUTING, but only so the name
-  resolves — do not call it that way.
+  downstream Lambdas with RequestResponse, so routing through it cuts the CALLER
+  off mid-poll on a job that is perfectly healthy. `borrower-intelligence` IS
+  registered in the dispatcher's WORKFLOW_ROUTING, so calling it that way does
+  work — the run survives, because a child Lambda is not killed when its caller
+  dies; you just lose the response body and have to read the result from the
+  backend instead. That is exactly what the AI UW backend does, deliberately:
+  see "AI UW > Workflow > Workflows Borrower Intelligence".
 
-  Both URLs are `authorization_type = AWS_IAM`, so `auth: inherit` picks up the
-  collection's SigV4 config (same awsAccessKeyId / awsSecretAccessKey). The IAM
-  user needs `lambda:InvokeFunctionUrl` on this function too, not just on the
+  Use THIS request when you want the full payload in one call.
+
+  The Function URL is `authorization_type = AWS_IAM`, so `auth: inherit` picks up
+  the collection's SigV4 config (same awsAccessKeyId / awsSecretAccessKey). The
+  IAM user needs `lambda:InvokeFunctionUrl` on this function too, not just on the
   dispatcher — a 403 before any Lambda log line means the policy is missing it.
 
-  Env var to set (staging):
-    borrowerIntelligenceUrl  https://ub7hukqzcew5hh4ftqf74m3yt40olcxf.lambda-url.us-east-1.on.aws/
-    (Terraform output `borrower_intelligence_function_url`.)
+  ── `borrowerIntelligenceUrl` per environment ───────────────────────────────
+
+    staging  https://ub7hukqzcew5hh4ftqf74m3yt40olcxf.lambda-url.us-east-1.on.aws/
+             (Terraform output `borrower_intelligence_function_url`.)
+
+    local    http://127.0.0.1:3002/workflows/borrower-intelligence/run
+             SAM local has no Function URLs: `start-api` on 3002 is the only HTTP
+             entry point and it routes to the dispatcher, which reaches the
+             function through `start-lambda` on 3003. So locally this request
+             DOES go through the dispatcher — harmless, since nothing enforces
+             the 300s cap there. Both processes have to be running; see the
+             workflows README ("Local development").
+             No SigV4 is validated locally, so the AWS keys are ignored.
 
   ── Body ───────────────────────────────────────────────────────────────────
 
