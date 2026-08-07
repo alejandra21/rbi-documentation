@@ -1,0 +1,82 @@
+info:
+  name: 2.2- [Borrower Intelligence] Validations
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{base_url}}/api/workflows/validations/?latest=true&workflow_loan_summary_id={{workflow_id}}&phase=borrower_intelligence"
+  params:
+    - name: latest
+      value: "true"
+      type: query
+    - name: workflow_loan_summary_id
+      value: "{{workflow_id}}"
+      type: query
+    - name: phase
+      value: borrower_intelligence
+      type: query
+  auth: inherit
+
+docs: |
+  Fase 2.2 — Borrower Intelligence. Lo que lee el frontend (tab "2.2 Borrower
+  Intelligence", visible solo para los usuarios en
+  VITE_COLLATERAL_V2_OLLAMA_ALLOWED_USERS).
+
+  El `?phase=` es OBLIGATORIO en TODA llamada, incluidas las de detalle. Sin el:
+  400 {"phase": "Phase query parameter is required"}. El valor valido es
+  `borrower_intelligence` — los `phase_1`..`phase_11` que aparecen en
+  docs/API.md estan viejos y dan 400.
+
+  La respuesta es un ARRAY pelado, no un envelope paginado. Trae anidados
+  `subjects[]` (una fila por persona distinta) y `audit_logs[]`, asi que para
+  pintar el tab no hace falta el request de subjects.
+
+  ── Campos que importan ────────────────────────────────────────────────────
+
+    job_status        submitted / finished / failed / timeout
+                      `submitted` se escribe ANTES de llamar a Elementix, asi
+                      que verlo como estado FINAL significa que el Lambda murio
+                      a medio poll — no que siga corriendo.
+                      `finished` NO es "encontramos a todos": revisa
+                      `guarantors_not_found`.
+    elementix_job_id  se conserva incluso en timeout — el resultado se puede
+                      recuperar a mano dentro de la ventana de 1800s de Elementix.
+    entities_trace[].matched   TRI-ESTADO: true / false / null. null = nunca se
+                      consulto porque todos los garantes ya estaban resueltos
+                      (early exit) — es lo esperado, NO un error. Comparar con
+                      === , nunca por truthiness.
+    guarantors_resolved  cuenta alias, asi que puede ser MAYOR que
+                      subjects.length. El conteo de personas distintas es
+                      subjects.length.
+    entities_skipped  filas que se cayeron antes del request. Las que traen
+                      "kind": "guarantor" son el caso grave: un garante
+                      requerido que nunca se pregunto.
+    highest_tier      arranca en "" (string vacio), no null. Ojo: por eso una
+                      fila recien creada calcula ai_determined_status =
+                      "requires-review" y nunca "pending". No manejes el estado
+                      de la UI con ese campo — usa job_status.
+
+  ── Lo que esta fase NO llena ──────────────────────────────────────────────
+
+    RBI Loyalty (dato interno, fuente aun sin definir), OFAC / criminal / civil
+    / bankruptcy / FICO (Fase 1 y Fase 3 — de aqui solo salen FORECLOSURES), los
+    entity checks (ya viven en BorrowerEligibilityValidation / EntityOwner), y
+    el track record de Elementix en nodos ENTIDAD: el endpoint multi-entity solo
+    devuelve historial de PERSONAS resueltas.
+
+  Contrato completo: docs/BORROWER_INTELLIGENCE.md en ai-underwriting-workflows.
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (Array.isArray(res.body) && res.body.length) {
+          bru.setEnvVar("borrower_intelligence_validation_id", res.body[0].id);
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
