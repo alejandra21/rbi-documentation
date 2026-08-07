@@ -3,7 +3,7 @@ variables:
   - name: base_url
     value: http://localhost:8000
   - name: email
-    value: lambda
+    value: admin
   - secret: true
     name: password
   - name: OPEN_AI_API_KEY
@@ -14,12 +14,10 @@ variables:
     value: ""
   - name: local_password
     value: ""
-  - name: workflow_run_id
-    value: ""
   - name: workflow_id
     value: ""
   - name: loan_id
-    value: "615"
+    value: "10186"
   - name: workflow_run_id_phase_1
     value: ""
   - name: workflow_run_id_phase_2
@@ -67,4 +65,8 @@ variables:
   - name: borrower_eligibility_validation_id
     value: ""
   - name: access_token
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2MDM1MDM0LCJpYXQiOjE3NzU5NDg2MzQsImp0aSI6Ijc0ZDJmNzQ0MTAyNTRmNzJiOWY0YmQyNjNkMTMwZjUxIiwidXNlcl9pZCI6MX0.SFYskflidjHGKSK5neV9wpDNq5j-l14EdwQ3X2xHiyQ
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg1NTQ1MDM0LCJpYXQiOjE3ODU0NTg2MzQsImp0aSI6ImJmNTE5MTQ1OGVjZDQ4Y2JhODhlOTcwYWE2ZjE0OTVmIiwidXNlcl9pZCI6MX0.puVvwkoIA-QJLl854NXEBg7o9hCA8XwNZKKxk8QAg1o
+  - name: workflow_run_id
+    value: 8fa73f70-e136-4996-9d57-731aff726450
+  - secret: true
+    name: aiuw_api_key

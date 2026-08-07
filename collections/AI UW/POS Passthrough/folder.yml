@@ -1,0 +1,7 @@
+info:
+  name: POS Passthrough
+  type: folder
+  seq: 13
+
+request:
+  auth: inherit

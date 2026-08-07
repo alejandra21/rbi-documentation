@@ -58,3 +58,5 @@ variables:
     value: ""
   - name: borrower_eligibility_validation_id
     value: ""
+  - secret: true
+    name: aiuw_api_key

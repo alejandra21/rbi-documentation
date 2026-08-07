@@ -1,0 +1,38 @@
+info:
+  name: Workflows Ollama
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/collateral-review-v2-ollama/"
+  body:
+    type: json
+    data: |-
+      {
+          "phase": "PHASE_5_v2",
+          "loan_id": 11964
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Parse the JSON response
+        let response = res.getBody();
+
+        // Check if 'token' exists in the response
+        if (response.id) {
+            // Save token to environment variable
+        //     pm.collectionVariables.set("workflow_run_id", response.id);
+            console.log("✅ ID saved to environment variable");
+        } else {
+            console.log("⚠️ No 'ID' found in the response body.");
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

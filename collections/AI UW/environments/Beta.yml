@@ -76,3 +76,5 @@ variables:
     value: ""
   - name: phase_summary_phase_11
     value: ""
+  - secret: true
+    name: aiuw_api_key
