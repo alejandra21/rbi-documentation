@@ -1,0 +1,126 @@
+meta {
+  name: Bank Statement - OpenAI
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/field-extraction/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "{{bankStatementUrl}}",
+    "fields": {
+      "account_holder_name_s": {
+        "label": "account holder name(s)",
+        "type": "array",
+        "required": true
+      },
+      "financial_institution_name": {
+        "label": "financial institution name",
+        "type": "string",
+        "required": true
+      },
+      "account_number_last_4": {
+        "label": "account number (last 4)",
+        "type": "string",
+        "required": true
+      },
+      "account_type": {
+        "label": "account type",
+        "type": "string",
+        "required": true
+      },
+      "statement_period_start_date": {
+        "label": "statement period start date",
+        "type": "date",
+        "required": true
+      },
+      "statement_period_end_date": {
+        "label": "statement period end date",
+        "type": "date",
+        "required": true
+      },
+      "beginning_balance": {
+        "label": "beginning balance",
+        "type": "money",
+        "required": true
+      },
+      "ending_balance": {
+        "label": "ending balance",
+        "type": "money",
+        "required": true
+      },
+      "average_daily_balance": {
+        "label": "average daily balance",
+        "type": "money",
+        "required": true
+      },
+      "page_x_of_y": {
+        "label": "page X of Y",
+        "type": "integer",
+        "required": true
+      },
+      "large_deposits_over_25_of_monthly_average": {
+        "label": "large deposits over 25% of monthly average",
+        "type": "number",
+        "required": true
+      },
+      "nsf_and_overdraft_occurrences": {
+        "label": "NSF and overdraft occurrences",
+        "type": "array",
+        "required": true
+      },
+      "transfers_to_and_from_other_accounts": {
+        "label": "transfers to and from other accounts",
+        "type": "array",
+        "required": true
+      }
+    },
+    "expected_class": "bankStatements",
+    "model": "gpt-5.2",
+    "max_pages": 10,
+    "loan_id": {{loan_id}},
+    "instructions": "Extract the statement PERIOD as two separate dates, not a single 'statement date'. The period end date is what the recency rule uses. Read the 'Page X of Y' footer on every page — missing pages are the most common defect on this document. Reconcile beginning balance + credits − debits = ending balance and report the result in integrity_signals if it does not balance. List every deposit above 25% of the monthly average deposit total, with its date and amount."
+  }
+}
+
+docs {
+  Step 1.5 field extraction (workflows PR #68, Ollama routing stacked on it).
+  Returns a confidence PER FIELD, never a verdict.
+
+  Routing:
+    Bruno -> Function URL -> ai-uw-dispatcher -> ai-uw-utils (field-extraction)
+
+  Set `bankStatementUrl` (a POS S3 URL of the document) in the environment first.
+
+  Body:
+    url             required. The document.
+    fields          required. {name: {label, type, required}}. Copied from the
+                    ruleset seed (rbi-extraction-prompts.json), same as Django.
+    expected_class  POS slug it was uploaded under.
+    model           ids with ":" run on Ollama (gemma4:31b-cloud,
+                    gpt-oss:120b-cloud); anything else on OpenAI (gpt-5.2).
+    max_pages       page window (default 10).
+    instructions    optional per-type hints (class_specific_instructions).
+    system_prompt   optional. Omitted here, so the Lambda uses its built-in
+                    SYSTEM_PROMPT — byte-identical to the ExtractionPrompt
+                    Django seeds. Django always sends it.
+    No `context`: Django does not send loan context.
+
+  Baseline for 'Bank Statement - Ollama'.
+
+  Response: {status, document_class, document_class_confidence,
+  class_matches_expected, fields{name: {value, confidence, page, verbatim}},
+  unreadable_fields[], signatures[], signature_lines_expected,
+  integrity_signals[], page_count_received, page_count_claimed, model,
+  pages_read, strategy (text|vision|image|spreadsheet), error}.
+  status="error" arrives as a 200 with every field null at confidence 0.
+}

@@ -1,0 +1,86 @@
+meta {
+  name: EIN Letter - Ollama
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/field-extraction/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "{{einLetterUrl}}",
+    "fields": {
+      "ein_9_digits": {
+        "label": "EIN (9 digits)",
+        "type": "string",
+        "required": true
+      },
+      "entity_legal_name": {
+        "label": "entity legal name",
+        "type": "string",
+        "required": true
+      },
+      "irs_issue_date": {
+        "label": "IRS issue date",
+        "type": "date",
+        "required": true
+      },
+      "irs_form_identifier_cp_575_147c": {
+        "label": "IRS form identifier (CP 575 / 147C)",
+        "type": "string",
+        "required": true
+      },
+      "mailing_address": {
+        "label": "mailing address",
+        "type": "string",
+        "required": true
+      }
+    },
+    "expected_class": "einLetter",
+    "model": "gemma4:31b-cloud",
+    "max_pages": 10,
+    "loan_id": {{loan_id}}
+  }
+}
+
+docs {
+  Step 1.5 field extraction (workflows PR #68, Ollama routing stacked on it).
+  Returns a confidence PER FIELD, never a verdict.
+
+  Routing:
+    Bruno -> Function URL -> ai-uw-dispatcher -> ai-uw-utils (field-extraction)
+
+  Set `einLetterUrl` (a POS S3 URL of the document) in the environment first.
+
+  Body:
+    url             required. The document.
+    fields          required. {name: {label, type, required}}. Copied from the
+                    ruleset seed (rbi-extraction-prompts.json), same as Django.
+    expected_class  POS slug it was uploaded under.
+    model           ids with ":" run on Ollama (gemma4:31b-cloud,
+                    gpt-oss:120b-cloud); anything else on OpenAI (gpt-5.2).
+    max_pages       page window (default 10).
+    instructions    optional per-type hints (class_specific_instructions).
+    system_prompt   optional. Omitted here, so the Lambda uses its built-in
+                    SYSTEM_PROMPT — byte-identical to the ExtractionPrompt
+                    Django seeds. Django always sends it.
+    No `context`: Django does not send loan context.
+
+  Pair with 'EIN Letter - OpenAI' on the same file to compare the
+  per-field confidences of the two models.
+
+  Response: {status, document_class, document_class_confidence,
+  class_matches_expected, fields{name: {value, confidence, page, verbatim}},
+  unreadable_fields[], signatures[], signature_lines_expected,
+  integrity_signals[], page_count_received, page_count_claimed, model,
+  pages_read, strategy (text|vision|image|spreadsheet), error}.
+  status="error" arrives as a 200 with every field null at confidence 0.
+}
