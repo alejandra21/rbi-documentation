@@ -1,0 +1,124 @@
+meta {
+  name: 02 Government ID JPEG - Ollama gemma4
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/field-extraction/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/governmentIds-1761837966359-ID-Tomas_Monteagudo.jpeg",
+    "fields": {
+      "full_name": {
+        "label": "full name",
+        "type": "string",
+        "required": true
+      },
+      "date_of_birth": {
+        "label": "date of birth",
+        "type": "date",
+        "required": true
+      },
+      "document_number": {
+        "label": "document number",
+        "type": "string",
+        "required": true
+      },
+      "issuing_state_or_country": {
+        "label": "issuing state or country",
+        "type": "string",
+        "required": true
+      },
+      "issue_date": {
+        "label": "issue date",
+        "type": "date",
+        "required": true
+      },
+      "expiration_date": {
+        "label": "expiration date",
+        "type": "date",
+        "required": true
+      },
+      "address": {
+        "label": "address",
+        "type": "string",
+        "required": true
+      },
+      "id_type_driver_license_passport_state_id": {
+        "label": "ID type (driver license / passport / state ID)",
+        "type": "string",
+        "required": true
+      },
+      "photo_present": {
+        "label": "photo present",
+        "type": "boolean",
+        "required": true
+      },
+      "front_and_back_captured": {
+        "label": "front and back captured",
+        "type": "string",
+        "required": true
+      }
+    },
+    "expected_class": "validGovernmentIds",
+    "model": "gemma4:31b-cloud",
+    "max_pages": 10,
+    "instructions": "Return BOTH the expiration date and the issue date. Note whether you received the front only, the back only, or both. If the image is a photograph of a screen rather than of the physical document, say so in integrity_signals — moiré patterns and screen glare are the tells. Do not attempt to read a field obscured by glare; return null."
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  Image upload (`image` strategy). Photos are rotated upright from their EXIF
+  orientation before being sent, and anything over 2000px on its longest side
+  is downscaled. A multi-page TIFF is sent page by page (up to max_pages) and
+  page_count_received reports the real page count.
+
+  Check: strategy=image, pages_read=[1], expiration_date AND issue_date both
+  returned; front_and_back_captured says front only / back only / both.
+
+  Note: ruleset v1.1.0 types `issuing_state_or_country` as "integer", which
+  looks like a ruleset bug; this request sends "string".
+
+  Route: Bruno → dispatcher Function URL → ai-uw-utils (`field-extraction`,
+  shared/extraction.py run_field_extraction). This is the call Django makes in
+  POS Step 1.5, after a document passes step-1 content review.
+
+  Provider is picked by `model`: an id with a ":" (gemma4:31b-cloud,
+  gpt-oss:120b-cloud) runs on Ollama Cloud; anything else (gpt-5.2) on OpenAI.
+  `ft:` fine-tune ids stay on OpenAI.
+
+  Input contract:
+    url, fields {name: {label, type, required}}, expected_class, model,
+    max_pages, system_prompt? (replaces the default when non-blank),
+    instructions? (ruleset class_specific_instructions), context? (unused by Django)
+  Fields and instructions here are copied from ruleset v1.1.0
+  (rbi-extraction-prompts.json).
+
+  Response: the extraction envelope — status ok|error, document_class(+confidence),
+  class_matches_expected, page_count_received, pages_read, strategy
+  (text|vision|image|spreadsheet), model (who actually answered), fields
+  {name: {value, confidence, page, verbatim}}, unreadable_fields, signatures,
+  integrity_signals, error. Every requested field is always present; an unread
+  one is null at confidence 0. Failures come back as status=error with the same
+  keys, never as a bare exception.
+
+  Timing: Ollama cold starts can take minutes. The whole run is bounded by
+  FIELD_EXTRACTION_BUDGET_SECONDS=780 on utils; the request timeout is off
+  (timeout: 0) so Bruno waits it out. Needs ai-underwriting-workflows PR #70 deployed (it raises
+  the dispatcher and utils timeouts from 300s to 900s — before that, a long
+  Ollama run is cut off at 300s).
+}
