@@ -1,0 +1,48 @@
+info:
+  name: Document Content Review - Step 1 and 1.5
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{base_url}}/api/workflows/document-content-review/"
+  body:
+    type: json
+    data: |-
+      {
+          "loan_id": {{loan_id}},
+          "document_id": "{{document_id}}",
+          "content_type": "einLetter",
+          "url": "{{document_url}}"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        bru.setEnvVar("document_review_task_id", res.body.task_id);
+
+docs: |-
+  What POS calls after an upload. Returns 202 and queues step 1 (content
+  review). If step 1 approves the document, step 1.5 (field extraction) is
+  queued right after it (Celery task `extract_document_fields`).
+
+  Step 1.5 only runs when the file type has extraction switched on:
+  Django admin > Business Rules > Document Analysis Prompts > einLetter >
+  "Step 1.5 — Field extraction" > Extraction is active. Every type ships off.
+
+  Set `document_id` and `document_url` (POS S3 URL) in the environment.
+  With RBI_API_MOCK=True step 1 approves (confidence 0.925) and the
+  extraction comes back with every field unread (mock).
+
+  Results: no read API yet, see Django admin > Workflows > Document Reviews
+  (step 1) and Document Field Extractions (step 1.5).
+
+  Auth: inherits the collection JWT. POS itself sends X-API-Key.
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
