@@ -1,0 +1,65 @@
+meta {
+  name: 05 Missing fields - error envelope
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{aiUwLambdaUrl}}/workflows/field-extraction/run
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "url": "https://rbi-files.s3.us-east-2.amazonaws.com/loan_applications/634/documents/cogs-1761837988349-COGS.pdf",
+    "fields": {},
+    "expected_class": "certificateOfGoodStanding",
+    "model": "gemma4:31b-cloud"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
+
+docs {
+  No model call: `url` and `fields` are required. Returns immediately with
+  status=error, error="url and fields are required", and every envelope key
+  present — the shape Django persists for any failure (fetch errors, an Ollama
+  call that failed, a truncated answer, an exhausted time budget).
+
+  Route: Bruno → dispatcher Function URL → ai-uw-utils (`field-extraction`,
+  shared/extraction.py run_field_extraction). This is the call Django makes in
+  POS Step 1.5, after a document passes step-1 content review.
+
+  Provider is picked by `model`: an id with a ":" (gemma4:31b-cloud,
+  gpt-oss:120b-cloud) runs on Ollama Cloud; anything else (gpt-5.2) on OpenAI.
+  `ft:` fine-tune ids stay on OpenAI.
+
+  Input contract:
+    url, fields {name: {label, type, required}}, expected_class, model,
+    max_pages, system_prompt? (replaces the default when non-blank),
+    instructions? (ruleset class_specific_instructions), context? (unused by Django)
+  Fields and instructions here are copied from ruleset v1.1.0
+  (rbi-extraction-prompts.json).
+
+  Response: the extraction envelope — status ok|error, document_class(+confidence),
+  class_matches_expected, page_count_received, pages_read, strategy
+  (text|vision|image|spreadsheet), model (who actually answered), fields
+  {name: {value, confidence, page, verbatim}}, unreadable_fields, signatures,
+  integrity_signals, error. Every requested field is always present; an unread
+  one is null at confidence 0. Failures come back as status=error with the same
+  keys, never as a bare exception.
+
+  Timing: Ollama cold starts can take minutes. The whole run is bounded by
+  FIELD_EXTRACTION_BUDGET_SECONDS=780 on utils; the request timeout is off
+  (timeout: 0) so Bruno waits it out. Needs ai-underwriting-workflows PR #70 deployed (it raises
+  the dispatcher and utils timeouts from 300s to 900s — before that, a long
+  Ollama run is cut off at 300s).
+}
